@@ -5,6 +5,7 @@ html, body {
     padding: 0px;
     background: #7EAF65;
     height: 100%;
+    min-width: 1000px;
 }
 
 /*** HEADER ***/
@@ -13,7 +14,7 @@ div#header {
     top: 0px;
     left: 0px;
     height: 47px;
-    width: 100%;
+    min-width: 100%;
     margin: 0 auto;
     background: #307731;
     padding: 0px 0;
@@ -33,7 +34,7 @@ div#header_content {
 img#header_logo {
     display: block;
     margin: 0;
-    position: relative;
+    position: absolute;
     top: 9px;
     left: 450px;
 }
@@ -56,20 +57,13 @@ input#header_button {
     z-index: 25;
 }
 
-/*** MAIN ***/
-div#main {
-    position: relative;
-    width: 1000px;
-    height: auto !important;
-    height: 100%;
-    min-height: 100%;
-    margin: 0 auto;
-}
-
 /*** NAVIGATION ***/
 div#navigation {
-    float: left;
+    position: absolute;
+    left: 0;
+    top: 50px;
     width: 160px;
+    z-index: 5;
 }
 div#navigation ul {
     margin: 120px 0 0 0;
@@ -101,21 +95,35 @@ div#navigation li.selected {
     z-index: 40;
 }
 
-/*** CONTENT ***/
-div#content {
+/*** WRAPPER ***/
+div#wrapper {
     position: relative;
-    float: left;
+    left: 80px;
     border-left: 3px solid #000;
     border-right: 3px solid #000;
     width: 834px;
     background-color: #FFF;
+    margin: 0 auto -50px;
+    height: auto !important;
+    height: 100%;
+    min-height: 100%;
+    -moz-box-shadow: 1px 0px 6px #232;
+    -webkit-box-shadow: 1px 0px 6px #232;
+    box-shadow: 1px 0px 6px #232;
+}
+div#wrapper_end {
+    clear: both;
+    height: 50px;
+}
+
+/*** CONTENT ***/
+div#content {
+    position: relative;
+    float: left;
     height: auto !important;
     height: 100%;
     min-height: 100%;
     z-index: 10;
-    -moz-box-shadow: 1px 0px 6px #232;
-    -webkit-box-shadow: 1px 0px 6px #232;
-    box-shadow: 1px 0px 6px #232;
 }
 div#content_header {
     margin-top: 50px;
@@ -126,19 +134,21 @@ div#content_header {
 }
 div#content_body {
     width: 800px;
-    padding: 15px 17px 100px;
+    padding: 15px 17px;
 }
 
 /*** FOOTER ***/
 div#footer {
-    position: absolute;
-    bottom: 0px;
-    left: 17px;
+    position: relative;
+    left: 80px;
+    clear: both;
+    height: 29px;
     border-top: 1px solid #222;
     width: 800px;
-    margin: 40px auto 40px;
+    margin: 0 auto;
     background: #FFF;
     padding: 10px 0;
+    z-index: 25;
 }
 ul#footer_menu {
     margin: 0px;

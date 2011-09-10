@@ -18,35 +18,38 @@
         <div id="header_content">
             <img id="header_logo" src="/image/logo_header.png" alt="reDISCOVERING.me" />
             <input id="header_button" type="text" value="Search..." />
+            <div id="navigation">
+                <ul>
+                    <li class="selected">Home</li>
+                    <li>Schools</li>
+                    <li>Courses</li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div id="main">
-        <div id="navigation">
-            <ul>
-                <li class="selected">Home</li>
-                <li>Schools</li>
-                <li>Courses</li>
-            </ul>
-        </div>
+    <div id="wrapper">
         <div id="content">
             <div id="content_header">
                 Browse Courses
             </div>
             <div id="content_body">
-            <?php echo $page_content; ?>
+<!------------------------------ START CONTENT -------------------------------->
+<?php echo $page_content . "\n";?>
+<!------------------------------- END CONTENT --------------------------------->
             </div>
-            <div id="footer">
-                <ul id="footer_menu">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/">About</a></li>
-                    <li><a href="/">Terms</a></li>
-                    <li><a href="/">Privacy</a></li>
-                    <li><a href="/">Contact</a></li>
-                </ul>
-                <div id="footer_copyright">
-                    Copyright &copy; 2011
-                </div>
-            </div>
+        </div>
+        <div id="wrapper_end"></div>
+    </div>
+    <div id="footer">
+        <ul id="footer_menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/">About</a></li>
+            <li><a href="/">Terms</a></li>
+            <li><a href="/">Privacy</a></li>
+            <li><a href="/">Contact</a></li>
+        </ul>
+        <div id="footer_copyright">
+            Copyright &copy; 2011
         </div>
     </div>
 </body>
