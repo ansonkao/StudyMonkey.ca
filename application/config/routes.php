@@ -38,8 +38,14 @@
 |
 */
 
-$route['default_controller'] = "school";
+$route['default_controller'] = "info";
 $route['404_override'] = '';
+
+// CUSTOM
+$route['privacy']   = 'info/privacy';
+$route['terms']     = 'info/terms';
+
+
 
 
 /* End of file routes.php */

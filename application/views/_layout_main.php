@@ -11,7 +11,14 @@ $navigation_items['Home']       = "/";
 //$navigation_items['Schools']    = "/schools";
 $navigation_items['Courses']    = "/courses";
 $navigation_items['Professors'] = "/professors";
-$navigation_items['Learn more'] = "/learn-more";
+$navigation_items['Learn more'] = "/learn";
+
+$footer_items = array();
+$footer_items['Home']       = "/";
+$footer_items['About']      = "/about";
+$footer_items['Terms']      = "/terms";
+$footer_items['Privacy']    = "/privacy";
+$footer_items['Contact']    = "/contact";
 
 function str2uri($string)
 {
@@ -31,7 +38,9 @@ function str2uri($string)
 <body>
     <div id="header">
         <div id="header_content">
-            <img id="header_logo" src="/image/logo_header.png" alt="StudyMonkey.ca" />
+            <a href="/">
+                <img id="header_logo" src="/image/layout/logo-header.png" alt="StudyMonkey.ca" />
+            </a>
             <input id="header_button" type="text" value="Search..." />
             <div id="navigation">
 <!------------------------------ START WIDGET --------------------------------->
@@ -40,8 +49,8 @@ function str2uri($string)
                 <ul>
 <?php foreach ($navigation_items as $title => $link) { ?>
                     <li>
-                        <a class="<?php echo ($page_title == $title)? "selected" : "normal"; ?>" href="<?=$link?>">
-                            <img src="/image/<?php echo str2uri($title); ?>.png" />
+                        <a class="<?php echo ($page_tab == $title)? "selected" : "normal"; ?>" href="<?=$link?>">
+                            <img src="/image/icon/<?php echo str2uri($title); ?>.png" />
                             <span><?=$title?></span>
                         </a>
                     </li>
@@ -50,16 +59,13 @@ function str2uri($string)
             </div>
         </div>
     </div>
-    <div id="wrapper">
+    <div id="content_wrapper">
         <div id="content">
             <div id="content_header" style="line-height: 0.8em;">
-                <span>
-                    BROWSE COURSES
-                </span>
-                <br/>
-                <span style="font: bold 12px tahoma, arial;">
-                    Home &#187; University of Waterloo &#187; PSYCH253
-                </span>
+                <div id="content_heading">
+                    <div id="page_title"><?=$page_title?></div>
+                    <div id="page_subtitle"><?=$page_subtitle?></div>
+                </div>
             </div>
             <div id="content_body">
 <!------------------------------ START CONTENT -------------------------------->
@@ -67,19 +73,26 @@ function str2uri($string)
 <!------------------------------- END CONTENT --------------------------------->
             </div>
         </div>
-        <div id="wrapper_end"></div>
+        <div id="content_end"></div>
     </div>
     <div id="footer">
-        <img id="mascot" src="/image/mascot.png" />
         <ul id="footer_menu">
-            <li><a href="/">Home</a></li>
-            <li><a href="/">About</a></li>
-            <li><a href="/">Terms</a></li>
-            <li><a href="/">Privacy</a></li>
-            <li><a href="/">Contact</a></li>
+<?php foreach ($footer_items as $title => $link) { ?>
+            <li>
+                <a href="<?=$link?>"><?=$title?></a>
+            </li>
+<?php } ?>
         </ul>
-        <div id="footer_copyright">
-            Copyright &copy; 2011
+        <div id="footer_side_rail">
+            <a href="http://www.facebook.com/StudyMonkey"><img src="/image/icon/facebook.png" alt="Facebook" /></a>
+            <a href="http://twitter.com/StudyMonkey"><img src="/image/icon/twitter.png" alt="Twitter" /></a>
+            <br/>
+            &copy; 2011 StudyMonkey Inc.
+        </div>
+    </div>
+    <div id="toolbar_wrapper">
+        <div id="toolbar">
+            <img id="mascot" src="/image/layout/mascot.png" />
         </div>
     </div>
 </body>

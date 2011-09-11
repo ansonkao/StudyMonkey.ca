@@ -1,8 +1,8 @@
 html, body {
     font-family: arial;
     font-size: 12px;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     background: #7EAF65;
     height: 100%;
     min-width: 1000px;
@@ -10,6 +10,24 @@ html, body {
 }
 img {
     border: 0;
+}
+p {
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin: 20px 0 10px 0;
+    padding: 0;
+}
+a {
+    color: #800;
+    text-decoration: none;
+}
+ol, ul {
+    padding: 0px 0px 0px 25px;
+}
+li {
+    padding: 0 0 5px;
 }
 
 /*** HEADER ***/
@@ -77,6 +95,8 @@ div#navigation ul {
 div#navigation ul li {
     position: relative;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 div#navigation ul li a {
     position: relative;
@@ -146,15 +166,15 @@ div#navigation td.today {
     border-radius: 2px;
 }
 
-/*** WRAPPER ***/
-div#wrapper {
+/*** CONTENT ***/
+div#content_wrapper {
     position: relative;
     left: 75px;
     border-left: 3px solid #000;
     border-right: 3px solid #000;
     width: 844px;
     background-color: #FFF;
-    margin: 0 auto -50px;
+    margin: 0 auto -100px;
     height: auto !important;
     height: 100%;
     min-height: 100%;
@@ -163,12 +183,10 @@ div#wrapper {
     box-shadow: 1px -5px 6px #232;
     z-index: 10;
 }
-div#wrapper_end {
+div#content_end {
     clear: both;
-    height: 50px;
+    height: 100px;
 }
-
-/*** CONTENT ***/
 div#content {
     position: relative;
     float: left;
@@ -179,10 +197,26 @@ div#content {
 }
 div#content_header {
     margin-top: 50px;
-    padding: 15px;
+    padding: 15px 17px;
     background-color: #9EC18C;
-    font: 20px oswald, arial;
+    width: 810px;
+    height: 75px;
+    background-image: url('/image/layout/mascot-silhouette.png');
+    background-position: 90% bottom;
+    background-repeat: no-repeat;
+    position: relative;
+}
+div#content_heading {
+    position: absolute;
+    left: 17px;
+    bottom: 17px;
+}
+div#page_title {
     color: #232;
+    font: 28px oswald, arial;
+}
+div#page_subtitle {
+    font: bold 11px arial;
 }
 div#content_body {
     width: 810px;
@@ -194,10 +228,10 @@ div#footer {
     position: relative;
     left: 75px;
     clear: both;
-    height: 29px;
+    height: 59px;
     border-top: 1px solid #222;
     width: 810px;
-    margin: 0 auto;
+    margin: 20px auto 0;
     background: #FFF;
     padding: 10px 0;
     z-index: 15;
@@ -208,27 +242,43 @@ ul#footer_menu {
     float: left;
 }
 ul#footer_menu li {
-    font-size: 12px;
+    font: normal 13px arial;
     float: left;
     list-style: none;
     padding-right: 20px;
 }
 ul#footer_menu a {
-    color: #000;
+    color: #333;
     text-decoration: none;
 }
 ul#footer_menu a:hover {
+    color: #000;
     text-decoration: underline;
 }
-div#footer_copyright {
+div#footer_side_rail {
     float: right;
-    font-size: 12px;
+    font: normal 11px arial;
+    text-align: right;
+    color: #888;
 }
 
 /*** MASCOT ***/
+div#toolbar_wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0px;
+}
+div#toolbar {
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    height: 0px;
+}
 img#mascot {
     position: absolute;
     bottom: 0;
-    left: -155px;
+    left: 10px;
     z-index: 5;
 }
