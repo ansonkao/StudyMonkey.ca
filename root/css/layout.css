@@ -1,11 +1,15 @@
 html, body {
     font-family: arial;
-    font-size: 16px;
+    font-size: 12px;
     margin: 0px;
     padding: 0px;
     background: #7EAF65;
     height: 100%;
     min-width: 1000px;
+    line-height: 1.6em;
+}
+img {
+    border: 0;
 }
 
 /*** HEADER ***/
@@ -16,7 +20,7 @@ div#header {
     height: 47px;
     min-width: 100%;
     margin: 0 auto;
-    background: #307731;
+    background: #357730;
     padding: 0px 0;
     border-bottom: 3px solid #000;
     -moz-box-shadow: 0px 2px 2px #232;
@@ -49,10 +53,10 @@ input#header_button {
     -moz-box-shadow: inset 1px 3px 2px #363;
     -webkit-box-shadow: inset 1px 3px 2px #363;
     box-shadow: inset 1px 3px 2px #363;
-    background-color: #458846;
-    height: 24px;
+    background-color: #508846;
+    height: 14px;
     width: 200px;
-    padding-left: 8px;
+    padding: 5px 0px 5px 8px;
     font: italic 14px arial;
     z-index: 25;
 }
@@ -62,54 +66,102 @@ div#navigation {
     position: absolute;
     left: 0;
     top: 50px;
-    width: 160px;
+    width: 150px;
     z-index: 5;
 }
 div#navigation ul {
-    margin: 120px 0 0 0;
+    position: relative;
+    margin: 0;
     padding: 0;
 }
-div#navigation li {
+div#navigation ul li {
+    position: relative;
+    list-style: none;
+}
+div#navigation ul li a {
+    position: relative;
     display: block;
-    width: 141px;
+    width: 139px;
     background-color: #779767;
     margin-bottom: 3px;
     border: 3px solid #000;
     -moz-border-radius: 8px 0 0 8px;
     border-radius: 8px 0 0 8px;
-    padding: 8px;
+    padding: 4px 4px;
+    height: 25px;
     font: bold 14px arial;
+    line-height: 25px;
     border-right: 0;
     -moz-box-shadow: 0px 2px 2px #232;
     -webkit-box-shadow: 0px 2px 2px #232;
     box-shadow: 0px 2px 2px #232;
+    color: #000;
+    text-decoration: none;
 }
-div#navigation li.selected {
+div#navigation ul li a.selected {
     background-color: #FFF;
-    position: relative;
     right: 0px;
-    width: 144px;
+    width: 142px;
     -moz-box-shadow: 0px 4px 2px -3px #232;
     -webkit-box-shadow: 0px 4px 2px -3px #232;
     box-shadow: 0px 4px 2px -3px #232;
     z-index: 40;
 }
+div#navigation ul li a.normal:hover {
+    background-color: #9EC18C;
+}
+div#navigation ul li a.normal:active {
+    background-color: #C0D8B8;
+}
+div#navigation ul li a img {
+    vertical-align: top;
+}
+
+/*** CALENDAR ***/
+div#navigation table {
+    font: normal 11px arial;
+    margin: 10px auto;
+}
+div#navigation td {
+    text-align: right;
+    padding: 0 2px;
+}
+div#navigation td#date_string {
+    font-weight: bold;
+    color: #000;
+    text-align: left;
+    padding: 2px 2px 4px;
+}
+div#navigation td.strong {
+    font-weight: bold;
+    color: #315232;
+}
+div#navigation td.faded {
+    color: #4C8048;
+}
+div#navigation td.today {
+    background-color: #315232;
+    color: #C0D8B8;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
 
 /*** WRAPPER ***/
 div#wrapper {
     position: relative;
-    left: 80px;
+    left: 75px;
     border-left: 3px solid #000;
     border-right: 3px solid #000;
-    width: 834px;
+    width: 844px;
     background-color: #FFF;
     margin: 0 auto -50px;
     height: auto !important;
     height: 100%;
     min-height: 100%;
-    -moz-box-shadow: 1px 0px 6px #232;
-    -webkit-box-shadow: 1px 0px 6px #232;
-    box-shadow: 1px 0px 6px #232;
+    -moz-box-shadow: 1px -5px 6px #232;
+    -webkit-box-shadow: 1px -5px 6px #232;
+    box-shadow: 1px -5px 6px #232;
+    z-index: 10;
 }
 div#wrapper_end {
     clear: both;
@@ -127,28 +179,28 @@ div#content {
 }
 div#content_header {
     margin-top: 50px;
-    padding: 20px;
+    padding: 15px;
     background-color: #9EC18C;
-    font: 24px bebas, arial;
+    font: 20px oswald, arial;
     color: #232;
 }
 div#content_body {
-    width: 800px;
+    width: 810px;
     padding: 15px 17px;
 }
 
 /*** FOOTER ***/
 div#footer {
     position: relative;
-    left: 80px;
+    left: 75px;
     clear: both;
     height: 29px;
     border-top: 1px solid #222;
-    width: 800px;
+    width: 810px;
     margin: 0 auto;
     background: #FFF;
     padding: 10px 0;
-    z-index: 25;
+    z-index: 15;
 }
 ul#footer_menu {
     margin: 0px;
@@ -171,4 +223,12 @@ ul#footer_menu a:hover {
 div#footer_copyright {
     float: right;
     font-size: 12px;
+}
+
+/*** MASCOT ***/
+img#mascot {
+    position: absolute;
+    bottom: 0;
+    left: -155px;
+    z-index: 5;
 }

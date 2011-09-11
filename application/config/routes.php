@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "blog";
+$route['default_controller'] = "school";
 $route['404_override'] = '';
 
 
