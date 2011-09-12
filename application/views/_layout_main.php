@@ -11,7 +11,7 @@ $navigation_items['Home']       = "/";
 //$navigation_items['Schools']    = "/schools";
 $navigation_items['Courses']    = "/courses";
 $navigation_items['Professors'] = "/professors";
-$navigation_items['Learn more'] = "/learn";
+$navigation_items['Learn more'] = "/contact";
 
 $footer_items = array();
 $footer_items['Home']       = "/";
@@ -34,6 +34,21 @@ function str2uri($string)
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <link href="/css/layout.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+    <script>
+        $(document).ready(function(){
+
+            // TODO - standard loading animations on each form
+            $("#form_send").submit(function(){
+                //$("#submit_loading_image").show();
+            });
+
+            $("#speech_bubble_close").click(function(){
+                $(this).parent().hide();
+                return false;
+            });
+
+        });
+    </script>
 </head>
 <body>
     <div id="header">
@@ -93,6 +108,14 @@ function str2uri($string)
     <div id="toolbar_wrapper">
         <div id="toolbar">
             <img id="mascot" src="/image/layout/mascot.png" />
+<?php if (!empty($notification)) { ?>
+            <div id="speech_bubble">
+                <a id="speech_bubble_close" href="#">&times;</a>
+                <span><?php echo $notification->message; ?></span>
+                <div id="speech_bubble_tail"></div>
+                <div id="speech_bubble_tail_border"></div>
+            </div>
+<?php } ?>
         </div>
     </div>
 </body>

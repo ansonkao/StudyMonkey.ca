@@ -66,3 +66,7 @@
     If you have any questions regarding our Privacy Policy, please contact us at
     <a href="mailto:info@studymonkey.ca">info@studymonkey.ca</a>.
 </p>
+<?php
+
+/* End of file privacy.php */
+/* Location: ./application/views/info/privacy.php */

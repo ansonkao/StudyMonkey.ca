@@ -263,3 +263,7 @@
         the validity and enforceability of any remaining provisions.
     </li>
 </ol>
+<?php
+
+/* End of file terms.php */
+/* Location: ./application/views/info/terms.php */

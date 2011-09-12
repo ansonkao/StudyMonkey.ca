@@ -42,6 +42,7 @@ $route['default_controller'] = "info";
 $route['404_override'] = '';
 
 // CUSTOM
+$route['contact']   = 'info/contact';
 $route['privacy']   = 'info/privacy';
 $route['terms']     = 'info/terms';
 
