@@ -31,21 +31,28 @@ function str2uri($string)
 <head>
     <title><?php echo empty($page_title)? "" : "{$page_title} - "; ?>StudyMonkey.ca</title>
     <meta charset="utf-8">
-    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <script  type="text/javascript" src="/js/jquery-1.6.3.min.js"></script>
+    <script  type="text/javascript" src="/js/jquery.color.js"></script>
     <link href="/css/layout.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <script>
         $(document).ready(function(){
 
             // TODO - standard loading animations on each form
-            $("#form_send").submit(function(){
+            //$("#form_send").submit(function(){
                 //$("#submit_loading_image").show();
-            });
+            //});
 
+            $("#speech_bubble").hide().fadeIn(750).fadeOut(8000);
+            $("#speech_bubble").mouseover(function(){
+                $(this).stop().css({opacity: 1}).fadeOut(8000);
+            });
             $("#speech_bubble_close").click(function(){
-                $(this).parent().hide();
+                $("#speech_bubble").stop().fadeOut(250);
                 return false;
             });
+
 
         });
     </script>
