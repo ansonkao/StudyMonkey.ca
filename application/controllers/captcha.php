@@ -36,12 +36,12 @@ class Captcha extends CI_Controller {
         //===============================================================
         // General captcha settings
         //===============================================================
-        $captcha_w = 100;                   // captcha width
+        $captcha_w = 99;                   // captcha width
         $captcha_h = 26;                    // captcha height
         $min_font_size = 21;                // minimum font size; each operation element changes size
         $max_font_size = 24;                // maximum font size
         $angle = 10;                        // rotation angle
-        $bg_size = 13;                      // background grid size
+        $bg_size = 9;                      // background grid size
         $operators = array('+');            // array of possible operators
         $first_num = rand(1,9);             // first number random value; keep it lower than $second_num
         $second_num = rand(1,9);            // second number random value
@@ -65,21 +65,21 @@ class Captcha extends CI_Controller {
         // start the captcha image
         $img = imagecreate( $captcha_w, $captcha_h );
 
-        // Some colors. Text is $black, background is $white, grid is $grey
-        $black = imagecolorallocate($img,0,0,0);
-        $white = imagecolorallocate($img,255,255,255);
-        $grey  = imagecolorallocate($img,215,215,215);
+        // Some colors. Text is $text_color, background is $background, grid is $grid_color
+        $text_color = imagecolorallocate($img,0,0,0);
+        $background = imagecolorallocate($img,255,255,255);
+        $grid_color = imagecolorallocate($img,180,180,180);
 
         // make the background white
-        imagefill( $img, 0, 0, $white );
+        imagefill( $img, 0, 0, $background );
 
         // the background grid lines - vertical lines
         for ($t = $bg_size; $t < $captcha_w; $t += $bg_size) {
-                imageline($img, $t, 0, $t, $captcha_h, $grey);
+                imageline($img, $t, 0, $t, $captcha_h, $grid_color);
         }
         // background grid - horizontal lines
         for ($t = $bg_size; $t < $captcha_h; $t += $bg_size) {
-                imageline($img, 0, $t, $captcha_w, $t, $grey);
+                imageline($img, 0, $t, $captcha_w, $t, $grid_color);
         }
 
         // This determinates the available space for each operation element
@@ -96,7 +96,7 @@ class Captcha extends CI_Controller {
             rand( -$angle , $angle ),
             rand( 10, $item_space-20 ),
             rand( 20, $captcha_h-5 ),
-            $black,
+            $text_color,
             $font_path,
             $second_num);
 
@@ -110,7 +110,7 @@ class Captcha extends CI_Controller {
             rand( -$angle, $angle ),
             rand( $item_space, 2*$item_space-20 ),
             rand( 20, $captcha_h-5 ),
-            $black,
+            $text_color,
             $font_path,
             $operators[0]);
 
@@ -124,7 +124,7 @@ class Captcha extends CI_Controller {
             rand( -$angle, $angle ),
             rand( 2*$item_space, 3*$item_space-20),
             rand( 20, $captcha_h-5 ),
-            $black,
+            $text_color,
             $font_path,
             $first_num);
 

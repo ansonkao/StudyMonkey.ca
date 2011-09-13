@@ -44,11 +44,14 @@ function str2uri($string)
                 //$("#submit_loading_image").show();
             //});
 
+            var speech_bubble_open = true;
             $("#speech_bubble").hide().fadeIn(750).fadeOut(8000);
             $("#speech_bubble").mouseover(function(){
-                $(this).stop().css({opacity: 1}).fadeOut(8000);
+                if (speech_bubble_open)
+                    $(this).stop().css({opacity: 1}).fadeOut(8000);
             });
             $("#speech_bubble_close").click(function(){
+                speech_bubble_open = false;
                 $("#speech_bubble").stop().fadeOut(250);
                 return false;
             });

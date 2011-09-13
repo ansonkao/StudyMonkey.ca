@@ -14,7 +14,7 @@
     <table border="0" cellspacing="0" cellpadding="5" style="margin: 20px;">
         <tr>
             <td valign="top" align="right">
-                <label for="subject">Your Inquiry</label>
+                <label for="subject">Topic</label>
             </td>
             <td valign="top" align="left">
                 <select type="text" id="subject" name="subject" style="width: 308px;">
@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <td valign="top" align="right">
-                <label for="name">Your Name</label>
+                <label for="name">Name</label>
             </td>
             <td valign="top" align="left">
                 <input type="text" id="name" name="name" value="<?=$name?>" style="width: 200px;" />
@@ -42,10 +42,10 @@
         </tr>
         <tr>
             <td valign="top" align="right">
-                <label for="body">Your Message</label>
+                <label for="body">Message</label>
             </td>
             <td valign="top" align="left">
-                <textarea style="width: 300px; height: 100px;" id="body" name="message"><?=$message?></textarea>
+                <textarea style="width: 300px; height: 100px; resize: vertical;" id="body" name="message"><?=$message?></textarea>
             </td>
         </tr>
         <tr>
@@ -53,7 +53,7 @@
                 <label for="captcha">Math is Fun!</label>
             </td>
             <td valign="top" align="left">
-                <table>
+                <table border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td valign="top" align="center" style="width: 100px;">
                             <img src="/captcha" alt="Captcha!" style="border: 1px solid #000; -moz-border-radius: 5px;" />
@@ -64,7 +64,7 @@
                             </span>
                         </td>
                         <td valign="top" align="left">
-                            <input type="text" id="captcha" name="captcha" value="<?=$captcha?>" style="height: 24px; width: 40px; text-align: center;" />
+                            <input type="text" id="captcha" name="captcha" value="<?=$captcha?>" style="width: 32px; text-align: center;" />
                         </td>
                     </tr>
                 </table>
