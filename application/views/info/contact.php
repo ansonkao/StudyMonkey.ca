@@ -18,7 +18,7 @@
             </td>
             <td valign="top" align="left">
                 <select type="text" id="subject" name="subject" style="width: 308px;">
-<?php foreach ($inquiry_categories as $key => $value) { ?>
+<?php foreach ($subject_topics as $key => $value) { ?>
                     <option value="<?=$key?>" <?php echo ($inquiry_default == $key)? 'selected' : ''; ?>><?=$value?></option>
 <?php } ?>
                 </select>

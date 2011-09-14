@@ -15,7 +15,9 @@ class Info extends CI_Controller {
 
     public function contact()
     {
-        $inquiry_categories = array(
+        $this->load->helper('email');
+
+        $subject_topics = array(
             "feedback"  => "Suggestions / Feedback",
             "campus"    => "I want StudyMonkey at MY school!",
             "media"     => "Media Information",
@@ -32,7 +34,7 @@ class Info extends CI_Controller {
         if (!empty($subject))
         {
             // Form Validation
-            if (!isset($inquiry_categories[$subject]) OR empty($name) OR empty($email) OR empty($message))
+            if (!isset($subject_topics[$subject]) OR empty($name) OR empty($email) OR empty($message))
                 $notification = Notification::error('You have empty fields.');
             else
             {
@@ -44,29 +46,11 @@ class Info extends CI_Controller {
                         $notification = Notification::error('You got the math question wrong.');
                     else
                     {
-                        $notification = Notification::success('Your message has been sent to us!');
-
-                        /*
-                        $new_email = new email();
-                        $new_email->tag("Contact Us Form");
-
-                        $new_email->from_account("notification");
-                        $new_email->replyTo($_POST['email'], $_POST['name']);
-                        $new_email->to($_POST['subject']."@studymonkey.ca", "Administrator");
-                        $new_email->subject($inquiry[$_POST['subject']] . " (" . $_POST['name'] . ")");
-                        $new_message = $_POST['body'] . "\n\nRespond to {$_POST['name']} at {$_POST['email']}";
-
-                        $new_email->messageHtml(nl2br($new_message));
-                        $new_email->messagePlain(strip_tags($new_message));
-
-                        if ($new_email->send()) {
-                            session::set_flash("Your message was sent - we will get back to you as soon as we can! :)");
-                        } else {
-                            session::set_flash("ERROR: Failed to send message!", false);
-                        }
-                        $new_email->update_email_log("contact_us_form");
-                         *
-                         */
+                        $success = Email::contact_us($subject_topics, $subject, $name, $email, $message);
+                        if ($success)
+                            $notification = Notification::success("Your message has been sent - we'll get back to you as soon as we can!");
+                        else
+                            $notification = Notification::success("Your message failed to send - please try again in a few moments....");
                     }
                 }
             }
@@ -76,7 +60,7 @@ class Info extends CI_Controller {
         $inquiry_default = empty($subject)? 'feedback' : $subject;
 
         // Custom Parameters
-        $this->view_params['inquiry_categories'] = $inquiry_categories;
+        $this->view_params['subject_topics'] = $subject_topics;
         $this->view_params['inquiry_default'] = $inquiry_default;
         $this->view_params['name'] = $name;
         $this->view_params['email'] = $email;
