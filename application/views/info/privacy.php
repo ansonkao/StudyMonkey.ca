@@ -44,7 +44,7 @@
     As such, this Privacy Policy applies only to information collected by StudyMonkey.
 </p>
 
-<h3>In the Event of Merger, Sale, or Bankruptcy</h3>
+<h3>Merger, Sale, or Bankruptcy</h3>
 <p>
     In the event that StudyMonkey or any of its platforms is acquired or merged with a third party entity,
     StudyMonkey reserves the right to transfer or assign information that has been collected from Users as
@@ -55,9 +55,9 @@
     transferred, or used.
 </p>
 
-<h3>Changes and Updates to the Privacy Policy</h3>
+<h3>Changes and Updates</h3>
 <p>
-    The privacy policy may be revised from time to time and this. Please revisit this page to stay aware of any changes.
+    The privacy policy may be revised from time to time, please revisit this page to stay aware of any changes.
     A User's continued use of StudyMonkey constitutes their agreement to this Privacy Policy and any future revisions.
 </p>
 

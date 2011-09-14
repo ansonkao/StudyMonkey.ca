@@ -2,12 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/home/akao/dev/studymonkey2/root/css/layout.css</file>
-        <file>file:/home/akao/dev/studymonkey2/application/controllers/info.php</file>
-        <file>file:/home/akao/dev/studymonkey2/application/views/_layout_main.php</file>
-        <file>file:/home/akao/dev/studymonkey2/application/config/routes.php</file>
-        <file>file:/home/akao/dev/studymonkey2/application/views/info/contact.php</file>
         <file>file:/home/akao/dev/studymonkey2/root/index.php</file>
         <file>file:/home/akao/dev/studymonkey2/application/helpers/notification_helper.php</file>
+        <file>file:/home/akao/dev/studymonkey2/application/controllers/info.php</file>
+        <file>file:/home/akao/dev/studymonkey2/application/config/routes.php</file>
+        <file>file:/home/akao/dev/studymonkey2/root/css/layout.css</file>
+        <file>file:/home/akao/dev/studymonkey2/application/views/_layout_main.php</file>
+        <file>file:/home/akao/dev/studymonkey2/application/views/info/contact.php</file>
     </open-files>
 </project-private>
