@@ -15,7 +15,7 @@ $navigation_items['Learn more'] = "/contact";
 
 $footer_items = array();
 $footer_items['Home']       = "/";
-$footer_items['About']      = "/about";
+//$footer_items['About']      = "/about";
 $footer_items['Terms']      = "/terms";
 $footer_items['Privacy']    = "/privacy";
 $footer_items['Contact']    = "/contact";
@@ -29,7 +29,7 @@ function str2uri($string)
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo empty($page_title)? "" : "{$page_title} - "; ?>StudyMonkey.ca</title>
+    <title><?php echo empty($page_title)? "" : "{$page_title} - "; echo empty($page_subtitle)? "" : "{$page_subtitle} - "; ?>StudyMonkey.ca</title>
     <meta charset="utf-8">
     <script  type="text/javascript" src="/js/jquery-1.6.3.min.js"></script>
     <script  type="text/javascript" src="/js/jquery.color.js"></script>
@@ -44,6 +44,8 @@ function str2uri($string)
                 //$("#submit_loading_image").show();
             //});
 
+
+            // SPEECH BUBBLE
             var speech_bubble_open = true;
             $("#speech_bubble").hide().fadeIn(750).fadeOut(8000);
             $("#speech_bubble").mouseover(function(){
@@ -94,7 +96,7 @@ function str2uri($string)
             </div>
             <div id="content_body">
 <!------------------------------ START CONTENT -------------------------------->
-<?php echo $page_content . "\n";?>
+<?php echo $page_content;?>
 <!------------------------------- END CONTENT --------------------------------->
             </div>
         </div>

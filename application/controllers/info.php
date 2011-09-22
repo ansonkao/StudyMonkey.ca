@@ -4,6 +4,7 @@ class Info extends CI_Controller {
 
 	public function index()
 	{
+        // Layout Parameters
         $this->view_params['page_tab'] = "Home";
         $this->view_params['page_title'] = "Welcome to StudyMonkey!";
         $this->view_params['page_subtitle'] = "Home &#187; Learn more &#187; Terms and Conditions";

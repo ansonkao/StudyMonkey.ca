@@ -53,7 +53,8 @@ $autoload['packages'] = array(APPPATH.'third_party');
 */
 
 $autoload['libraries'] = array
-    ('session'
+    ( 'session'
+    , 'database'
     );
 
 
@@ -67,7 +68,8 @@ $autoload['libraries'] = array
 */
 
 $autoload['helper'] = array
-    ('notification'
+    ( 'url'
+    , 'notification'
     );
 
 
