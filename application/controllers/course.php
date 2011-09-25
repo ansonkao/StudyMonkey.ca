@@ -16,7 +16,22 @@ class Course extends CI_Controller
 		$this->load->view('_layout_main', $this->view_params);
 	}
 
-    public function view($school_segment, $course_segment)
+    public function search( $school_segment )
+	{
+        // School
+        $this->load->model('school');
+        $school = $this->school->find_by_uri_segment($school_segment);
+        if ( empty( $school ) )
+            show_404($this->uri->uri_string());
+
+        $this->view_params['page_tab'] = "Courses";
+        $this->view_params['page_title'] = "Course Search";
+        $this->view_params['page_subtitle'] = NULL;
+        $this->view_params['page_content'] = $this->load->view('course/search', $this->view_params, TRUE);
+		$this->load->view('_layout_main', $this->view_params);
+	}
+
+    public function view( $school_segment, $course_segment, $page_segment = 1 )
     {
         // School
         $this->load->model('school');
@@ -32,26 +47,40 @@ class Course extends CI_Controller
 
         // Professors
         $this->load->model('professor');
-        $professors = $this->professor->find_by_course_id($course['id']);
+        $professors = $this->professor->find_by_course_id( $course['id'] );
 
         // Reviews
         $this->load->model('course_professor_review');
-        $reviews = $this->course_professor_review->find_by_course_id($course['id']);
+        $total_reviews = $this->course_professor_review->count_by_course_id( $course['id'] );
+        $reviews = $this->course_professor_review->paginate_by_course_id( $course['id'], $page_segment, 5 );
+        if ( $total_reviews > 0 AND empty( $reviews ) )
+            show_404($this->uri->uri_string());
 
         // Review authors and professors
         $this->load->model('user');
         $review_authors = array();
         $review_professors = array();
-        foreach($reviews as $review)
+        if ( ! empty( $reviews ) )
         {
-            $review_authors[$review['id']] = $this->user->find_by_id($review['user_id']);
-            $review_professors[$review['id']] = $this->professor->find_by_id($review['professor_id']);
+            foreach($reviews as $review)
+            {
+                $review_authors[$review['id']] = $this->user->find_by_id($review['user_id']);
+                $review_professors[$review['id']] = $this->professor->find_by_id($review['professor_id']);
+            }
         }
 
+        // Pagination
+        $pagination_params = array();
+        $pagination_params['total_rows'] = $total_reviews;
+        $pagination_params['current_page'] = $page_segment;
+        $pagination_params['parent_uri'] = "/{$school_segment}/courses/{$course_segment}";
+        $this->load->library( 'pagination', $pagination_params );
+                
         // Custom Parameters
         $this->view_params['school'] = $school;
         $this->view_params['course'] = $course;
         $this->view_params['professors'] = $professors;
+        $this->view_params['total_reviews'] = $total_reviews;
         $this->view_params['reviews'] = $reviews;
         $this->view_params['review_authors'] = $review_authors;
         $this->view_params['review_professors'] = $review_professors;

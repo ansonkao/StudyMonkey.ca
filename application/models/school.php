@@ -25,9 +25,9 @@ class School extends StudyMonkey_Model
 
     function find_by_uri_segment( $uri_segment )
     {
-        $uri_segment = str_replace('-', ' ', $uri_segment);
+        $school_name = uri2string( $uri_segment );
         $sql = 'SELECT * FROM `school` WHERE full_name LIKE ?';
-        $result = $this->db->query( $sql, array( $uri_segment ) );
+        $result = $this->db->query( $sql, array( $school_name ) );
         return $result->row_array();
     }
 

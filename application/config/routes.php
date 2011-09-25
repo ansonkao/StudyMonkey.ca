@@ -48,15 +48,18 @@ $route['404_override'] = '';
 /******************************************************************************/
 
 // Info Controller
-$route['contact']   = 'info/contact';
-$route['privacy']   = 'info/privacy';
-$route['terms']     = 'info/terms';
+$route['contact']       = 'info/contact';
+$route['privacy']       = 'info/privacy';
+$route['terms']         = 'info/terms';
+$route['notesolution']  = 'info/notesolution';
 
 // Course Controller
 $route['(:any)/courses/(:any)']         // http://www.studymonkey.ca/university-of-waterloo/courses/psych101
-    = 'course/view/$1/$2';             // http://www.studymonkey.ca/courses/view   ... $1 = "university-of-waterloo" $2 = "psych101"
+    = 'course/view/$1/$2';              // http://www.studymonkey.ca/courses/view   ... $1 = "university-of-waterloo" $2 = "psych101"
 $route['(:any)/courses']                // http://www.studymonkey.ca/university-of-waterloo/courses
-    = 'course/search/$1';              // http://www.studymonkey.ca/courses/search ... $1 = "university-of-waterloo"
+    = 'course/search/$1';               // http://www.studymonkey.ca/courses/search ... $1 = "university-of-waterloo"
+$route['courses']                       // http://www.studymonkey.ca/courses
+    = 'course/index';                   // http://www.studymonkey.ca/course/index
 
 // School Controller
 //$route[':any']     = 'schools/view/';

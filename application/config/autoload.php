@@ -70,6 +70,7 @@ $autoload['libraries'] = array
 $autoload['helper'] = array
     ( 'url'
     , 'notification'
+    , 'studymonkey'
     );
 
 

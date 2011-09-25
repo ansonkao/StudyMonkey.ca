@@ -38,7 +38,6 @@ ol, ul {
 }
 li {
     padding: 0 0 5px;
-    line-height: 1.6em;
 }
 label {
     font-weight: bold;
@@ -87,9 +86,16 @@ input[type=submit]:active, button:active {
 }
 div.left_column {
     float: left;
+    width: 585px;
+    padding-right: 20px;
+    border-right: 1px solid #888;
+    -moz-box-shadow:    10px 0px 10px -10px #CCC;
+    -webkit-box-shadow: 10px 0px 10px -10px #CCC;
+    box-shadow:         10px 0px 10px -10px #CCC;
 }
 div.right_column {
     float: right;
+    width: 180px;
 }
 
 /*** HEADER ***/
@@ -100,7 +106,7 @@ div#header {
     height: 47px;
     min-width: 100%;
     margin: 0 auto;
-    background: #357730;
+    background: #307730;
     padding: 0px 0;
     border-bottom: 3px solid #000;
     -moz-box-shadow:    0px 2px 2px #232;
@@ -122,11 +128,11 @@ img#header_logo {
     top: 9px;
     left: 450px;
 }
-input#header_button {
+input#header_search {
     display: block;
     position: absolute;
     top: 9px;
-    right: 0px;
+    left: 0px;
     border: 2px solid #000;
     -moz-border-radius: 6px;
     border-radius:      6px;
@@ -139,6 +145,13 @@ input#header_button {
     padding: 5px 0px 5px 8px;
     font: italic 14px arial;
     z-index: 25;
+}
+div#header_login {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    font-size: 11px;
 }
 
 /*** NAVIGATION ***/
@@ -395,28 +408,51 @@ div#speech_bubble_tail_border {
 }
 
 /*** BUTTONS ***/
-a.button_yellow {
+.button {
     display: inline-block;
     border: 3px solid #000;
     -moz-border-radius: 24px;
     border-radius:      24px;
     padding: 10px 16px;
-    background-color: #F9CF27;
     font: bold 16px arial;
     color: #000;
+    cursor: pointer;
+}
+.button.small {
+    border: 2px solid #000;
+    padding: 5px 10px;
+    font: bold 12px arial;
+}
+.button.inline {
+    border: 2px solid #000;
+    -moz-border-radius: 4px;
+    border-radius:      4px;
+    padding: 3px 8px;
+    font: bold 12px arial;
+}
+.button:hover, .button:active {
+    color: #000;
+    text-decoration: none;
+}
+.button.yellow {
+    background-color: #F9CF27;
     -moz-box-shadow:    inset 1px 1px 6px #FFF, inset -1px -1px 5px #830;
     -webkit-box-shadow: inset 1px 1px 6px #FFF, inset -1px -1px 5px #830;
     box-shadow:         inset 1px 1px 6px #FFF, inset -1px -1px 5px #830;
     text-shadow: 1px 1px 1px #FFF, -1px -1px 1px #A83;
 }
-a.button_yellow:hover {
-    background-color: #FD4;
-    text-decoration: none;
+.button.yellow:hover { background-color: #FD4; }
+.button.yellow:active { background-color: #EB2; }
+.button.green {
+    background-color: #7EAF65;
+    -moz-box-shadow:    inset 1px 1px 6px #CDC, inset -1px -1px 5px #030;
+    -webkit-box-shadow: inset 1px 1px 6px #CDC, inset -1px -1px 5px #030;
+    box-shadow:         inset 1px 1px 6px #CDC, inset -1px -1px 5px #030;
+    text-shadow: 1px 1px 1px #CDC, -1px -1px 1px #080;
 }
-a.button_yellow:active {
-    background-color: #EB2;
-    text-decoration: none;
-}
+.button.green:hover { background-color: #8B7; }
+.button.green:active { background-color: #695; }
+
 /*** RATINGS ***/
 div.transparent, td.transparent, .transparent td {
     opacity: 0.48;
@@ -427,3 +463,14 @@ div.transparent, td.transparent, .transparent td {
     filter: alpha(opacity=100);
 }
 
+/*** PAGINATION ***/
+.pagination {
+    font-size: 14px;
+}
+.pagination.current {
+    color: #000;
+    font-weight: bold;
+}
+.pagination.off {
+    color: #777;
+}

@@ -7,7 +7,7 @@
  */
 
 $navigation_items = array();
-$navigation_items['Home']       = "/";
+//$navigation_items['Home']       = "/";
 //$navigation_items['Schools']    = "/schools";
 $navigation_items['Courses']    = "/courses";
 $navigation_items['Professors'] = "/professors";
@@ -68,7 +68,10 @@ function str2uri($string)
             <a href="/">
                 <img id="header_logo" src="/image/layout/logo-header.png" alt="StudyMonkey.ca" />
             </a>
-            <input id="header_button" type="text" value="Search..." />
+            <input id="header_search" type="text" value="Search..." />
+            <div id="header_login">
+                <a href="/notesolution" style="color: #000;">Looking for our old login box? &#187;</a>
+            </div>
             <div id="navigation">
 <!------------------------------ START WIDGET --------------------------------->
 <?php $this->load->view('_calendar');?>
@@ -105,9 +108,7 @@ function str2uri($string)
     <div id="footer">
         <ul id="footer_menu">
 <?php foreach ($footer_items as $title => $link) { ?>
-            <li>
-                <a href="<?=$link?>"><?=$title?></a>
-            </li>
+            <li><a href="<?=$link?>"><?=$title?></a> </li>
 <?php } ?>
         </ul>
         <div id="footer_side_rail">

@@ -29,22 +29,49 @@ class Course_professor_review_model extends StudyMonkey_Model
         $this->TABLE_NAME = 'course_professor_review';
     }
 
-    public static function count_by_course_professor_id($in_course_professor_id) {
+    public function count_by_course_professor_id($in_course_professor_id)
+    {
         global $database;
         if (empty($in_course_professor_id)) { return false; }
         return self::count_all("course_professor_id={$in_course_professor_id}");
     }
-    public static function count_by_user_id($user_id) {
+
+    public function count_by_user_id($user_id)
+    {
         if (empty($user_id)) { return false; }
         return self::count_all("user_id={$user_id}");
     }
 
-    public function find_by_course_id($course_id) {
-        $result = $this->db->query("SELECT * FROM course_professor_review WHERE course_id = ?", array( $course_id ) );
+    public function count_by_course_id($course_id)
+    {
+        $result = $this->db->query("SELECT COUNT(*) FROM course_professor_review WHERE course_id = ?", array( $course_id ) );
+        return array_shift($result->row_array());
+    }
+
+    public function find_by_course_id($course_id)
+    {
+        $result = $this->db->query("SELECT * FROM course_professor_review WHERE course_id = ? ORDER BY id DESC", array( $course_id ) );
         return $result->result_array();
     }
 
-    public static function find_by_professor_id($in_professor_id) {
+    public function paginate_by_course_id( $course_id, $page, $rows_per_page )
+    {
+        // Make sure a valid page value
+        if ( ! is_numeric($page) OR $page < 1 )
+            return false;
+
+        // Calculate the offset and make sure it is within the valid range
+        $total_rows = $this->count_by_course_id( $course_id );
+        $offset = ( $page - 1 ) * $rows_per_page;
+        if ( $offset >= $total_rows )
+            return false;
+
+        // Good to go, run the query
+        $result = $this->db->query( "SELECT * FROM course_professor_review WHERE course_id = ? ORDER BY id DESC LIMIT ? , ?", array( $course_id, $offset, $rows_per_page ) );
+        return $result->result_array();
+    }
+
+    public function find_by_professor_id($in_professor_id) {
         global $database;
         if (empty($in_professor_id)) { return false; }
         return self::find_by_sql("SELECT * FROM ". get_class() ." WHERE professor_id=". $in_professor_id);

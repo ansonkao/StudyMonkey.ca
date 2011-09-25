@@ -156,7 +156,7 @@ $this_course_or_professor_id = $course['id'];
 </div>
 <?php } ?>
 
-<div class="left_column" style="width: 585px; padding-right: 20px; border-right: 1px solid #888;">
+<div class="left_column">
 
     <!-- STATISTICS ================================================ -->
     <table width="580" border="0" cellspacing="0" cellpadding="0" style="margin: 0px;">
@@ -353,15 +353,15 @@ $this_course_or_professor_id = $course['id'];
     <div style="width: 580px; margin-bottom: 20px; text-align: center;">
         <div style="margin: 0; padding: 5px 0; font-weight: bold;">
             <?php
-                switch(sizeof($reviews)) {
+                switch( $total_reviews ) {
                     case 0: echo "No reviews yet - Be the first!"; break;
                     case 1: echo "Based on 1 review"; break;
                     default: // Multiple reviews
-                        echo "Based on ".sizeof($reviews)." reviews";
+                        echo "Based on ".$total_reviews." reviews";
                 }
             ?>
         </div>
-        <a href="#course_professor_review" class="button_yellow">
+        <a href="#course_professor_review" class="button yellow">
             Rate this Course! &#9658;
         </a>
     </div>
@@ -370,15 +370,21 @@ $this_course_or_professor_id = $course['id'];
     <?php } ?>
 
     <!-- REVIEWS =============================================================== -->
-    <div style="font: bold 18px arial; padding: 10px 0; border-bottom: 1px solid #333; width: 580px;">
-        User Reviews
+    <div style="padding: 20px 0 10px; border-bottom: 1px solid #333; width: 580px;">
+        <div style="float: left; font: bold 18px arial;">
+            User Reviews
+        </div>
+        <div style="float: right; padding-top: 5px; color: #888;"><?php $this->pagination->display_current_positions(); ?></div>
+        <div style="clear: both;"></div>
     </div>
 
     <?php
-        foreach($reviews as $review)
+        if ($reviews)
         {
-            $author = $review_authors[$review['id']];
-            $professor = $review_professors[$review['id']];
+            foreach($reviews as $review)
+            {
+                $author = $review_authors[$review['id']];
+                $professor = $review_professors[$review['id']];
     ?>
     <div style="width: 560px; padding: 10px; border-bottom: 1px solid #333;">
         <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
@@ -484,9 +490,8 @@ $this_course_or_professor_id = $course['id'];
                     <p><?php echo $review['review_text']; ?></p>
                     <div style="font-size: 10px; color: #666; margin-top: 5px;">
                         <?php
-                            echo date("F Y", strtotime($review['date_created']));
-                            //echo date("M jS Y", strtotime($review['date_created']));
-                            // TODO: add back in the above line (day of month, shorter month printed as 3 chars)
+                            //echo date("F Y", strtotime($review['date_created']));
+                            echo date("F jS Y", strtotime($review['date_created']));
                             if (!$review['anonymous']) { echo " - " . $review_authors[$review['id']]['username']; }
                             echo "\n";
                         ?>
@@ -508,38 +513,39 @@ $this_course_or_professor_id = $course['id'];
         </table>
     </div>
     <?php
+            }
         }
     ?>
 
-    <div style="">
-        <a href="#course_professor_review" class="review_lightbox_link" style="text-align: right;">
-            <img src="<?php echo site_url()."image/rating/rate_this_course_small_20100908.gif"; ?>" alt="Rate this Course! &#9658;" />
-        </a>
+    <div style="margin-top: 15px; float: left; width: 580px;">
+        <div style="float: left;">
+<?php $this->pagination->display_page_links(); ?>
+        </div>
+        <a href="#course_professor_review" class="button yellow small" style="float: right;">Rate this Course! &#9658;</a>
     </div>
 
 </div>
 
 <!-- ############################################################### -->
-<div class="right_column" style="margin-top: 10px; width: 180px;">
+<div class="right_column" style="margin-top: 10px;">
 
     <div style="font: bold 14px arial; padding-bottom: 10px;">Professors:</div>
     
-    <table border="0" cellspacing="0" cellpadding="0" class="list_gridless" style="margin-bottom: 5px;">
+    <table border="0" cellspacing="0" cellpadding="0">
         <tbody>
 <?php foreach($professors as $professor) { ?>
             <tr>
                 <td align="left" valign="top" style="height: 45px;">
-                    <a href="<?php echo site_url()."professor.php?id=".$professor['id']; ?>">
+                    <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($professor['first_name'])."_".string2uri($professor['last_name']); ?>">
                         <img src="<?php echo site_url()."image/icon/professors.png"; ?>" style="margin-right: 5px;" />
                     </a>
                 </td>
                 <td align="left" valign="top" style="padding-top: 5px;">
-                    <a href="<?php echo site_url()."professor.php?id=".$professor['id']; ?>">
-                        <strong style="line-height: 12px;"><?php echo $professor['last_name'] . ", " . $professor['first_name']; ?></strong>
+                    <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($professor['first_name'])."_".string2uri($professor['last_name']); ?>">
+                        <strong><?php echo $professor['last_name'] . ", " . $professor['first_name']; ?></strong>
                     </a>
-
                     <div class="transparent" style="padding-top: 2px;">
-                        <?php if ($professor['total_reviews'] > 0) { ?>
+<?php   if ($professor['total_reviews'] > 0) { ?>
                         <div style="margin-right: 5px; height: 12px; width: 60px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll top; text-align: left; float: left;">
                             <div style="height: 12px; width: <?php echo round($professor['overall_rating'] * 60.0 / 5.0); ?>px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll left bottom;">
                                 &nbsp;
@@ -548,40 +554,40 @@ $this_course_or_professor_id = $course['id'];
                         <span style="float: left; font: normal 10px arial;">
                             <?php echo $professor['total_reviews'];  ?> reviews
                         </span>
-                        <?php } else { ?>
+<?php   } else { ?>
                         <span style="float: left; font: normal 11px arial;">
                             No reviews yet
                         </span>
-                        <?php } ?>
+<?php   } ?>
                     </div>
                 </td>
             </tr>
-<?php
-    }
-?>
+<?php } ?>
         </tbody>
     </table>
 
-<?php echo empty($professors)? "Be the first! " : "Is this list incomplete? "; ?>
-    Add a professor to this course by
-    <a href="#course_professor_review" class="review_lightbox_link">
-         Rating the Course!
-    </a>
+    <p style="margin-top: 5px;">
+        <?php echo empty($professors)? "Be the first! " : "Is this list incomplete? "; ?>
+        Add a professor to this course by
+        <a href="#course_professor_review" class="review_lightbox_link">
+             Rating the Course!
+        </a>
 <?php if (0){//session::user()->privilege == 'admin') { ?>
-    <br/>
-    <br/>
-    <br/>
-    You have admin privileges, you can add a professor without writing a review:
-    <div id="add_professor_box" style="margin: 10px 0px;">
-        <form action="" method="post" id="form_add_professor" class="narrow">
-            <div style="float: left; padding-right: 5px;">
-                <input type="hidden" value="" name="professor_id" id="add_professor_id" />
-                <input type="text" class="input_text_main" name="professor_name" id="add_professor_name" value="Type a professor's name..." style="float: left; width: 180px;"/>
-            </div>
-            <input type="hidden" value="add_professor" name="action" />
-            <input type="submit" value="Add Professor" class="input_submit_main" id="add_professor_submit" onclick="this.blur()"/>
-        </form>
-    </div>
+        <br/>
+        <br/>
+        <br/>
+        You have admin privileges, you can add a professor without writing a review:
+        <div id="add_professor_box" style="margin: 10px 0px;">
+            <form action="" method="post" id="form_add_professor" class="narrow">
+                <div style="float: left; padding-right: 5px;">
+                    <input type="hidden" value="" name="professor_id" id="add_professor_id" />
+                    <input type="text" class="input_text_main" name="professor_name" id="add_professor_name" value="Type a professor's name..." style="float: left; width: 180px;"/>
+                </div>
+                <input type="hidden" value="add_professor" name="action" />
+                <input type="submit" value="Add Professor" class="input_submit_main" id="add_professor_submit" onclick="this.blur()"/>
+            </form>
+        </div>
 <?php } ?>
+    </p>
 
 </div>
