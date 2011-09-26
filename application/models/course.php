@@ -34,23 +34,61 @@ class Course_model extends StudyMonkey_Model
         $this->TABLE_NAME = 'course';
     }
 
-    public function find_by_course_code($code)
+    function find_by_course_code( $code )
     {
         $result = $this->db->query("SELECT * FROM course WHERE course_code = ? LIMIT 1", array( $code ) );
         return $result->row_array();
     }
 
-    public static function autocomplete($in_search_term, $in_max, $in_school) {
-        global $database;
-        $search_term = mysql_real_escape_string($in_search_term);
-        $max = (int)$in_max;
-        $school = (int)$in_school;
-        $sql = "SELECT DISTINCT * FROM ". get_class() . " WHERE school_id = " . $school;
-        foreach(explode(" ", $search_term) as $i_search_term) {
-            $sql .= " AND (course_code LIKE '%{$i_search_term}%' OR course_title LIKE '%{$i_search_term}%')";
+    function find_most_popular( $school_id = NULL, $limit = 5 )
+    {
+        $sql = "SELECT * FROM course ";
+        $params = array();
+
+        if( $school_id )
+        {
+            $sql .= "WHERE school_id = ? ";
+            $params[] = $school_id;
         }
-        $sql .= " ORDER BY course_code LIKE '{$search_term}%' DESC LIMIT $max";
-        return self::find_by_sql($sql);
+        $sql .= "ORDER BY (overall_rating * total_reviews + 17) / (total_reviews + 5) DESC LIMIT ?";
+        $params[] = $limit;
+
+        $result = $this->db->query( $sql, $params );
+        return $result->result_array();
+    }
+
+    public function search( $search_term, $limit = 10, $school_id = NULL )
+    {
+        // Validate limit
+        if ( ! is_numeric($limit) )
+            return false;
+
+        // Begin query
+        $sql = "SELECT DISTINCT * FROM course WHERE ";
+
+        // Filter by school
+        if ( is_numeric( $school_id ) )
+        {
+            $sql .= "school_id = ? ";
+            $params = array( $school_id );
+        }
+        else
+            $sql .= "1 ";   // Dummy to sandwich the extra AND clause in next part
+
+        // Search terms
+        foreach(explode(" ", $search_term) as $i_search_term) {
+            $sql .= " AND (course_code LIKE ? OR course_title LIKE ?)";
+            $params[] = "%{$i_search_term}%";
+            $params[] = "%{$i_search_term}%";
+        }
+
+        // Order and Limit
+        $sql .= " ORDER BY course_code DESC LIMIT ?";
+        $params[] = $limit;
+
+        // Run Query
+        $result = $this->db->query($sql, $params );
+        return $result->result_array();
     }
 
     public function update_totals($which = NULL) {

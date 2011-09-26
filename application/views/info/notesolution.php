@@ -3,6 +3,7 @@
  * PRIVACY POLICY
  */
 ?>
+<h1>Our Note-sharing service has moved to Notesolution.com!</h1>
 <h2>We've partnered with Notesolution.com to bring you a better experience!</h2>
 <p>
     This Privacy Policy outlines the procedures and guidelines in which StudyMonkey handles collected information from
@@ -27,39 +28,6 @@
     services offered by StudyMonkey and its trusted partners and affiliates.
     StudyMonkey may also use the collected information to determine the effectiveness of the services,
     website, marketing and promotional efforts of StudyMonkey and its trusted affiliates.
-</p>
-
-<h3>Information Disclosure</h3>
-<p>
-    StudyMonkey will not disclose information regarding Users unless this information is
-    required by a trusted affiliate in order to provide a service to the User or it is
-    required by the government and/or a legal process such as a subpoena or court order.
-    Information collected by Users may be transferred in connection with a business sale, merger, or related activity.
-</p>
-
-<h3>Third Party Websites</h3>
-<p>
-    Users may be able to access third party websites through StudyMonkey that are external to StudyMonkey.
-    These third party websites may have privacy practices that differ from that of StudyMonkey.
-    StudyMonkey is not responsible for third party website's privacy practices accessed by Users.
-    As such, this Privacy Policy applies only to information collected by StudyMonkey.
-</p>
-
-<h3>Merger, Sale, or Bankruptcy</h3>
-<p>
-    In the event that StudyMonkey or any of its platforms is acquired or merged with a third party entity,
-    StudyMonkey reserves the right to transfer or assign information that has been collected from Users as
-    a part of such merger, acquisition, sale, or other change of control.
-    In the unlikely event of bankruptcy, insolvency, reorganization, receivership, or assignment for the
-    benefit of creditors, or the application of laws or equitable principles affecting creditor's
-    rights, StudyMonkey may not be able to control how your personal information is treated,
-    transferred, or used.
-</p>
-
-<h3>Changes and Updates</h3>
-<p>
-    The privacy policy may be revised from time to time, please revisit this page to stay aware of any changes.
-    A User's continued use of StudyMonkey constitutes their agreement to this Privacy Policy and any future revisions.
 </p>
 
 <h3>Questions</h3>

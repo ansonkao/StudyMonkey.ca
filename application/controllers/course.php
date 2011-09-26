@@ -4,15 +4,17 @@ class Course extends CI_Controller
 {
 	public function index()
 	{
-        echo "<pre>";
-        echo $this->uri->uri_string();
-        echo "</pre>";
-        exit();
+        $search_result = NULL;
 
+        // Custom Parameters
+        $this->view_params['search_result'] = $search_result;
+
+        // Layout Parameters
         $this->view_params['page_tab'] = "Courses";
         $this->view_params['page_title'] = "Course Search";
         $this->view_params['page_subtitle'] = NULL;
-        $this->view_params['page_content'] = $this->load->view('course/search', $this->view_params, TRUE);
+        $this->view_params['page_subtitle2'] = NULL;
+        $this->view_params['page_content'] = $this->load->view('course/course_search', $this->view_params, TRUE);
 		$this->load->view('_layout_main', $this->view_params);
 	}
 
@@ -21,13 +23,38 @@ class Course extends CI_Controller
         // School
         $this->load->model('school');
         $school = $this->school->find_by_uri_segment($school_segment);
-        if ( empty( $school ) )
+        if( empty( $school ) )
             show_404($this->uri->uri_string());
 
+        // Process search query
+        $this->load->model('course');
+        $this->load->library('input');
+        $search_query = $this->input->post('search');
+        $search_result = NULL;
+        if( ! empty( $search_query ) )
+        {
+            $search_result = $this->course->search( $search_query );
+            if( $this->input->is_ajax_request() )
+            {
+                echo json_encode( $search_result );
+                return;
+            }
+        }
+
+        // 5 Popular courses
+        $popular_courses = $this->course->find_most_popular( $school['id'] );
+
+        // Custom Parameters
+        $this->view_params['school'] = $school;
+        $this->view_params['search_result'] = $search_result;
+        $this->view_params['popular_courses'] = $popular_courses;
+
+        // Layout Parameters
         $this->view_params['page_tab'] = "Courses";
         $this->view_params['page_title'] = "Course Search";
-        $this->view_params['page_subtitle'] = NULL;
-        $this->view_params['page_content'] = $this->load->view('course/search', $this->view_params, TRUE);
+        $this->view_params['page_subtitle'] = $school['full_name'];
+        $this->view_params['page_subtitle2'] = NULL;
+        $this->view_params['page_content'] = $this->load->view('course/course_search', $this->view_params, TRUE);
 		$this->load->view('_layout_main', $this->view_params);
 	}
 
@@ -88,8 +115,9 @@ class Course extends CI_Controller
         // Layout Parameters
         $this->view_params['page_tab'] = "Courses";
         $this->view_params['page_title'] = $course['course_code'];
-        $this->view_params['page_subtitle'] = $school['full_name'];
-        $this->view_params['page_content'] = $this->load->view('course/view', $this->view_params, TRUE);
+        $this->view_params['page_subtitle'] = $course['course_title'];
+        $this->view_params['page_subtitle2'] = $school['full_name'];
+        $this->view_params['page_content'] = $this->load->view('course/course_view', $this->view_params, TRUE);
 		$this->load->view('_layout_main', $this->view_params);
     }
 }

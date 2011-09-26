@@ -29,7 +29,7 @@ function str2uri($string)
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo empty($page_title)? "" : "{$page_title} - "; echo empty($page_subtitle)? "" : "{$page_subtitle} - "; ?>StudyMonkey.ca</title>
+    <title><?php echo empty($page_title)? "" : "{$page_title} - "; echo empty($page_subtitle)? "" : "{$page_subtitle} - "; echo empty($page_subtitle2)? "" : "{$page_subtitle2} - "; ?>StudyMonkey.ca</title>
     <meta charset="utf-8">
     <script  type="text/javascript" src="/js/jquery-1.6.3.min.js"></script>
     <script  type="text/javascript" src="/js/jquery.color.js"></script>
@@ -43,7 +43,6 @@ function str2uri($string)
             //$("#form_send").submit(function(){
                 //$("#submit_loading_image").show();
             //});
-
 
             // SPEECH BUBBLE
             var speech_bubble_open = true;
@@ -95,6 +94,7 @@ function str2uri($string)
                 <div id="content_heading">
                     <div id="page_title"><?=$page_title?></div>
                     <div id="page_subtitle"><?=$page_subtitle?></div>
+                    <div id="page_subtitle2"><?=$page_subtitle2?></div>
                 </div>
             </div>
             <div id="content_body">

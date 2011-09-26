@@ -591,3 +591,7 @@ $this_course_or_professor_id = $course['id'];
     </p>
 
 </div>
+<?php
+
+/* End of file course_view.php */
+/* Location: ./application/views/course/course_view.php */

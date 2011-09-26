@@ -56,6 +56,13 @@ input[type=text], select, textarea {
     color: #121;
     font: normal 12px arial;
 }
+input[type=text].huge {
+    font: italic 24px arial;
+    padding: 6px 12px;
+    height: 34px;
+    color: #787;
+    width: 400px;
+}
 input[type=submit], button {
     border: 1px solid #121;
     -moz-border-radius: 3px;
@@ -69,6 +76,11 @@ input[type=submit], button {
     color: #111;
     text-shadow: 1px 1px 1px #FFF;
     cursor: pointer;
+}
+input[type=submit].huge, button.huge {
+    font: normal 24px arial;
+    padding: 10px 18px;
+    height: 48px;
 }
 input[type=submit]:hover, button:hover {
     background-color: #EEE;
@@ -291,7 +303,12 @@ div#page_title {
     font: 30px 'Oswald', arial;
 }
 div#page_subtitle {
-    font: bold 11px arial;
+    font: bold 12px arial;
+    padding-bottom: 2px;
+}
+div#page_subtitle2 {
+    font: normal 11px arial;
+    color: #242;
 }
 div#content_body {
     width: 810px;
