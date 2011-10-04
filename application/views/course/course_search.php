@@ -11,11 +11,17 @@ $search_placeholder = "Type a course code or name...";
         $("form[name=course_search]").submit(function(){
             if( $("input[name=search]").val() != "<?=$search_placeholder?>" && $.trim($("input[name=search]").val()) != "" )
             {
+                $("#search_result").slideUp(100);
+                $("#magnifying_glass").hide();
+                $("#loading_gif").show();
                 $.ajax({
                     type: "POST",
                     data: $(this).serialize(),
                     success: function(data){
-                        alert(data);
+                        $("#loading_gif").hide();
+                        $("#magnifying_glass").show();
+                        $("#search_result").html(data);
+                        $("#search_result").slideDown();
                     }
                 });
             }
@@ -33,7 +39,6 @@ $search_placeholder = "Type a course code or name...";
             {
                 $(this).val("<?=$search_placeholder?>");
                 $(this).css({"fontStyle":"italic", "color":"rgb(119,136,119)"});
-                $(this).css("fontStyle", "italic");
             }
         });
 
@@ -42,15 +47,22 @@ $search_placeholder = "Type a course code or name...";
 <div style="padding: 20px 0; text-align: center;">
 
     <form name="course_search" method="post">
-        <table border="0" cellspacing="10" cellpadding="0" style="margin: 0 auto;">
+        <table border="0" cellspacing="8" cellpadding="0" style="margin: 0 auto;">
             <tr>
                 <td valign="center">
                     <img src="/image/courses_medium.png" />
                 </td>
                 <td valign="center" align="left">
-                    <h1 style="margin: 0; font: 32px 'Oswald', arial; color: #121; padding-right: 20px;">
+                    <h1 style="margin: 0; font: 32px 'Oswald', arial; color: #121; padding: 0 20px 0 5px;">
                         Course Reviews
                     </h1>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    <span style="font: normal 16px arial;">at <?php echo $school['full_name']; ?></span>
+                    &nbsp;
+                    <a href="/" style="font-size: 11px;">change schools <div class="triangle"></div></a>
                 </td>
             </tr>
         </table>
@@ -61,12 +73,17 @@ $search_placeholder = "Type a course code or name...";
                 </td>
                 <td valign="center">
                     <button class="huge" type="submit">
-                        <img src="/image/icon/search_large.png" alt="Search" />
+                        <img id="magnifying_glass" src="/image/icon/search_large.png" alt="Search" />
+                        <img id="loading_gif" src="/image/icon/loading.gif" alt="Search" style="display: none;" />
                     </button>
                 </td>
             </tr>
         </table>
     </form>
+
+    <div id="search_result">
+<?php echo $search_result; ?>
+    </div>
 
     <table border="0" cellspacing="10" cellpadding="0" style="margin: 40px auto 0;">
         <tr>
@@ -85,20 +102,31 @@ $search_placeholder = "Type a course code or name...";
                         &nbsp;
                     </div>
                 </div>
-                <div style="padding-left: 10px; font-size: 11px;"><?php echo "Based on {$popular_course['total_reviews']} ratings" ; ?></div>
+                <div style="padding-left: 5px; font-size: 11px;"><?php
+                    switch( $popular_course['total_reviews'] )
+                    {
+                        case 0:
+                            echo "No reviews yet";
+                            break;
+                        case 1:
+                            echo "Based on 1 review";
+                            break;
+                        default:
+                            echo "Based on {$popular_course['total_reviews']} reviews";
+                            break;
+                    }
+                ?></div>
             </td>
             <td align="left" style="font-size: 14px;">
                 <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($popular_course['course_code']); ?>">
                     <strong><?php echo $popular_course['course_code']; ?></strong>
                 </a>
-                <div><?php echo $popular_course['course_title']; ?></div>
+                <div style="max-width: 320px;"><?php echo $popular_course['course_title']; ?></div>
                 <div style="font-size: 11px; color: #888;"><?php echo $school['full_name']; ?></div>
             </td>
         </tr>
 <?php } ?>
     </table>
-
-<?php print_r( $search_result ); ?>
 
 </div>
 <?php

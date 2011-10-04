@@ -159,7 +159,7 @@ $this_course_or_professor_id = $course['id'];
 <div class="left_column">
 
     <!-- STATISTICS ================================================ -->
-    <table width="580" border="0" cellspacing="0" cellpadding="0" style="margin: 0px;">
+    <table width="540" border="0" cellspacing="0" cellpadding="0" style="margin: 0px;">
         <tr>
             <td valign="top" rowspan="4" align="left">
                 <div style="text-align: left; margin: 0; padding: 0 0 5px; font: bold 18px arial;">Overall Score</div>
@@ -222,7 +222,7 @@ $this_course_or_professor_id = $course['id'];
     </table>
 
     <!-- BAR GRAPHS ==================================== -->
-    <table width="575" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0 20px; line-height: 1.6em;">
+    <table width="525" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0 20px; line-height: 1.6em;">
         <tr>
             <td align="left" valign="top">
                 <!-- OVERALL RECOMMENDATION ============ -->
@@ -346,11 +346,11 @@ $this_course_or_professor_id = $course['id'];
     </table>
 
     <?php if (!$reviews) { ?>
-    <div style="height: 240px; width: 580px; margin-top: -240px; opacity: 0.75; filter: alpha(opacity=75); background: #FFF;">
+    <div style="height: 240px; width: 540px; margin-top: -240px; opacity: 0.75; filter: alpha(opacity=75); background: #FFF;">
     </div>
     <div style="position: relative; margin-top: -175px; height: 175px;">
     <?php } ?>
-    <div style="width: 580px; margin-bottom: 20px; text-align: center;">
+    <div style="width: 540px; margin-bottom: 20px; text-align: center;">
         <div style="margin: 0; padding: 5px 0; font-weight: bold;">
             <?php
                 switch( $total_reviews ) {
@@ -370,7 +370,7 @@ $this_course_or_professor_id = $course['id'];
     <?php } ?>
 
     <!-- REVIEWS =============================================================== -->
-    <div style="padding: 20px 0 10px; border-bottom: 1px solid #333; width: 580px;">
+    <div style="padding: 20px 0 10px; border-bottom: 1px solid #333; width: 540px;">
         <div style="float: left; font: bold 18px arial;">
             User Reviews
         </div>
@@ -386,7 +386,7 @@ $this_course_or_professor_id = $course['id'];
                 $author = $review_authors[$review['id']];
                 $professor = $review_professors[$review['id']];
     ?>
-    <div style="width: 560px; padding: 10px; border-bottom: 1px solid #333;">
+    <div style="width: 520px; padding: 10px; border-bottom: 1px solid #333;">
         <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
             <tr>
                 <td rowspan="2" style="width: 145px;" valign="top">
@@ -517,7 +517,7 @@ $this_course_or_professor_id = $course['id'];
         }
     ?>
 
-    <div style="margin-top: 15px; float: left; width: 580px;">
+    <div style="margin-top: 15px; float: left; width: 540px;">
         <div style="float: left;">
 <?php $this->pagination->display_page_links(); ?>
         </div>

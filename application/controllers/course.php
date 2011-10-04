@@ -28,21 +28,27 @@ class Course extends CI_Controller
 
         // Process search query
         $this->load->model('course');
-        $this->load->library('input');
         $search_query = $this->input->post('search');
         $search_result = NULL;
         if( ! empty( $search_query ) )
         {
-            $search_result = $this->course->search( $search_query );
+            $query_result = $this->course->search( $search_query, 10, $school['id'] );
+
+            $search_result_params = array();
+            $search_result_params['courses'] = $query_result;
+            $search_result_params['school'] = $school;
+            $search_result_params['query'] = $search_query;
+            $search_result = $this->load->view('course/course_search_result', $search_result_params, TRUE);
+
             if( $this->input->is_ajax_request() )
             {
-                echo json_encode( $search_result );
+                echo $search_result;
                 return;
             }
         }
 
         // 5 Popular courses
-        $popular_courses = $this->course->find_most_popular( $school['id'] );
+        $popular_courses = $this->course->find_most_popular( $school['id'], 5 );
 
         // Custom Parameters
         $this->view_params['school'] = $school;

@@ -83,7 +83,9 @@ class Course_model extends StudyMonkey_Model
         }
 
         // Order and Limit
-        $sql .= " ORDER BY course_code DESC LIMIT ?";
+        $sql .= " ORDER BY course_code LIKE ?";
+        $params[] = $search_term . "%";
+        $sql .= " DESC LIMIT ?";
         $params[] = $limit;
 
         // Run Query

@@ -4,15 +4,54 @@ class Info extends CI_Controller {
 
 	public function index()
 	{
+        // Process search query
+        $this->load->model('school');
+        $search_query = $this->input->post('search');
+        $search_result = NULL;
+        if( ! empty( $search_query ) )
+        {
+            // Run the Query
+            $query_result = $this->school->search( $search_query );
+
+            // Redirect immediately if exact match found
+            if( sizeof( $query_result ) == 1 )
+            {
+                $school = array_shift( $query_result );
+                if( $this->input->is_ajax_request() )
+                {
+                    echo "redirect " . string2uri( $school['full_name'] );
+                    return;
+                }
+                else
+                {
+                    header("location: /" . string2uri( $school['full_name'] . "/courses" ) );
+                    return;
+                }
+            }
+
+            // Display list of results if not exact match
+            else
+            {
+                $search_result_params = array();
+                $search_result_params['schools'] = $query_result;
+                $search_result_params['query'] = $search_query;
+                $search_result = $this->load->view('school/school_search_result', $search_result_params, TRUE);
+
+                if( $this->input->is_ajax_request() )
+                {
+                    echo $search_result;
+                    return;
+                }
+            }
+        }
+
+        // Custom Parameters
+        $this->view_params['search_result'] = $search_result;
+
         // Layout Parameters
-        $this->view_params['page_tab'] = "Courses";
         $this->view_params['page_title'] = "Welcome to StudyMonkey!";
-        $this->view_params['page_subtitle'] = NULL;
-        $this->view_params['page_subtitle2'] = NULL;
-        $this->view_params['page_content'] = "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        $this->view_params['page_content'] .= "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        $this->view_params['page_content'] .= "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>";
-		$this->load->view('_layout_main', $this->view_params);
+        $this->view_params['page_content'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+		$this->load->view('info/home', $this->view_params);
 	}
 
     public function contact()

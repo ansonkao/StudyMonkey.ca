@@ -20,11 +20,6 @@ $footer_items['Terms']      = "/terms";
 $footer_items['Privacy']    = "/privacy";
 $footer_items['Contact']    = "/contact";
 
-function str2uri($string)
-{
-    return str_replace(" ", "-", strtolower($string));
-}
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,6 +29,7 @@ function str2uri($string)
     <script  type="text/javascript" src="/js/jquery-1.6.3.min.js"></script>
     <script  type="text/javascript" src="/js/jquery.color.js"></script>
     <link href="/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="/css/element_styles.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <script>
@@ -67,7 +63,7 @@ function str2uri($string)
             <a href="/">
                 <img id="header_logo" src="/image/layout/logo-header.png" alt="StudyMonkey.ca" />
             </a>
-            <input id="header_search" type="text" value="Search..." />
+            <!--<input id="header_search" type="text" value="Search..." />-->
             <div id="header_login">
                 <a href="/notesolution" style="color: #000;">Looking for our old login box? &#187;</a>
             </div>
@@ -79,7 +75,7 @@ function str2uri($string)
 <?php foreach ($navigation_items as $title => $link) { ?>
                     <li>
                         <a class="<?php echo ($page_tab == $title)? "selected" : "normal"; ?>" href="<?=$link?>">
-                            <img src="/image/icon/<?php echo str2uri($title); ?>.png" />
+                            <img src="/image/icon/<?php echo string2uri($title); ?>.png" />
                             <span><?=$title?></span>
                         </a>
                     </li>
