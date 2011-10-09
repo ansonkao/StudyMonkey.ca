@@ -6,19 +6,32 @@
  * almost every page in the site.
  */
 
+// MAIN NAVIGATION
 $navigation_items = array();
 //$navigation_items['Home']       = "/";
 //$navigation_items['Schools']    = "/schools";
-$navigation_items['Courses']    = "/courses";
-$navigation_items['Professors'] = "/professors";
+$navigation_items['Courses']    = "/";
+$navigation_items['Professors'] = "/";
+if( ! empty( $school ) )
+{
+    $school_uri = string2uri($school['full_name']);
+    $navigation_items['Courses']    = "/{$school_uri}/courses";
+    $navigation_items['Professors'] = "/{$school_uri}/professors";
+}
 $navigation_items['Learn more'] = "/contact";
 
+// FOOTER NAVIGATION
 $footer_items = array();
 $footer_items['Home']       = "/";
 //$footer_items['About']      = "/about";
 $footer_items['Terms']      = "/terms";
 $footer_items['Privacy']    = "/privacy";
 $footer_items['Contact']    = "/contact";
+
+// SPEECH BUBBLE
+$flash = $this->session->flashdata("notification");
+if( ! empty( $flash ) )
+    $notification = $flash;
 
 ?>
 <!DOCTYPE html>
@@ -33,20 +46,34 @@ $footer_items['Contact']    = "/contact";
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <script>
+
+        // Speech bubble flag
+        var speech_bubble_open = true;
+
+        function show_speech_bubble()
+        {
+            $("#speech_bubble").stop().hide().fadeIn(750).fadeOut(8000);
+        }
+
+        function new_speech_bubble( message )
+        {
+            $("#speech_bubble_text").html( message );
+            show_speech_bubble();
+        }
+
         $(document).ready(function(){
 
-            // TODO - standard loading animations on each form
-            //$("#form_send").submit(function(){
-                //$("#submit_loading_image").show();
-            //});
+<?php if( ! empty( $notification ) ) { ?>
+            show_speech_bubble();
+<?php } ?>
 
-            // SPEECH BUBBLE
-            var speech_bubble_open = true;
-            $("#speech_bubble").hide().fadeIn(750).fadeOut(8000);
+            // Hover to keep speech bubble alive
             $("#speech_bubble").mouseover(function(){
                 if (speech_bubble_open)
                     $(this).stop().css({opacity: 1}).fadeOut(8000);
             });
+
+            // Click to close the speech bubble
             $("#speech_bubble_close").click(function(){
                 speech_bubble_open = false;
                 $("#speech_bubble").stop().fadeOut(250);
@@ -88,9 +115,9 @@ $footer_items['Contact']    = "/contact";
         <div id="content">
             <div id="content_header" style="line-height: 0.8em;">
                 <div id="content_heading">
-                    <div id="page_title"><?=$page_title?></div>
-                    <div id="page_subtitle"><?=$page_subtitle?></div>
-                    <div id="page_subtitle2"><?=$page_subtitle2?></div>
+                    <h1 id="page_title"><?=$page_title?></h1>
+                    <h2 id="page_subtitle"><?=$page_subtitle?></h2>
+                    <h3 id="page_subtitle2"><?=$page_subtitle2?></h3>
                 </div>
             </div>
             <div id="content_body">
@@ -117,14 +144,12 @@ $footer_items['Contact']    = "/contact";
     <div id="toolbar_wrapper">
         <div id="toolbar">
             <img id="mascot" src="/image/layout/mascot.png" />
-<?php if (!empty($notification)) { ?>
-            <div id="speech_bubble">
+            <div id="speech_bubble" class="round_box" <?php echo empty( $notification )? 'style="display: none;"' : ''; ?> >
                 <a id="speech_bubble_close" href="#">&times;</a>
-                <span><?php echo $notification->message; ?></span>
+                <span id="speech_bubble_text"><?php echo empty( $notification )? "" : $notification->message; ?></span>
                 <div id="speech_bubble_tail"></div>
                 <div id="speech_bubble_tail_border"></div>
             </div>
-<?php } ?>
         </div>
     </div>
 </body>

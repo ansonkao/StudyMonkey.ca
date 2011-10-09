@@ -162,7 +162,19 @@ $this_course_or_professor_id = $course['id'];
     <table width="540" border="0" cellspacing="0" cellpadding="0" style="margin: 0px;">
         <tr>
             <td valign="top" rowspan="4" align="left">
-                <div style="text-align: left; margin: 0; padding: 0 0 5px; font: bold 18px arial;">Overall Score</div>
+                <h1 style="text-align: left; margin: 0; padding: 0 0 5px; font: bold 18px arial;">
+                    Overall Score
+                    <span style="padding-left: 10px; font: normal 12px arial; color: #888;">
+                        <?php
+                            switch( $total_reviews ) {
+                                case 0: echo "No reviews yet"; break;
+                                case 1: echo "Based on 1 review"; break;
+                                default: // Multiple reviews
+                                    echo "Based on ".$total_reviews." reviews";
+                            }
+                        ?>
+                    </span>
+                </h1>
                 <div style="height: 48px; width: 240px; background: transparent url('<?php echo site_url()."image/rating/star_rating_large.gif"; ?>') repeat-x scroll top; text-align: left; float: left;">
                     <div style="height: 48px; width: <?php if ($course['overall_rating']) { echo round($course['overall_rating'] * 240.0 / 5.0); } else { echo "0"; } ?>px; background: transparent url('<?php echo site_url()."image/rating/star_rating_large.gif"; ?>') repeat-x scroll left bottom;">
                         &nbsp;
@@ -176,7 +188,7 @@ $this_course_or_professor_id = $course['id'];
         </tr>
         <tr>
             <td>
-                <div style="text-align: right; padding: 5px 0; font: bold 12px arial;">Workload&nbsp;</div>
+                <h2 style="text-align: right; margin: 0; padding: 5px 0; font: bold 12px arial;">Workload&nbsp;</h2>
             </td>
             <td style="width: 120px;">
                 <div style="margin-left: 5px; height: 24px; width: 120px; background: transparent url('<?php echo site_url()."image/rating/sad_smiley_face_rating.gif"; ?>') repeat-x scroll top; text-align: left;">
@@ -191,7 +203,7 @@ $this_course_or_professor_id = $course['id'];
         </tr>
         <tr>
             <td>
-                <div style="text-align: right; padding: 5px 0; font: bold 12px arial;">Easiness&nbsp;</div>
+                <h2 style="text-align: right; margin: 0; padding: 5px 0; font: bold 12px arial;">Easiness&nbsp;</h2>
             </td>
             <td>
                 <div style="margin-left: 5px; height: 24px; width: 120px; background: transparent url('<?php echo site_url()."image/rating/star_rating.gif"; ?>') repeat-x scroll top; text-align: left;">
@@ -206,7 +218,7 @@ $this_course_or_professor_id = $course['id'];
         </tr>
         <tr>
             <td>
-                <div style="text-align: right; padding: 5px 0; font: bold 12px arial;">Interest&nbsp;</div>
+                <h2 style="text-align: right; margin: 0; padding: 5px 0; font: bold 12px arial;">Interest&nbsp;</h2>
             </td>
             <td>
                 <div style="margin-left: 5px; height: 24px; width: 120px; background: transparent url('<?php echo site_url()."image/rating/star_rating.gif"; ?>') repeat-x scroll top; text-align: left;">
@@ -229,7 +241,7 @@ $this_course_or_professor_id = $course['id'];
                 <table width="" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td colspan="2">
-                            <div style="text-align: center; margin: 0; padding: 0 0 8px; font: bold 12px arial;">Overall Recommendation</div>
+                            <h2 style="text-align: center; margin: 0; padding: 0 0 8px; font: bold 12px arial;">Overall Recommendation</h2>
                         </td>
                     </tr>
                     <tr>
@@ -255,7 +267,7 @@ $this_course_or_professor_id = $course['id'];
                 <table width="" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td colspan="2">
-                            <div style="text-align: center; margin: 0; padding: 0 0 8px; font: bold 12px arial;">Textbook</div>
+                            <h2 style="text-align: center; margin: 0; padding: 0 0 8px; font: bold 12px arial;">Textbook</h2>
                         </td>
                     </tr>
                     <tr>
@@ -305,7 +317,7 @@ $this_course_or_professor_id = $course['id'];
                 <table width="" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td colspan="2">
-                            <div style="text-align: center; margin: 0; padding: 0 0 8px; font: bold 12px arial;">Attendance</div>
+                            <h2 style="text-align: center; margin: 0; padding: 0 0 8px; font: bold 12px arial;">Attendance</h2>
                         </td>
                     </tr>
                     <tr>
@@ -350,17 +362,12 @@ $this_course_or_professor_id = $course['id'];
     </div>
     <div style="position: relative; margin-top: -175px; height: 175px;">
     <?php } ?>
-    <div style="width: 540px; margin-bottom: 20px; text-align: center;">
+    <div style="width: 540px; margin: 20px 0; text-align: center;">
+        <?php if (!$reviews) { ?>
         <div style="margin: 0; padding: 5px 0; font-weight: bold;">
-            <?php
-                switch( $total_reviews ) {
-                    case 0: echo "No reviews yet - Be the first!"; break;
-                    case 1: echo "Based on 1 review"; break;
-                    default: // Multiple reviews
-                        echo "Based on ".$total_reviews." reviews";
-                }
-            ?>
+            No reviews yet - Be the first!
         </div>
+        <?php } ?>
         <a href="#course_professor_review" class="button yellow">
             Rate this Course! &#9658;
         </a>
@@ -370,10 +377,10 @@ $this_course_or_professor_id = $course['id'];
     <?php } ?>
 
     <!-- REVIEWS =============================================================== -->
-    <div style="padding: 20px 0 10px; border-bottom: 1px solid #333; width: 540px;">
-        <div style="float: left; font: bold 18px arial;">
+    <div style="padding: 30px 0 10px; border-bottom: 1px solid #333; width: 540px;">
+        <h2 style="float: left; font: bold 18px arial; margin: 0px;">
             User Reviews
-        </div>
+        </h2>
         <div style="float: right; padding-top: 5px; color: #888;"><?php $this->pagination->display_current_positions(); ?></div>
         <div style="clear: both;"></div>
     </div>
@@ -527,9 +534,9 @@ $this_course_or_professor_id = $course['id'];
 </div>
 
 <!-- ############################################################### -->
-<div class="right_column" style="margin-top: 10px;">
+<div class="right_column">
 
-    <div style="font: bold 14px arial; padding-bottom: 10px;">Professors:</div>
+    <h2 style="font: bold 14px arial; padding: 10px 0 10px; margin: 0px;">Professors:</h2>
     
     <table border="0" cellspacing="0" cellpadding="0">
         <tbody>

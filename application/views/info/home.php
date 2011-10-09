@@ -154,7 +154,7 @@ $footer_items['Contact']    = "/contact";
                 <table border="0" cellspacing="10" cellpadding="0" style="margin: 0 auto;">
                     <tr>
                         <td valign="center">
-                            <input id="search_box" class="huge" type="text" name="search" value="<?=$search_placeholder?>" />
+                            <input id="search_box" class="placeholder huge" type="text" name="search" value="<?=$search_placeholder?>" />
                         </td>
                         <td valign="center">
                             <button class="huge" type="submit">

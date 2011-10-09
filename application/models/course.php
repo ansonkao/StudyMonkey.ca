@@ -34,9 +34,9 @@ class Course_model extends StudyMonkey_Model
         $this->TABLE_NAME = 'course';
     }
 
-    function find_by_course_code( $code )
+    function find_by_course_code( $code, $school_id )
     {
-        $result = $this->db->query("SELECT * FROM course WHERE course_code = ? LIMIT 1", array( $code ) );
+        $result = $this->db->query("SELECT * FROM course WHERE course_code = ? AND school_id = ? LIMIT 1", array( $code, $school_id ) );
         return $result->row_array();
     }
 
@@ -57,11 +57,13 @@ class Course_model extends StudyMonkey_Model
         return $result->result_array();
     }
 
-    public function search( $search_term, $limit = 10, $school_id = NULL )
+    public function search( $search_term, $limit = ITEMS_PER_PAGE, $page = 1, $school_id = NULL )
     {
-        // Validate limit
+        // Validate
         if ( ! is_numeric($limit) )
             return false;
+        if ( ! is_numeric($page) )
+            $page = 1;
 
         // Begin query
         $sql = "SELECT DISTINCT * FROM course WHERE ";
@@ -82,10 +84,13 @@ class Course_model extends StudyMonkey_Model
             $params[] = "%{$i_search_term}%";
         }
 
-        // Order and Limit
-        $sql .= " ORDER BY course_code LIKE ?";
+        // Order
+        $sql .= " ORDER BY course_code LIKE ? DESC";
         $params[] = $search_term . "%";
-        $sql .= " DESC LIMIT ?";
+
+        // Offset / Limit
+        $sql .= " LIMIT ?, ?";
+        $params[] = $limit * ( $page - 1 );
         $params[] = $limit;
 
         // Run Query
@@ -220,34 +225,35 @@ class Course_model extends StudyMonkey_Model
         return 1 + $result; // Add 1 pixel in case the value is zero so user can still see the bar is there.
     }
 
-    /* FORM VALIDATION
-     * Returns an array of error strings corresponding to each
-     * invalid parameter, otherwise returns false.
-     */
-    public static function validate_new($params) {
-        $errors;
-        // Course_code format
-        if (strlen($params['course_code']) < 1) {
-            $errors['course_code'] = "Please enter the course code!";
-            return $errors;
-        } else if (strlen($params['course_code']) > 15) {
-            $errors['course_code'] = "We can only accept course codes up to 15 characters long.";
-            return $errors;
-        } else if (ctype_alnum($params['course_code']) == false) {
-            $errors['course_code'] = "Course codes must be alphanumeric, no spaces please.";
-            return $errors;
+    public function validate_new( $course_code, $course_title, $school_id )
+    {
+        $course_code = strtoupper( str_replace(" ", "", $course_code) );
+        $course_title = trim( $course_title );
+
+        if( empty( $course_code ) OR empty( $course_title ) )
+        {
+            return Notification::error( "You have empty fields." );
         }
-        // Duplicate course
-        $found_course = self::find_by_course_code($params['course_code']);
-        if ($found_course && $found_course->school_id == session::school_id()) {
-            $errors['course_code'] = "That course code already exists.";
-            return $errors;
+
+        // Course code max length
+        if( strlen( $course_code ) > 15 )
+        {
+            return Notification::error( "The course code cannot be more than 15 characters long." );
         }
-        // Title
-        if (empty($params['course_title'])) {
-            $errors['course_title'] = "Please specify the course title.";
-            return $errors;
+
+        // Course code alphanumeric
+        if( ctype_alnum( $course_code ) == false )
+        {
+            return Notification::error( "The course code can only contain letters or numbers." );
         }
-        return $errors;
+
+        // Check for existing course
+        $exact_match = $this->course->find_by_course_code( $course_code, $school_id );
+        if( ! empty( $exact_match ) )
+        {
+            return Notification::error( "That course code already exists." );
+        }
+
+        return Notification::success();
     }
 }

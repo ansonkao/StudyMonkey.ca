@@ -204,17 +204,21 @@ div#content_heading {
     left: 17px;
     bottom: 17px;
 }
-div#page_title {
+h1#page_title {
     color: #232;
-    font: 30px 'Oswald', arial;
+    margin: 0;
+    padding: 0;
 }
-div#page_subtitle {
+h2#page_subtitle {
     font: bold 12px arial;
-    padding-bottom: 2px;
+    margin: 0;
+    padding: 0 0 2px;
 }
-div#page_subtitle2 {
+h3#page_subtitle2 {
     font: normal 11px arial;
     color: #242;
+    margin: 0;
+    padding: 0;
 }
 div#content_body {
     width: 770px;

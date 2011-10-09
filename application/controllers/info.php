@@ -24,7 +24,7 @@ class Info extends CI_Controller {
                 }
                 else
                 {
-                    header("location: /" . string2uri( $school['full_name'] . "/courses" ) );
+                    header( "location: /" . string2uri( $school['full_name'] . "/courses" ) );
                     return;
                 }
             }
@@ -72,18 +72,18 @@ class Info extends CI_Controller {
         $captcha    = $this->input->post('captcha');
 
         // Was this a form submission?
-        if (!empty($subject))
+        if ( ! empty( $subject ) )
         {
             // Form Validation
-            if (!isset($subject_topics[$subject]) OR empty($name) OR empty($email) OR empty($message))
+            if ( ! isset( $subject_topics[$subject] ) OR empty( $name ) OR empty( $email ) OR empty( $message ) )
                 $notification = Notification::error('You have empty fields.');
             else
             {
-                if (filter_var($email, FILTER_VALIDATE_EMAIL) == false)
+                if( filter_var( $email, FILTER_VALIDATE_EMAIL ) == false )
                     $notification = Notification::error('Please enter a valid email address.');
                 else
                 {
-                    if ($this->input->post('captcha') != $this->session->flashdata('captcha_answer'))
+                    if( $captcha != $this->session->userdata('captcha_answer') )
                         $notification = Notification::error('You got the math question wrong.');
                     else
                     {

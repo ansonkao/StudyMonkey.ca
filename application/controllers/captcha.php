@@ -60,7 +60,7 @@ class Captcha extends CI_Controller {
         eval("\$captcha_answer=".$second_num.$operators[0].$first_num.";");
 
         // save the operation result in session to make verifications
-        $this->session->set_flashdata('captcha_answer', $captcha_answer);
+        $this->session->set_userdata('captcha_answer', $captcha_answer);
 
         // start the captcha image
         $img = imagecreate( $captcha_w, $captcha_h );

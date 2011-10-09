@@ -30,16 +30,43 @@ class Course extends CI_Controller
         $this->load->model('course');
         $search_query = $this->input->post('search');
         $search_result = NULL;
+        $page = 1;
         if( ! empty( $search_query ) )
         {
-            $query_result = $this->course->search( $search_query, 10, $school['id'] );
+            // Pagination
+            $page = $this->input->post('page');
+            if( empty($page) )
+                $page = 1;
 
+            // Exact match
+            $exact_match = $this->course->find_by_course_code( str_replace(" ", "", $search_query), $school['id'] );
+            if( ! empty( $exact_match ) )
+            {
+                if( $this->input->is_ajax_request() )
+                {
+                    $notification = Notification::redirect( string2uri( $exact_match['course_code'] ) );
+                    echo $notification->to_AJAX();
+                    return;
+                }
+                else
+                {
+                    header( "location: /" . string2uri( $school['full_name'] . "/courses/" . string2uri( $exact_match['course_code'] ) ) );
+                }
+            }
+
+            // Search
+            $query_result = $this->course->search( $search_query, ITEMS_PER_PAGE, $page, $school['id'] );
+            
+            // Build up parameters
             $search_result_params = array();
+            $search_result_params['previous_query'] = $search_query;
+            $search_result_params['page'] = $page;
             $search_result_params['courses'] = $query_result;
             $search_result_params['school'] = $school;
-            $search_result_params['query'] = $search_query;
+            $search_result_params['exact_match'] = $exact_match;
             $search_result = $this->load->view('course/course_search_result', $search_result_params, TRUE);
 
+            // Ajax
             if( $this->input->is_ajax_request() )
             {
                 echo $search_result;
@@ -51,11 +78,14 @@ class Course extends CI_Controller
         $popular_courses = $this->course->find_most_popular( $school['id'], 5 );
 
         // Custom Parameters
+        $this->view_params['previous_query'] = $search_query;
+        $this->view_params['page'] = $page;
         $this->view_params['school'] = $school;
         $this->view_params['search_result'] = $search_result;
         $this->view_params['popular_courses'] = $popular_courses;
 
         // Layout Parameters
+        $this->view_params['notification'] = empty($notification)? NULL : $notification;
         $this->view_params['page_tab'] = "Courses";
         $this->view_params['page_title'] = "Course Search";
         $this->view_params['page_subtitle'] = $school['full_name'];
@@ -68,13 +98,13 @@ class Course extends CI_Controller
     {
         // School
         $this->load->model('school');
-        $school = $this->school->find_by_uri_segment($school_segment);
+        $school = $this->school->find_by_uri_segment( $school_segment );
         if ( empty( $school ) )
             show_404($this->uri->uri_string());
 
         // Course
         $this->load->model('course');
-        $course = $this->course->find_by_course_code($course_segment);
+        $course = $this->course->find_by_course_code( $course_segment, $school['id'] );
         if ( empty( $course ) )
             show_404($this->uri->uri_string());
 
@@ -126,6 +156,84 @@ class Course extends CI_Controller
         $this->view_params['page_content'] = $this->load->view('course/course_view', $this->view_params, TRUE);
 		$this->load->view('_layout_main', $this->view_params);
     }
+
+    function create( $school_segment )
+    {
+        // School
+        $this->load->model('school');
+        $school = $this->school->find_by_uri_segment($school_segment);
+        if( empty( $school ) )
+        {
+            // Invalid school
+            $notification = Notification::error( "Something went wrong." );
+
+            if( $this->input->is_ajax_request() )
+            {
+                echo $notification->to_AJAX();
+            }
+            else
+            {
+                $this->session->set_flashdata( array( 'notification' => $notification ) );
+                header( "location: /" );
+            }
+            return;
+        }
+
+        // Get form fields
+        $course_code = $this->input->post('course_code');
+        $course_title = $this->input->post('course_title');
+
+        // Validate the new course
+        $this->load->model('course');
+        $response = $this->course->validate_new( $course_code, $course_title, $school['id'] );
+        if( $response->is_success() )
+        {
+            // Validate Captcha
+            $captcha = $this->input->post('captcha');
+            if( $captcha != $this->session->userdata('captcha_answer') )
+            {
+                $response = Notification::error('You got the math question wrong.');
+            }
+
+            // Save new course, passed all tests
+            else
+            {
+                $new_course = array();
+                $new_course['course_code'] = $course_code;
+                $new_course['course_title'] = $course_title;
+                $new_course['school_id'] = $school['id'];
+                $this->course->save( $new_course );
+
+                // Set a success flash message
+                $this->session->set_flashdata( array( 'notification' => Notification::success("You've added {$new_course['course_code']}!") ) );
+
+                // Redirect the user
+                if( $this->input->is_ajax_request() )
+                {
+                    $redirect = Notification::redirect( string2uri( $new_course['course_code'] ) );
+                    echo $redirect->to_AJAX ();
+                }
+                else
+                {
+                    header( "location: /" . string2uri( $school['full_name'] . "/courses/" . string2uri( $new_course['course_code'] ) ) );
+                }
+                return;
+            }
+        }
+
+        // Failure, notify user
+        if( $this->input->is_ajax_request() )
+        {
+            echo $response->to_AJAX();
+        }
+        else
+        {
+            $this->session->set_flashdata( array( 'notification' => $response ) );
+            header( "location: /" . string2uri( $school['full_name'] . "/courses" ) );
+        }
+        return;
+    }
+
 }
 
 /* End of file courses.php */
