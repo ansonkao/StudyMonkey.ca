@@ -30,7 +30,29 @@ class Professor_model extends StudyMonkey_Model
         $this->TABLE_NAME = 'professor';
     }
 
-    function find_by_course_id($course_id)
+    function find_by_uri_segment( $professor_segment, $school_id )
+    {
+        // Identify first and last name
+        $parts = explode( "_", $professor_segment );
+        if( count( $parts ) != 2 )
+        {
+            return false;
+        }
+        $first_name = uri2string( $parts[0] );
+        $last_name  = uri2string( $parts[1] );
+
+        // Run the query
+        return $this->find_by_name( $first_name, $last_name, $school_id );
+    }
+
+    function find_by_name( $first_name, $last_name, $school_id )
+    {
+        $result = $this->db->query("SELECT * FROM professor WHERE first_name LIKE ? AND last_name LIKE ? AND school_id = ? LIMIT 1", array( $first_name, $last_name, $school_id ) );
+        return $result->row_array();
+    }
+
+
+    function find_by_course_id( $course_id )
     {
         $result = $this->db->query(
             "SELECT * FROM professor p
@@ -42,28 +64,63 @@ class Professor_model extends StudyMonkey_Model
             );
         return $result->result_array();
     }
-    
-    public static function autocomplete($in_search_term, $in_max, $in_school) {
-        global $database;
-        $search_term = mysql_real_escape_string($in_search_term);
-        $max = (int)$in_max;
-        $school = (int)$in_school;
-        $sql = "SELECT DISTINCT * FROM ". get_class() . " WHERE school_id = " . $school;
-        $order_by_relevance = "";
-        foreach(explode(" ", $search_term) as $i_search_term) {
-            $sql .= " AND (last_name LIKE '%{$i_search_term}%' OR first_name LIKE '%{$i_search_term}%')";
-            $order_by_relevance .= "last_name LIKE '{$i_search_term}%' DESC, first_name LIKE '{$i_search_term}%' DESC, ";
+
+    function find_most_popular( $school_id = NULL, $limit = 5 )
+    {
+        $sql = "SELECT * FROM professor ";
+        $params = array();
+
+        if( $school_id )
+        {
+            $sql .= "WHERE school_id = ? ";
+            $params[] = $school_id;
         }
-        $order_by_relevance .= "last_name DESC";
-        $sql .= " ORDER BY {$order_by_relevance} LIMIT $max";
-        return self::find_by_sql($sql);
+        $sql .= "ORDER BY (overall_rating * total_reviews + 17) / (total_reviews + 5) DESC LIMIT ?";
+        $params[] = $limit;
+
+        $result = $this->db->query( $sql, $params );
+        return $result->result_array();
     }
 
-    public static function find_by_name($in_first_name, $in_last_name, $in_school_id) {
-        $first_name = mysql_real_escape_string($in_first_name);
-        $last_name = mysql_real_escape_string($in_last_name);
-        $school_id = mysql_real_escape_string($in_school_id);
-        return self::find_by_sql("SELECT * FROM " . get_class() . " WHERE school_id={$school_id} AND first_name='{$first_name}' AND last_name='{$last_name}'");
+    public function search( $search_term, $limit = ITEMS_PER_PAGE, $page = 1, $school_id = NULL )
+    {
+        // Validate
+        if ( ! is_numeric($limit) )
+            return false;
+        if ( ! is_numeric($page) )
+            $page = 1;
+
+        // Begin query
+        $sql = "SELECT DISTINCT * FROM professor WHERE ";
+
+        // Filter by school
+        if ( is_numeric( $school_id ) )
+        {
+            $sql .= "school_id = ? ";
+            $params = array( $school_id );
+        }
+        else
+            $sql .= "1 ";   // Dummy to sandwich the extra AND clause in next part
+
+        // Search terms
+        foreach(explode(" ", $search_term) as $i_search_term) {
+            $sql .= " AND (first_name LIKE ? OR last_name LIKE ?)";
+            $params[] = "%{$i_search_term}%";
+            $params[] = "%{$i_search_term}%";
+        }
+
+        // Order
+        $sql .= " ORDER BY last_name LIKE ? DESC";
+        $params[] = $search_term . "%";
+
+        // Offset / Limit
+        $sql .= " LIMIT ?, ?";
+        $params[] = $limit * ( $page - 1 );
+        $params[] = $limit;
+
+        // Run Query
+        $result = $this->db->query($sql, $params );
+        return $result->result_array();
     }
 
     public function update_totals() {
@@ -115,115 +172,60 @@ class Professor_model extends StudyMonkey_Model
         }
     }
 
-    /* Outputs a div and a span, styled for displaying a bar in a bar graph.
-     *
-     * Usage example:
-     *   rating_bar("textbook_rating", 0, 4, 2, "small", "yellow");
-     *     ...will output html for a small labelled yellow bar for the
-     *     textbook_rating_2 value.  Width of the bar is determined by
-     *     rating_bar_width(), see below.
-     */
-    public function rating_bar($rating, $domain_min, $domain_max, $which, $size, $colour) {
-        if ($this->total_reviews) {
-            $label = round($this->{$rating . "_" . $which} * 100.0 / $this->total_reviews) . "%";
-        } else { // Default
-            $colour = "white";
-            $label = "N/A";
-        }
-        switch ($colour) {
-            case "blue"  : $border_colour = "#008"; $background_colour = "#27F"; break;
-            case "green" : $border_colour = "#080"; $background_colour = "#3F3"; break;
-            case "yellow": $border_colour = "#880"; $background_colour = "#FF3"; break;
-            case "red"   : $border_colour = "#800"; $background_colour = "#F33"; break;
-            case "white" : $border_colour = "#888"; $background_colour = "#FFF"; break;
-        }
-        switch ($size) {
-            case "large": $bar_max_length = 100; $bar_height = 10; $font_size = 12; $margin = "2px 5px 2px 0px"; break;
-            case "small": $bar_max_length =  50; $bar_height =  5; $font_size = 10; $margin = "5px 5px 0px 0px"; break;
-        }
-        echo "<div style='height: {$bar_height}px; width: {$this->rating_bar_width($rating, $domain_min, $domain_max, $which, $bar_max_length)}px; border: 1px solid {$border_colour}; border-left: 0px; background: {$background_colour}; float: left; margin: {$margin};'>";
-        echo "</div>";
-        echo "<span style='font: normal {$font_size}px arial;'>({$label})</span>\n";
-    }
-
-    /* For use with outputting course reviews as bar graphs.
-     * This function outputs the width of the specified bar.
-     *
-     * Usage example:
-     *   rating_bar_width("textbook_rating", 0, 4, 2, 100);
-     *     ...will output the length of the bar for textbook_rating_2,
-     *     calculated with respect to the domain of bars
-     *     (0 - 4 indicating textbook_rating_0 through textbook_rating_4)
-     *     to be displayed in this particular bar graph.
-     *     The output values are normalized by the length of the greatest
-     *     bar in the domain of bars so that cases with a pretty even
-     *     distribution between the bars (e.g. 20%, 20%, 20%, 20%, 20%) don't
-     *     appear so small and squished next to other graphs (e.g. 100%, 0%, ...)
-     */
-    public function rating_bar_width($rating, $domain_min, $domain_max, $which, $bar_max_length) {
-        // Output zero if no ratings
-        if (empty($this->total_reviews)) {
-            return $bar_max_length;
-        }
-        // Find value of greateset bar to be used as a divider
-        $divider = 0;
-        for ($i = $domain_min; $i <= $domain_max; $i++) {
-            if ($this->{$rating . "_" . $i} > $divider) {
-                $divider = $this->{$rating . "_" . $i};
-            }
-        }
-        // Normalize width in a logarithmic manner
-        $multiplier = ($divider + $this->total_reviews)/(2 * $divider);
-        $result = round($this->{$rating . "_" . $which} * $multiplier * $bar_max_length / $this->total_reviews);
-        return 1 + $result; // Add 1 pixel in case the value is zero so user can still see the bar is there.
-    }
-
     /* FORM VALIDATION
      * Returns an array of error strings corresponding to each
      * invalid parameter, otherwise returns false.
      */
-    public static function validate_new($params) {
-        $errors;
-        // First name format
-        if (strlen($params['first_name']) < 1) {
-            $errors['first_name'] = "Please enter the professor's first name!";
-            return $errors;
-        } else if (strlen($params['first_name']) > 20) {
-            $errors['first_name'] = "We can only accept first names up to 25 characters long.";
-            return $errors;
-        } else if (preg_match("/^[a-zA-Z-.\s]+$/", $params['first_name']) == false) {
-            $errors['first_name'] = "No weird characters in the first name please!";
-            return $errors;
+    function validate_new( &$first_name, &$last_name, &$department, $gender, $school_id )
+    {
+        $first_name = trim( $first_name );
+        $last_name  = trim( $last_name );
+        $department = trim( $department );
+
+        // Empty fields
+        if( empty( $first_name ) OR empty( $last_name ) OR empty( $department ) )
+        {
+            return Notification::error( "You have empty fields." );
         }
-        // Last name format
-        if (strlen($params['last_name']) < 1) {
-            $errors['last_name'] = "Please enter the professor's last name!";
-            return $errors;
-        } else if (strlen($params['first_name']) > 20) {
-            $errors['last_name'] = "We can only accept last names up to 25 characters long.";
-            return $errors;
-        } else if (preg_match("/^[a-zA-Z-.\s]+$/", $params['last_name']) == false) {
-            $errors['last_name'] = "No weird characters in the last name please!";
-            return $errors;
+
+        // First name length
+        if( strlen( $first_name ) > 25 )
+        {
+            return Notification::error( "The professor's first name cannot be more than 25 characters long." );
         }
-        // Duplicate professor
-        if (self::find_by_name($params['first_name'], $params['last_name'], session::school_id())) {
-            $errors['id'] = "Sorry, that Professor is already in the database.";
-            return $errors;
+        // Last name length
+        if( strlen( $last_name ) > 25 )
+        {
+            return Notification::error( "The professor's last name cannot be more than 25 characters long." );
         }
+        // Department length
+        if( strlen( $department ) > 50 )
+        {
+            return Notification::error( "The professor's department cannot be more than 50 characters long." );
+        }
+
+        // Gender
+        if( !in_array($gender, array( "M", "F" ) ) )
+        {
+            return Notification::error( "Please indicate the professor's sex! (hehehe)" );
+        }
+
+        // Check for existing professor
+        $exact_match = $this->professor->find_by_name( $first_name, $last_name, $school_id );
+        if( ! empty( $exact_match ) )
+        {
+            return Notification::error( "That professor already exists." );
+        }
+
+        return Notification::success();
         // Gender
         if (empty($params['gender'])) {
             $errors['gender'] = "Please indicate the professor's sex! (hehehe)";
             return $errors;
         }
-        // Department
-        if (empty($params['department'])) {
-            $errors['department'] = "Please specify the professor's department.";
-            return $errors;
-        }
-        return $errors;
     }
 
 }
 
-?>
+/* End of file professor.php */
+/* Location: ./application/models/professor.php */

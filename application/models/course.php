@@ -40,6 +40,19 @@ class Course_model extends StudyMonkey_Model
         return $result->row_array();
     }
 
+    function find_by_professor_id( $professor_id )
+    {
+        $result = $this->db->query(
+            "SELECT * FROM course c
+             INNER JOIN course_professor cp
+             WHERE c.id = cp.course_id
+                AND cp.professor_id = ?
+             ORDER BY c.course_code ASC"
+            , array( $professor_id )
+            );
+        return $result->result_array();
+    }
+
     function find_most_popular( $school_id = NULL, $limit = 5 )
     {
         $sql = "SELECT * FROM course ";
@@ -162,74 +175,12 @@ class Course_model extends StudyMonkey_Model
         }
     }
 
-    /* Outputs a div and a span, styled for displaying a bar in a bar graph.
-     * 
-     * Usage example:
-     *   rating_bar("textbook_rating", 0, 4, 2, "small", "yellow");
-     *     ...will output html for a small labelled yellow bar for the
-     *     textbook_rating_2 value.  Width of the bar is determined by
-     *     rating_bar_width(), see below.
-     */
-    public function rating_bar($course, $rating, $domain_min, $domain_max, $which, $size, $colour) {
-        if ($course['total_reviews']) {
-            $label = round($course[$rating . "_" . $which] * 100.0 / $course['total_reviews']) . "%";
-        } else { // Default
-            $colour = "white";
-            $label = "N/A";
-        }
-        switch ($colour) {
-            case "blue"  : $border_colour = "#008"; $background_colour = "#27F"; break;
-            case "green" : $border_colour = "#080"; $background_colour = "#3F3"; break;
-            case "yellow": $border_colour = "#880"; $background_colour = "#FC3"; break;
-            case "red"   : $border_colour = "#800"; $background_colour = "#F33"; break;
-            case "white" : $border_colour = "#888"; $background_colour = "#FFF"; break;
-        }
-        switch ($size) {
-            case "large": $bar_max_length = 100; $bar_height = 10; $font_size = 12; $margin = "5px 5px 2px 0px"; break;
-            case "small": $bar_max_length =  50; $bar_height =  5; $font_size = 10; $margin = "8px 5px 0px 0px"; break;
-        }
-        echo "<div style='height: {$bar_height}px; width: {$this->rating_bar_width($course, $rating, $domain_min, $domain_max, $which, $bar_max_length)}px; border: 1px solid {$border_colour}; border-left: 0px; background: {$background_colour}; float: left; margin: {$margin};'>";
-        echo "</div>";
-        echo "<span style='font: normal {$font_size}px arial;'>({$label})</span>\n";
-    }
-
-    /* For use with outputting course reviews as bar graphs.
-     * This function outputs the width of the specified bar.
-     *
-     * Usage example:
-     *   rating_bar_width("textbook_rating", 0, 4, 2, 100);
-     *     ...will output the length of the bar for textbook_rating_2,
-     *     calculated with respect to the domain of bars
-     *     (0 - 4 indicating textbook_rating_0 through textbook_rating_4)
-     *     to be displayed in this particular bar graph.
-     *     The output values are normalized by the length of the greatest
-     *     bar in the domain of bars so that cases with a pretty even
-     *     distribution between the bars (e.g. 20%, 20%, 20%, 20%, 20%) don't
-     *     appear so small and squished next to other graphs (e.g. 100%, 0%, ...)
-     */
-    public function rating_bar_width($course, $rating, $domain_min, $domain_max, $which, $bar_max_length) {
-        // Output zero if no ratings
-        if (empty($course['total_reviews'])) {
-            return $bar_max_length;
-        }
-        // Find value of greateset bar to be used as a divider
-        $divider = 0;
-        for ($i = $domain_min; $i <= $domain_max; $i++) {
-            if ($course[$rating . "_" . $i] > $divider) {
-                $divider = $course[$rating . "_" . $i];
-            }
-        }
-        // Normalize width in a logarithmic manner
-        $multiplier = ($divider + $course['total_reviews'])/(2 * $divider);
-        $result = round($course[$rating . "_" . $which] * $multiplier * $bar_max_length / $course['total_reviews']);
-        return 1 + $result; // Add 1 pixel in case the value is zero so user can still see the bar is there.
-    }
-
-    public function validate_new( $course_code, $course_title, $school_id )
+    public function validate_new( &$course_code, &$course_title, $school_id )
     {
         $course_code = strtoupper( str_replace(" ", "", $course_code) );
         $course_title = trim( $course_title );
 
+        // Empty fields
         if( empty( $course_code ) OR empty( $course_title ) )
         {
             return Notification::error( "You have empty fields." );
@@ -248,12 +199,16 @@ class Course_model extends StudyMonkey_Model
         }
 
         // Check for existing course
-        $exact_match = $this->course->find_by_course_code( $course_code, $school_id );
+        $exact_match = $this->find_by_course_code( $course_code, $school_id );
         if( ! empty( $exact_match ) )
         {
             return Notification::error( "That course code already exists." );
         }
 
+        // Success!
         return Notification::success();
     }
 }
+
+/* End of file courses.php */
+/* Location: ./application/models/courses.php */

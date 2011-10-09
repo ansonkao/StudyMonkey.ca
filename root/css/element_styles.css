@@ -77,7 +77,6 @@ input[type=submit]:active, button:active {
     box-shadow:         inset -1px -2px 2px #FFF, inset 1px 2px 2px #BBB;
     color: #222;
 }
-
 .button {
     display: inline-block;
     border: 3px solid #000;
@@ -140,7 +139,7 @@ form[name=letter_search] input[type=submit] {
 label {
     font-weight: bold;
     padding: 4px 0;
-    display: block;
+    display: inline-block;
 }
 input[type=text], select, textarea {
     border: 1px solid #242;
@@ -163,6 +162,10 @@ input[type=text].huge {
 input[type=text].placeholder {
     font-style: italic;
     color: #787;
+}
+.loading {
+    display: none;
+    vertical-align: bottom;
 }
 
 /*** TRIANGLES ***/

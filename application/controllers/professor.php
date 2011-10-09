@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Course extends CI_Controller
+class Professor extends CI_Controller
 {
 	public function index()
 	{
@@ -10,11 +10,11 @@ class Course extends CI_Controller
         $this->view_params['search_result'] = $search_result;
 
         // Layout Parameters
-        $this->view_params['page_tab'] = "Courses";
-        $this->view_params['page_title'] = "Course Search";
+        $this->view_params['page_tab'] = "Professors";
+        $this->view_params['page_title'] = "Professor Search";
         $this->view_params['page_subtitle'] = NULL;
         $this->view_params['page_subtitle2'] = NULL;
-        $this->view_params['page_content'] = $this->load->view('course/course_search', $this->view_params, TRUE);
+        $this->view_params['page_content'] = $this->load->view('professor/professor_search', $this->view_params, TRUE);
 		$this->load->view('_layout_main', $this->view_params);
 	}
 
@@ -27,7 +27,7 @@ class Course extends CI_Controller
             show_404($this->uri->uri_string());
 
         // Process search query
-        $this->load->model('course');
+        $this->load->model('professor');
         $search_query = $this->input->post('search');
         $search_result = NULL;
         $page = 1;
@@ -38,33 +38,16 @@ class Course extends CI_Controller
             if( empty($page) )
                 $page = 1;
 
-            // Exact match
-            $exact_match = $this->course->find_by_course_code( str_replace(" ", "", $search_query), $school['id'] );
-            if( ! empty( $exact_match ) )
-            {
-                if( $this->input->is_ajax_request() )
-                {
-                    $notification = Notification::redirect( string2uri( $exact_match['course_code'] ) );
-                    echo $notification->to_AJAX();
-                    return;
-                }
-                else
-                {
-                    header( "location: /" . string2uri( $school['full_name'] . "/courses/" . string2uri( $exact_match['course_code'] ) ) );
-                }
-            }
-
             // Search
-            $query_result = $this->course->search( $search_query, ITEMS_PER_PAGE, $page, $school['id'] );
+            $query_result = $this->professor->search( $search_query, ITEMS_PER_PAGE, $page, $school['id'] );
             
             // Build up parameters
             $search_result_params = array();
             $search_result_params['previous_query'] = $search_query;
             $search_result_params['page'] = $page;
-            $search_result_params['courses'] = $query_result;
+            $search_result_params['professors'] = $query_result;
             $search_result_params['school'] = $school;
-            $search_result_params['exact_match'] = $exact_match;
-            $search_result = $this->load->view('course/course_search_result', $search_result_params, TRUE);
+            $search_result = $this->load->view('professor/professor_search_result', $search_result_params, TRUE);
 
             // Ajax
             if( $this->input->is_ajax_request() )
@@ -75,26 +58,26 @@ class Course extends CI_Controller
         }
 
         // 5 Popular courses
-        $popular_courses = $this->course->find_most_popular( $school['id'], 5 );
+        $popular_professors = $this->professor->find_most_popular( $school['id'], 5 );
 
         // Custom Parameters
         $this->view_params['previous_query'] = $search_query;
         $this->view_params['page'] = $page;
         $this->view_params['school'] = $school;
         $this->view_params['search_result'] = $search_result;
-        $this->view_params['popular_courses'] = $popular_courses;
+        $this->view_params['popular_professors'] = $popular_professors;
 
         // Layout Parameters
         $this->view_params['notification'] = empty($notification)? NULL : $notification;
-        $this->view_params['page_tab'] = "Courses";
-        $this->view_params['page_title'] = "Course Search";
+        $this->view_params['page_tab'] = "Professors";
+        $this->view_params['page_title'] = "Professor Search";
         $this->view_params['page_subtitle'] = $school['full_name'];
         $this->view_params['page_subtitle2'] = NULL;
-        $this->view_params['page_content'] = $this->load->view('course/course_search', $this->view_params, TRUE);
+        $this->view_params['page_content'] = $this->load->view('professor/professor_search', $this->view_params, TRUE);
 		$this->load->view('_layout_main', $this->view_params);
 	}
 
-    public function view( $school_segment, $course_segment, $page_segment = 1 )
+    public function view( $school_segment, $professor_segment, $page_segment = 1 )
     {
         // School
         $this->load->model('school');
@@ -102,33 +85,33 @@ class Course extends CI_Controller
         if ( empty( $school ) )
             show_404($this->uri->uri_string());
 
-        // Course
-        $this->load->model('course');
-        $course = $this->course->find_by_course_code( $course_segment, $school['id'] );
-        if ( empty( $course ) )
+        // Professor
+        $this->load->model('professor');
+        $professor = $this->professor->find_by_uri_segment( $professor_segment, $school['id'] );
+        if ( empty( $professor ) )
             show_404($this->uri->uri_string());
 
-        // Professors
-        $this->load->model('professor');
-        $professors = $this->professor->find_by_course_id( $course['id'] );
+        // Courses
+        $this->load->model('course');
+        $courses = $this->course->find_by_professor_id( $professor['id'] );
 
         // Reviews
         $this->load->model('course_professor_review');
-        $total_reviews = $this->course_professor_review->count_by_course_id( $course['id'] );
-        $reviews = $this->course_professor_review->paginate_by_course_id( $course['id'], $page_segment, 5 );
+        $total_reviews = $this->course_professor_review->count_by_professor_id( $professor['id'] );
+        $reviews = $this->course_professor_review->paginate_by_professor_id( $professor['id'], $page_segment, 5 );
         if ( $total_reviews > 0 AND empty( $reviews ) )
             show_404($this->uri->uri_string());
 
-        // Review authors and professors
+        // Review authors and courses
         $this->load->model('user');
         $review_authors = array();
-        $review_professors = array();
+        $review_courses = array();
         if ( ! empty( $reviews ) )
         {
             foreach($reviews as $review)
             {
                 $review_authors[$review['id']] = $this->user->find_by_id($review['user_id']);
-                $review_professors[$review['id']] = $this->professor->find_by_id($review['professor_id']);
+                $review_courses[$review['id']] = $this->course->find_by_id($review['course_id']);
             }
         }
 
@@ -136,24 +119,24 @@ class Course extends CI_Controller
         $pagination_params = array();
         $pagination_params['total_rows'] = $total_reviews;
         $pagination_params['current_page'] = $page_segment;
-        $pagination_params['parent_uri'] = "/{$school_segment}/courses/{$course_segment}";
+        $pagination_params['parent_uri'] = "/{$school_segment}/professors/{$professor_segment}";
         $this->load->library( 'pagination', $pagination_params );
                 
         // Custom Parameters
         $this->view_params['school'] = $school;
-        $this->view_params['course'] = $course;
-        $this->view_params['professors'] = $professors;
+        $this->view_params['professor'] = $professor;
+        $this->view_params['courses'] = $courses;
         $this->view_params['total_reviews'] = $total_reviews;
         $this->view_params['reviews'] = $reviews;
         $this->view_params['review_authors'] = $review_authors;
-        $this->view_params['review_professors'] = $review_professors;
+        $this->view_params['review_courses'] = $review_courses;
 
         // Layout Parameters
-        $this->view_params['page_tab'] = "Courses";
-        $this->view_params['page_title'] = $course['course_code'];
-        $this->view_params['page_subtitle'] = $course['course_title'];
+        $this->view_params['page_tab'] = "Professors";
+        $this->view_params['page_title'] = "{$professor['last_name']}, {$professor['first_name']}";
+        $this->view_params['page_subtitle'] = "Department of {$professor['department']}";
         $this->view_params['page_subtitle2'] = $school['full_name'];
-        $this->view_params['page_content'] = $this->load->view('course/course_view', $this->view_params, TRUE);
+        $this->view_params['page_content'] = $this->load->view('professor/professor_view', $this->view_params, TRUE);
 		$this->load->view('_layout_main', $this->view_params);
     }
 
@@ -180,12 +163,14 @@ class Course extends CI_Controller
         }
 
         // Get form fields
-        $course_code = $this->input->post('course_code');
-        $course_title = $this->input->post('course_title');
+        $first_name = $this->input->post('first_name');
+        $last_name  = $this->input->post('last_name');
+        $department = $this->input->post('department');
+        $gender     = $this->input->post('gender');
 
-        // Validate the new course
-        $this->load->model('course');
-        $response = $this->course->validate_new( $course_code, $course_title, $school['id'] );
+        // Validate the new professor
+        $this->load->model('professor');
+        $response = $this->professor->validate_new( $first_name, $last_name, $department, $gender, $school['id'] );
         if( $response->is_success() )
         {
             // Validate Captcha
@@ -195,27 +180,29 @@ class Course extends CI_Controller
                 $response = Notification::error('You got the math question wrong.');
             }
 
-            // Save new course, passed all tests
+            // Save new professor, passed all tests
             else
             {
-                $new_course = array();
-                $new_course['course_code'] = $course_code;
-                $new_course['course_title'] = $course_title;
-                $new_course['school_id'] = $school['id'];
-                $this->course->save( $new_course );
+                $new_professor = array();
+                $new_professor['first_name'] = $first_name;
+                $new_professor['last_name']  = $last_name;
+                $new_professor['department'] = $department;
+                $new_professor['gender']     = $gender;
+                $new_professor['school_id']  = $school['id'];
+                $this->professor->save( $new_professor );
 
                 // Set a success flash message
-                $this->session->set_flashdata( array( 'notification' => Notification::success("You've added {$new_course['course_code']} to {$school['full_name']}!") ) );
+                $this->session->set_flashdata( array( 'notification' => Notification::success("You've added {$new_professor['first_name']} {$new_professor['last_name']} to {$school['full_name']}!") ) );
 
                 // Redirect the user
                 if( $this->input->is_ajax_request() )
                 {
-                    $redirect = Notification::redirect( string2uri( $new_course['course_code'] ) );
+                    $redirect = Notification::redirect( string2uri( $new_professor['first_name'] ) . "_" . string2uri( $new_professor['last_name'] ) );
                     echo $redirect->to_AJAX ();
                 }
                 else
                 {
-                    header( "location: /" . string2uri( $school['full_name'] . "/courses/" . string2uri( $new_course['course_code'] ) ) );
+                    header( "location: /" . string2uri( $school['full_name'] . "/professors/" . string2uri( $new_professor['first_name'] ) . "_" . string2uri( $new_professor['last_name'] ) ) );
                 }
                 return;
             }
@@ -229,12 +216,12 @@ class Course extends CI_Controller
         else
         {
             $this->session->set_flashdata( array( 'notification' => $response ) );
-            header( "location: /" . string2uri( $school['full_name'] . "/courses" ) );
+            header( "location: /" . string2uri( $school['full_name'] . "/professors" ) );
         }
         return;
     }
 
 }
 
-/* End of file courses.php */
-/* Location: ./application/controllers/courses.php */
+/* End of file professor.php */
+/* Location: ./application/controllers/professor.php */

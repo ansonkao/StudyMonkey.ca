@@ -3,18 +3,19 @@
  * Course Search
  */
 
-$search_placeholder = "Type a course code or name...";
+$search_placeholder = "Type a professor's name...";
 $search_box_value = empty( $previous_query )? $search_placeholder : $previous_query;
 
-$add_course_code_placeholder = "e.g. PSYCH101";
-$add_course_title_placeholder = "e.g. Introduction to Psychology";
+$add_first_name_placeholder = "e.g. Albert";
+$add_last_name_placeholder = "e.g. Einstein";
+$add_department_placeholder = "e.g. Physics";
 
 ?>
 <script>
     $(document).ready(function(){
 
         // Search Bar AJAX
-        $("form[name=course_search]").submit(function(){
+        $("form[name=professor_search]").submit(function(){
             if( $("input[name=search]").val() != "<?=$search_placeholder?>" && $.trim($("input[name=search]").val()) != "" )
             {
                 $("#search_result").fadeTo( 0, 0.5 );
@@ -24,18 +25,10 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
                     type: "POST",
                     data: $(this).serialize(),
                     success: function(data){
-                        
-                        if( data.substring(0, 8) == "REDIRECT" )
-                        {
-                            window.location = "/<?php echo string2uri( $school['full_name'] ); ?>/courses/" + data.substring(9);
-                        }
-                        else
-                        {
-                            $("#loading_gif").hide();
-                            $("#magnifying_glass").show();
-                            $("#search_result").html(data);
-                            $("#search_result").fadeTo( 0, 1.0 );
-                        }
+                        $("#loading_gif").hide();
+                        $("#magnifying_glass").show();
+                        $("#search_result").html(data);
+                        $("#search_result").fadeTo( 0, 1.0 );
                     }
                 });
             }
@@ -84,9 +77,9 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
             $('#search_box').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
         }
 
-        // PLACE HOLDERS for ADD COURSE
-        $('#add_course_code').focus(function(){
-            if($(this).val() == "<?=$add_course_code_placeholder?>")
+        // PLACE HOLDERS for ADD PROFESSOR
+        $('#add_first_name').focus(function(){
+            if($(this).val() == "<?=$add_first_name_placeholder?>")
             {
                 $(this).val("");
                 $(this).css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
@@ -94,12 +87,12 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
         }).blur(function(){
             if($(this).val() == "")
             {
-                $(this).val("<?=$add_course_code_placeholder?>");
+                $(this).val("<?=$add_first_name_placeholder?>");
                 $(this).css({"fontStyle":"italic", "color":"rgb(119,136,119)"});
             }
         });
-        $('#add_course_title').focus(function(){
-            if($(this).val() == "<?=$add_course_title_placeholder?>")
+        $('#add_last_name').focus(function(){
+            if($(this).val() == "<?=$add_last_name_placeholder?>")
             {
                 $(this).val("");
                 $(this).css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
@@ -107,34 +100,55 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
         }).blur(function(){
             if($(this).val() == "")
             {
-                $(this).val("<?=$add_course_title_placeholder?>");
+                $(this).val("<?=$add_last_name_placeholder?>");
+                $(this).css({"fontStyle":"italic", "color":"rgb(119,136,119)"});
+            }
+        });
+        $('#add_department').focus(function(){
+            if($(this).val() == "<?=$add_department_placeholder?>")
+            {
+                $(this).val("");
+                $(this).css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
+            }
+        }).blur(function(){
+            if($(this).val() == "")
+            {
+                $(this).val("<?=$add_department_placeholder?>");
                 $(this).css({"fontStyle":"italic", "color":"rgb(119,136,119)"});
             }
         });
 
         // Correct placeholder styling if browser pre-populates value from previous page load
-        if( $('#add_course_code').val() != "<?=$add_course_code_placeholder?>" )
+        if( $('#add_first_name').val() != "<?=$add_first_name_placeholder?>" )
         {
-            $('#add_course_code').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
+            $('#add_first_name').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
         }
-        if( $('#add_course_title').val() != "<?=$add_course_title_placeholder?>" )
+        if( $('#add_last_name').val() != "<?=$add_last_name_placeholder?>" )
         {
-            $('#add_course_title').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
+            $('#add_last_name').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
+        }
+        if( $('#add_department').val() != "<?=$add_department_placeholder?>" )
+        {
+            $('#add_department').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
         }
 
-
-        // Add Course AJAX
-        $("form[name=add_course]").submit( function(){
+        // Add Professor AJAX
+        $("form[name=add_professor]").submit( function(){
 
             // Validate empty fields
-            if( $("#add_course_code").val() == "<?=$add_course_code_placeholder?>" )
+            if( $("#add_first_name").val() == "<?=$add_first_name_placeholder?>" )
             {
-                new_speech_bubble( "Please enter a course code." );
+                new_speech_bubble( "Please enter a first name for your professor." );
                 return false;
             }
-            if( $("#add_course_title").val() == "<?=$add_course_title_placeholder?>" )
+            if( $("#add_last_name").val() == "<?=$add_last_name_placeholder?>" )
             {
-                new_speech_bubble( "Please enter a title for your course." );
+                new_speech_bubble( "Please enter a last name for your professor." );
+                return false;
+            }
+            if( $("#add_department").val() == "<?=$add_department_placeholder?>" )
+            {
+                new_speech_bubble( "Please enter a department for your professor." );
                 return false;
             }
 
@@ -149,7 +163,7 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
 
                     if( data.substring(0, 8) == "REDIRECT" )
                     {
-                        window.location = "/<?php echo string2uri( $school['full_name'] ); ?>/courses/" + data.substring(9);
+                        window.location = "/<?php echo string2uri( $school['full_name'] ); ?>/professors/" + data.substring(9);
                     }
                     else
                     {
@@ -165,15 +179,15 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
 </script>
 <div class="left_column" style="text-align: center;">
 
-    <form name="course_search" method="post">
-        <table border="0" cellspacing="8" cellpadding="0" style="margin: 0 auto;">
+    <form name="professor_search" method="post">
+        <table border="0" cellspacing="7" cellpadding="0" style="margin: 0 auto;">
             <tr>
                 <td valign="right">
-                    <img src="/image/courses_medium.png" />
+                    <img src="/image/professors_medium.png" />
                 </td>
                 <td valign="center" align="left">
                     <h1 style="margin: 0; font: 32px 'Oswald', arial; color: #121; padding: 0 20px 0 0;">
-                        Course Reviews
+                        Professor Ratings
                     </h1>
                 </td>
             </tr>
@@ -215,25 +229,44 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
 
     <div class="round_box" style="margin: 64px auto 0; width: 320px;">
         <h3 style="margin-top: 5px;">
-            Can't find your course?
-            Add it!
+            Can't find your professor?
+            Add them!
         </h3>
-        <form name="add_course" method="post" action="/<?php echo string2uri( $school['full_name'] ); ?>/courses/create">
+        <form name="add_professor" method="post" action="/<?php echo string2uri( $school['full_name'] ); ?>/professors/create">
             <table border="0" cellspacing="0" cellpadding="5" style="margin: auto;">
                 <tr>
                     <td valign="top" align="right">
-                        <label for="course_code">Course Code</label>
+                        <label for="first_name">First Name</label>
                     </td>
                     <td valign="top">
-                        <input id="add_course_code" class="placeholder" type="text" name="course_code" value="<?=$add_course_code_placeholder?>" style="width: 200px;" />
+                        <input id="add_first_name" class="placeholder" type="text" name="first_name" value="<?=$add_first_name_placeholder?>" style="width: 200px;" />
                     </td>
                 </tr>
                 <tr>
                     <td valign="top" align="right">
-                        <label for="course_title">Title</label>
+                        <label for="last_name">Last Name</label>
                     </td>
                     <td valign="top">
-                        <input id="add_course_title" class="placeholder" type="text" name="course_title" value="<?=$add_course_title_placeholder?>" style="width: 200px;" />
+                        <input id="add_last_name" class="placeholder" type="text" name="last_name" value="<?=$add_last_name_placeholder?>" style="width: 200px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" align="right">
+                        <label for="department">Department</label>
+                    </td>
+                    <td valign="top">
+                        <input id="add_department" class="placeholder" type="text" name="department" value="<?=$add_department_placeholder?>" style="width: 200px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" align="right">
+                        <label>Gender</label>
+                    </td>
+                    <td valign="top" align="left">
+                        <input type="radio" name="gender" id="gender_m" value="M" />
+                        <label for="gender_m">Male</label>
+                        <input type="radio" name="gender" id="gender_f" value="F" />
+                        <label for="gender_f">Female</label>
                     </td>
                 </tr>
                 <tr>
@@ -261,7 +294,7 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
                 <tr>
                     <td valign="top" align="right" colspan="2">
                         <img class="loading" src="/image/icon/loading.gif" alt="Loading..." />
-                        <input type="submit" value="Add course &#187;" />
+                        <input type="submit" value="Add professor &#187;" />
                     </td>
                 </tr>
             </table>
@@ -274,47 +307,49 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
 
 <div class="right_column">
 
-    <h2 style="font: bold 14px arial; padding: 10px 0 0px; margin: 0px;">Popular courses</h2>
+    <h2 style="font: bold 14px arial; padding: 10px 0 0px; margin: 0px;">
+        Popular professors
+    </h2>
     <div style="padding-bottom: 10px; color: #888;">
         at <?=$school['full_name']?>
     </div>
 
     <table border="0" cellspacing="0" cellpadding="0">
-<?php foreach( $popular_courses as $popular_course ) { ?>
+<?php foreach( $popular_professors as $popular_professor ) { ?>
         <tr>
             <td align="left" valign="top" style="height: 45px;">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($popular_course['course_code']); ?>">
-                    <img src="<?php echo site_url()."image/icon/courses.png"; ?>" style="margin-right: 5px;" />
+                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($popular_professor['first_name'])."_".string2uri($popular_professor['last_name']); ?>">
+                    <img src="<?php echo site_url()."image/icon/professors.png"; ?>" style="margin-right: 5px;" />
                 </a>
             </td>
             <td align="left" valign="top" style="padding-top: 5px;">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($popular_course['course_code']); ?>">
-                    <strong><?php echo $popular_course['course_code']; ?></strong>
+                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($popular_professor['first_name'])."_".string2uri($popular_professor['last_name']); ?>">
+                    <strong><?php echo $popular_professor['last_name'].", ".$popular_professor['first_name']; ?></strong>
                 </a>
                 <div class="transparent" style="padding-top: 2px;">
-<?php   if ($popular_course['total_reviews'] > 0) { ?>
+<?php   if ($popular_professor['total_reviews'] > 0) { ?>
                     <div style="margin-right: 5px; height: 12px; width: 60px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll top; text-align: left; float: left;">
-                        <div style="height: 12px; width: <?php if ($popular_course['overall_rating']) { echo round($popular_course['overall_rating'] * 60.0 / 5.0); } else { echo "0"; } ?>px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll left bottom;">
+                        <div style="height: 12px; width: <?php if ($popular_professor['overall_rating']) { echo round($popular_professor['overall_rating'] * 60.0 / 5.0); } else { echo "0"; } ?>px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll left bottom;">
                             &nbsp;
                         </div>
                     </div>
                     <div style="float: left; font: normal 10px arial;"><?php
-                        switch( $popular_course['total_reviews'] )
+                        switch( $popular_professor['total_reviews'] )
                         {
                             case 0:
-                                echo "No reviews yet";
+                                echo "No ratings yet";
                                 break;
                             case 1:
-                                echo "1 review";
+                                echo "1 rating";
                                 break;
                             default:
-                                echo "{$popular_course['total_reviews']} reviews";
+                                echo "{$popular_professor['total_reviews']} ratings";
                                 break;
                         }
                     ?></div>
 <?php   } else { ?>
                     <span style="float: left; font: normal 11px arial;">
-                        No reviews yet
+                        No ratings yet
                     </span>
 <?php   } ?>
                 </div>
@@ -326,5 +361,5 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
 </div>
 <?php
 
-/* End of file course_search.php */
-/* Location: ./application/views/course/course_search.php */
+/* End of file professor_search.php */
+/* Location: ./application/views/professor/professor_search.php */
