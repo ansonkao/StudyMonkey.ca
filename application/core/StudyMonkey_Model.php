@@ -41,6 +41,11 @@ class StudyMonkey_Model extends CI_Model
 		return isset($CI->$key);
 	}
 
+    public function count_all()
+    {
+        return $this->db->count_all($this->TABLE_NAME);
+    }
+
     public function find_all()
     {
         $query = $this->db->get($this->TABLE_NAME);

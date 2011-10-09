@@ -45,8 +45,15 @@ class Info extends CI_Controller {
             }
         }
 
+        // Statistics
+        $this->load->model('course_professor_review');
+        $total_reviews = $this->course_professor_review->count_all();
+        $total_schools = $this->school->count_all();
+
         // Custom Parameters
         $this->view_params['search_result'] = $search_result;
+        $this->view_params['total_reviews'] = number_format($total_reviews, 0, ".", ",");
+        $this->view_params['total_schools'] = number_format($total_schools, 0, ".", ",");
 
         // Layout Parameters
         $this->view_params['page_title'] = "Welcome to StudyMonkey!";

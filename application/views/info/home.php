@@ -28,11 +28,6 @@ $footer_items['Contact']    = "/contact";
     <script>
         $(document).ready(function(){
 
-            // TODO - standard loading animations on each form
-            //$("#form_send").submit(function(){
-                //$("#submit_loading_image").show();
-            //});
-
             $("form[name=school_search]").submit(function(){
                 if( $("input[name=search]").val() != "<?=$search_placeholder?>" && $.trim($("input[name=search]").val()) != "" )
                 {
@@ -167,7 +162,7 @@ $footer_items['Contact']    = "/contact";
             </form>
 
             <div style="font: italic 12px arial; color: #777; text-align: center;">
-                3,807 student opinions at 7 Canadian schools so far!
+                <?=$total_reviews?> student opinions at <?=$total_schools?> Canadian schools so far!
             </div>
 
             <div id="search_result">
