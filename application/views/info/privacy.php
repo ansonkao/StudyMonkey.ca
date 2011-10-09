@@ -63,8 +63,7 @@
 
 <h3>Questions</h3>
 <p>
-    If you have any questions regarding our Privacy Policy, please contact us at
-    <a href="mailto:info@studymonkey.ca">info@studymonkey.ca</a>.
+    If you have any questions regarding our Privacy Policy, please <a href="/contact">contact us</a>.
 </p>
 <?php
 

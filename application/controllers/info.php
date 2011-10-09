@@ -19,7 +19,7 @@ class Info extends CI_Controller {
                 $school = array_shift( $query_result );
                 if( $this->input->is_ajax_request() )
                 {
-                    echo "redirect " . string2uri( $school['full_name'] );
+                    echo "REDIRECT " . string2uri( $school['full_name'] );
                     return;
                 }
                 else
@@ -144,7 +144,7 @@ class Info extends CI_Controller {
     {
         // Layout Parameters
         $this->view_params['page_tab'] = "Learn more";
-        $this->view_params['page_title'] = "Our Note-sharing service has moved to Notesolution.com";
+        $this->view_params['page_title'] = "Welcome to the new StudyMonkey!";
         $this->view_params['page_subtitle'] = NULL;
         $this->view_params['page_subtitle2'] = NULL;
         $this->view_params['page_content'] = $this->load->view('info/notesolution', $this->view_params, TRUE);

@@ -43,7 +43,7 @@ $footer_items['Contact']    = "/contact";
                         type: "POST",
                         data: $(this).serialize(),
                         success: function( data ){
-                            if( data.substring(0, 8) == "redirect" )
+                            if( data.substring(0, 8) == "REDIRECT" )
                             {
                                 window.location = "/" + data.substring(9) + "/courses";
                             }

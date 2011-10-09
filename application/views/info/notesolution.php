@@ -1,41 +1,42 @@
 <?php
 /**
- * PRIVACY POLICY
+ * Notesolution
  */
 ?>
-<h1>Our Note-sharing service has moved to Notesolution.com!</h1>
-<h2>We've partnered with Notesolution.com to bring you a better experience!</h2>
 <p>
-    This Privacy Policy outlines the procedures and guidelines in which StudyMonkey handles collected information from
-    members ("Users") of the StudyMonkey Services and Website.
-    The Privacy Policy is incorporated in the <a href="/terms">Terms and Conditions of Use.</a>
+    Over the past few months we've been working hard to bring you an even better StudyMonkey experience.
+    Of course, we will always be continuing to add new features and improve StudyMonkey but for now
+    we are happy to announce that we've launched some recent changes.
 </p>
 
-<h3>Information Collection</h3>
+<h3>We've partnered with Notesolution.com!</h3>
 <p>
-    When a User visits the StudyMonkey Website, they may provide StudyMonkey with personally identifiable information which
-    they knowingly choose to volunteer (such as email address, name, educational information, etc...) through online forms.
-    StudyMonkey may also collect information regarding a User's interaction and usage of the website which is obtained through analysis of server logs.
-    While not all of the information that is collected is personally identifiable, it may be associated with
-    personally identifiable information that a User has provided StudyMonkey through the website.
+    We've decided to join forces with an awesome note-sharing website called Notesolution.com to offer you a new and improved note-sharing experience.
+    What does this mean for you? It means that all your notes-related needs will now be moved to Notesolution.com.
+    If you are an existing StudyMonkey user who has shared or bought notes - no need to worry!
+    All of your notes, credits, and earnings will continue to be available on Notesolution.com! Your log-in information is exactly the
+    same as your StudyMonkey information. You just need to follow these instructions:
+    <ol>
+        <li>XXX</li>
+        <li>XXX</li>
+    </ol>
 </p>
 
-<h3>Information Use</h3>
+<h3>More to come!</h3>
 <p>
-    StudyMonkey may use personally identifiable information in order to provide Users with StudyMonkey Services,
-    such as offering Users personalized and relevant features.
-    StudyMonkey may use the information provided by Users to contact them regarding products and
-    services offered by StudyMonkey and its trusted partners and affiliates.
-    StudyMonkey may also use the collected information to determine the effectiveness of the services,
-    website, marketing and promotional efforts of StudyMonkey and its trusted affiliates.
+    We are always looking for ways to improve your StudyMonkey experience. There are some exciting things we have coming your way that we're
+    sure you'll love. If you have any ideas, suggestions, or feedback, we'd love to hear from you! Feel free to <a href="/contact">contact us</a>.
 </p>
 
-<h3>Questions</h3>
+<br/>
+
 <p>
-    If you have any questions regarding our Privacy Policy, please contact us at
-    <a href="mailto:info@studymonkey.ca">info@studymonkey.ca</a>.
+    Yours Truly,
+</p>
+<p style="font: italic 14px arial;">
+    The StudyMonkey Team
 </p>
 <?php
 
-/* End of file privacy.php */
-/* Location: ./application/views/info/privacy.php */
+/* End of file notesolution.php */
+/* Location: ./application/views/info/notesolution.php */
