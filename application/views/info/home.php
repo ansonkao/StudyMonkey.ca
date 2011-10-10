@@ -26,8 +26,41 @@ $footer_items['Contact']    = "/contact";
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <script>
+
+        // Speech bubble flag
+        var speech_bubble_open = true;
+
+        function show_speech_bubble()
+        {
+            $("#speech_bubble").stop().hide().fadeIn(750).fadeOut(8000);
+        }
+
+        function new_speech_bubble( message )
+        {
+            $("#speech_bubble_text").html( message );
+            show_speech_bubble();
+        }
+
         $(document).ready(function(){
 
+<?php if( ! empty( $notification ) ) { ?>
+            show_speech_bubble();
+<?php } ?>
+
+            // Hover to keep speech bubble alive
+            $("#speech_bubble").mouseover(function(){
+                if (speech_bubble_open)
+                    $(this).stop().css({opacity: 1}).fadeOut(8000);
+            });
+
+            // Click to close the speech bubble
+            $("#speech_bubble_close").click(function(){
+                speech_bubble_open = false;
+                $("#speech_bubble").stop().fadeOut(250);
+                return false;
+            });
+
+            // School Search - AJAX
             $("form[name=school_search]").submit(function(){
                 if( $("input[name=search]").val() != "<?=$search_placeholder?>" && $.trim($("input[name=search]").val()) != "" )
                 {
@@ -55,7 +88,7 @@ $footer_items['Contact']    = "/contact";
                 return false;
             })
 
-
+            // Place holders for the search box
             $('input[name=search]').focus(function(){
                 if($(this).val() == "<?=$search_placeholder?>")
                 {
