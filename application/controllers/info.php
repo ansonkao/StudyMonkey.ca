@@ -56,7 +56,7 @@ class Info extends CI_Controller {
         $this->view_params['total_schools'] = number_format($total_schools, 0, ".", ",");
 
         // Layout Parameters
-        $this->view_params['notification'] = Notification::info( "Try me! Enter the name of your school in the search bar." );
+        $this->view_params['notification'] = Notification::info( "Try me! Enter the name of your college or university in the search bar." );
         $this->view_params['page_title'] = "Welcome to StudyMonkey!";
         $this->view_params['page_content'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 		$this->load->view('info/home', $this->view_params);

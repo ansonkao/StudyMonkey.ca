@@ -26,39 +26,7 @@ $footer_items['Contact']    = "/contact";
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <script>
-
-        // Speech bubble flag
-        var speech_bubble_open = true;
-
-        function show_speech_bubble()
-        {
-            $("#speech_bubble").stop().hide().fadeIn(750).fadeOut(8000);
-        }
-
-        function new_speech_bubble( message )
-        {
-            $("#speech_bubble_text").html( message );
-            show_speech_bubble();
-        }
-
         $(document).ready(function(){
-
-<?php if( ! empty( $notification ) ) { ?>
-            show_speech_bubble();
-<?php } ?>
-
-            // Hover to keep speech bubble alive
-            $("#speech_bubble").mouseover(function(){
-                if (speech_bubble_open)
-                    $(this).stop().css({opacity: 1}).fadeOut(8000);
-            });
-
-            // Click to close the speech bubble
-            $("#speech_bubble_close").click(function(){
-                speech_bubble_open = false;
-                $("#speech_bubble").stop().fadeOut(250);
-                return false;
-            });
 
             // School Search - AJAX
             $("form[name=school_search]").submit(function(){
@@ -176,10 +144,8 @@ $footer_items['Contact']    = "/contact";
 
         <div id="content_body_bottom">
 
-            <h2 style="margin: 33px auto 2px; color: #444;">First, enter the name of your college or university</h2>
-
             <form name="school_search" method="post">
-                <table border="0" cellspacing="10" cellpadding="0" style="margin: 0 auto;">
+                <table border="0" cellspacing="10" cellpadding="0" style="margin: 25px auto 0;">
                     <tr>
                         <td valign="center">
                             <input id="search_box" class="placeholder huge" type="text" name="search" value="<?=$search_placeholder?>" />
@@ -218,23 +184,13 @@ $footer_items['Contact']    = "/contact";
         </div>
     </div>
 
-    <div id="toolbar_wrapper">
-        <div id="toolbar">
-            <img id="mascot" src="/image/layout/mascot.png" />
-<?php if (!empty($notification)) { ?>
-            <div id="speech_bubble" class="round_box">
-                <a id="speech_bubble_close" href="#">&times;</a>
-                <span><?php echo $notification->message; ?></span>
-                <div id="speech_bubble_tail"></div>
-                <div id="speech_bubble_tail_border"></div>
-            </div>
-<?php } ?>
-        </div>
-    </div>
+<!------------------------------ START MASCOT --------------------------------->
+<?php echo $this->load->view( '_mascot', true ); ?>
+<!------------------------------- END MASCOT ---------------------------------->
 
 </body>
 </html>
 <?php
 
-/* End of file _layout_main.php */
-/* Location: ./application/views/_layout_main.php */
+/* End of file home.php */
+/* Location: ./application/views/info/home.php */
