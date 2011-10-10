@@ -57,8 +57,11 @@ class Professor extends CI_Controller
             }
         }
 
-        // 5 Popular courses
-        $popular_professors = $this->professor->find_most_popular( $school['id'], 5 );
+        // Popular professors
+        $popular_professors = $this->professor->find_most_popular( $school['id'], 3 );
+
+        // Top-rated professors
+        $top_rated_professors = $this->professor->find_top_rated( $school['id'], 3 );
 
         // Custom Parameters
         $this->view_params['previous_query'] = $search_query;
@@ -66,6 +69,7 @@ class Professor extends CI_Controller
         $this->view_params['school'] = $school;
         $this->view_params['search_result'] = $search_result;
         $this->view_params['popular_professors'] = $popular_professors;
+        $this->view_params['top_rated_professors'] = $top_rated_professors;
 
         // Layout Parameters
         $this->view_params['notification'] = empty($notification)? NULL : $notification;

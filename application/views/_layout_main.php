@@ -36,7 +36,7 @@ $footer_items['Contact']    = "/contact";
     <meta charset="utf-8">
     <script  type="text/javascript" src="/js/jquery-1.6.3.min.js"></script>
     <script  type="text/javascript" src="/js/jquery.color.js"></script>
-    <link href="/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="/css/layout.css?v=<?=VERSION?>" rel="stylesheet" type="text/css" />
     <link href="/css/element_styles.css?v=<?=VERSION?>" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
@@ -87,9 +87,9 @@ $footer_items['Contact']    = "/contact";
                     <h2 id="page_subtitle"><?=$page_subtitle?></h2>
                     <h3 id="page_subtitle2"><?=$page_subtitle2?></h3>
                 </div>
-                <a href="http://www.notesolution.com">
+                <!--<a href="http://www.notesolution.com">
                     <img id="half_banner" src="/image/banners/notesolution_half_banner.jpg" alt="Check out Notesolution.com for Study Notes!" />
-                </a>
+                </a>-->
             </div>
             <div id="content_body">
 <!------------------------------ START CONTENT -------------------------------->

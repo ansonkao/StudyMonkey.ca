@@ -214,7 +214,7 @@ $add_department_placeholder = "e.g. Physics";
         </table>
     </form>
 
-    <div style="padding-bottom: 20px;">
+    <div style="padding: 0 0 20px 20px; text-align: left;">
 <?php foreach( range('A', 'Z') as $letter ) { ?>
         <form name="letter_search" method="post">
             <input type="hidden" name="search" value="<?=$letter?>" />
@@ -307,10 +307,14 @@ $add_department_placeholder = "e.g. Physics";
 
 <div class="right_column">
 
-    <h2 style="font: bold 14px arial; padding: 10px 0 0px; margin: 0px;">
+<!------------------------ START RECTANGLE BANNER AD -------------------------->
+<?php $this->load->view("banners/notesolution_rectangle"); ?>
+<!------------------------- END RECTANGLE BANNER AD --------------------------->
+
+    <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
         Popular professors
     </h2>
-    <div style="padding-bottom: 10px; color: #888;">
+    <div style="padding-bottom: 15px; color: #888;">
         at <?=$school['full_name']?>
     </div>
 
@@ -344,6 +348,57 @@ $add_department_placeholder = "e.g. Physics";
                                 break;
                             default:
                                 echo "{$popular_professor['total_reviews']} ratings";
+                                break;
+                        }
+                    ?></div>
+<?php   } else { ?>
+                    <span style="float: left; font: normal 11px arial;">
+                        No ratings yet
+                    </span>
+<?php   } ?>
+                </div>
+            </td>
+        </tr>
+<?php } ?>
+    </table>
+
+    <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
+        Top-rated professors
+    </h2>
+    <div style="padding-bottom: 15px; color: #888;">
+        at <?=$school['full_name']?>
+    </div>
+
+    <table border="0" cellspacing="0" cellpadding="0">
+<?php foreach( $top_rated_professors as $top_rated_professor ) { ?>
+        <tr>
+            <td align="left" valign="top" style="height: 45px;">
+                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($top_rated_professor['first_name'])."_".string2uri($top_rated_professor['last_name']); ?>">
+                    <img src="<?php echo site_url()."image/icon/professors.png"; ?>" style="margin-right: 5px;" />
+                </a>
+            </td>
+            <td align="left" valign="top" style="padding-top: 5px;">
+                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($top_rated_professor['first_name'])."_".string2uri($top_rated_professor['last_name']); ?>">
+                    <strong><?php echo $top_rated_professor['last_name'].", ".$top_rated_professor['first_name']; ?></strong>
+                </a>
+                <div class="transparent" style="padding-top: 2px;">
+<?php   if ($top_rated_professor['total_reviews'] > 0) { ?>
+                    <div style="margin-right: 5px; height: 12px; width: 60px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll top; text-align: left; float: left;">
+                        <div style="height: 12px; width: <?php if ($top_rated_professor['overall_rating']) { echo round($top_rated_professor['overall_rating'] * 60.0 / 5.0); } else { echo "0"; } ?>px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll left bottom;">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div style="float: left; font: normal 10px arial;"><?php
+                        switch( $top_rated_professor['total_reviews'] )
+                        {
+                            case 0:
+                                echo "No ratings yet";
+                                break;
+                            case 1:
+                                echo "1 rating";
+                                break;
+                            default:
+                                echo "{$top_rated_professor['total_reviews']} ratings";
                                 break;
                         }
                     ?></div>

@@ -45,14 +45,12 @@ if( ! empty( $flash ) )
 
             // Click on the mascot to get random messages
             var random_messages = new Array();
-            random_messages[0] = "Stop clicking me - it tickles!";
-            random_messages[1] = "Ow, that one really hurt!  Stop poking me!";
-            random_messages[2] = "Glad you're here! I've been leaning against this pencil all day.";
-            random_messages[3] = "Shouldn't you be studying?";
-            random_messages[4] = "I could totally go for a banana right now...";
+            random_messages[1] = "Hehehe stop clicking me - it tickles!";
+            random_messages[2] = "Ow, stop poking me! That really hurt!";
+            random_messages[3] = "Hello!  Wanna be friends?";
+            random_messages[4] = "I'm so hungry! I could use a banana right now...";
             $("#mascot").click(function(){
-                //new_speech_bubble( random_messages[ Math.floor( Math.random() * 5 ) ] );
-                new_speech_bubble( random_messages[0] );
+                new_speech_bubble( random_messages[ Math.ceil( Math.random() * 4 ) ] );
             });
 
         });

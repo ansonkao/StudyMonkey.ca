@@ -11,6 +11,7 @@ $this_course_or_professor_id = $course['id'];
 <script>
     $(document).ready(function(){
 
+/*
         $("a.review_lightbox_link").colorbox({
             inline: true,
             initialWidth: 64,
@@ -57,6 +58,7 @@ $this_course_or_professor_id = $course['id'];
         $("#form_add_professor").submit(function(){
             return confirm("Are you sure you want to add this professor without reviewing it?  Double check!");
         });
+*/
 
     });
 </script>
@@ -538,11 +540,13 @@ $this_course_or_professor_id = $course['id'];
 <!-- ############################################################### -->
 <div class="right_column">
 
-    <a href="http://www.notesolution.com">
-        <img id="rectangle" src="/image/banners/notesolution_rectangle.jpg" alt="Check out Notesolution.com for Study Notes!" />
-    </a>
+<!------------------------ START RECTANGLE BANNER AD -------------------------->
+<?php $this->load->view("banners/notesolution_rectangle"); ?>
+<!------------------------- END RECTANGLE BANNER AD --------------------------->
 
-    <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">Professors</h2>
+    <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
+        Professors
+    </h2>
     <div style="padding-bottom: 15px; color: #555;">
         who teach <?=$course['course_code']?>
     </div>

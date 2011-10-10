@@ -129,11 +129,17 @@ input[type=submit]:active, button:active {
 
 /*** FORMS ***/
 form[name=letter_search] {
-    display: inline-block;
+    display: inline;
 }
 form[name=letter_search] input[type=submit] {
-    padding: 0px;
+    padding: 2px 3px;
+    margin: 0;
     font-size: 12px;
+    width: auto;
+}
+input[type=submit]::-moz-focus-inner {  /* Reset to eliminate extra padding in firefox */
+    border: 0;
+    padding: 0;
 }
 
 label {

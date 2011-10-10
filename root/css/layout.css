@@ -14,10 +14,14 @@ div.left_column {
     -moz-box-shadow:    10px 0px 10px -10px #CCC;
     -webkit-box-shadow: 10px 0px 10px -10px #CCC;
     box-shadow:         10px 0px 10px -10px #CCC;
+    padding-bottom: 10000px;
+    margin-bottom: -10000px;
 }
 div.right_column {
     float: right;
     width: 180px;
+    padding-bottom: 10000px;
+    margin-bottom: -10000px;
 }
 
 /*** HEADER ***/
@@ -223,6 +227,7 @@ h3#page_subtitle2 {
 div#content_body {
     width: 770px;
     padding: 15px 17px;
+    overflow: hidden;
 }
 div#content_end {
     clear: both;

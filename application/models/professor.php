@@ -75,6 +75,23 @@ class Professor_model extends StudyMonkey_Model
             $sql .= "WHERE school_id = ? ";
             $params[] = $school_id;
         }
+        $sql .= "ORDER BY total_reviews DESC LIMIT ?";
+        $params[] = $limit;
+
+        $result = $this->db->query( $sql, $params );
+        return $result->result_array();
+    }
+
+    function find_top_rated( $school_id = NULL, $limit = 5 )
+    {
+        $sql = "SELECT * FROM professor ";
+        $params = array();
+
+        if( $school_id )
+        {
+            $sql .= "WHERE school_id = ? ";
+            $params[] = $school_id;
+        }
         $sql .= "ORDER BY (overall_rating * total_reviews + 17) / (total_reviews + 5) DESC LIMIT ?";
         $params[] = $limit;
 

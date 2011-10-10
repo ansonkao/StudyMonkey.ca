@@ -200,7 +200,7 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
         </table>
     </form>
 
-    <div style="padding-bottom: 20px;">
+    <div style="padding: 0 0 20px 20px; text-align: left;">
 <?php foreach( range('A', 'Z') as $letter ) { ?>
         <form name="letter_search" method="post">
             <input type="hidden" name="search" value="<?=$letter?>" />
@@ -274,8 +274,14 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
 
 <div class="right_column">
 
-    <h2 style="font: bold 14px arial; padding: 10px 0 0px; margin: 0px;">Popular courses</h2>
-    <div style="padding-bottom: 10px; color: #888;">
+<!------------------------ START RECTANGLE BANNER AD -------------------------->
+<?php $this->load->view("banners/notesolution_rectangle"); ?>
+<!------------------------- END RECTANGLE BANNER AD --------------------------->
+
+    <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
+        Popular courses
+    </h2>
+    <div style="padding-bottom: 15px; color: #888;">
         at <?=$school['full_name']?>
     </div>
 
@@ -309,6 +315,57 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
                                 break;
                             default:
                                 echo "{$popular_course['total_reviews']} reviews";
+                                break;
+                        }
+                    ?></div>
+<?php   } else { ?>
+                    <span style="float: left; font: normal 11px arial;">
+                        No reviews yet
+                    </span>
+<?php   } ?>
+                </div>
+            </td>
+        </tr>
+<?php } ?>
+    </table>
+
+    <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
+        Top-rated courses
+    </h2>
+    <div style="padding-bottom: 15px; color: #888;">
+        at <?=$school['full_name']?>
+    </div>
+
+    <table border="0" cellspacing="0" cellpadding="0">
+<?php foreach( $top_rated_courses as $top_rated_course ) { ?>
+        <tr>
+            <td align="left" valign="top" style="height: 45px;">
+                <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($top_rated_course['course_code']); ?>">
+                    <img src="<?php echo site_url()."image/icon/courses.png"; ?>" style="margin-right: 5px;" />
+                </a>
+            </td>
+            <td align="left" valign="top" style="padding-top: 5px;">
+                <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($top_rated_course['course_code']); ?>">
+                    <strong><?php echo $top_rated_course['course_code']; ?></strong>
+                </a>
+                <div class="transparent" style="padding-top: 2px;">
+<?php   if ($top_rated_course['total_reviews'] > 0) { ?>
+                    <div style="margin-right: 5px; height: 12px; width: 60px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll top; text-align: left; float: left;">
+                        <div style="height: 12px; width: <?php if ($top_rated_course['overall_rating']) { echo round($top_rated_course['overall_rating'] * 60.0 / 5.0); } else { echo "0"; } ?>px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll left bottom;">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div style="float: left; font: normal 10px arial;"><?php
+                        switch( $top_rated_course['total_reviews'] )
+                        {
+                            case 0:
+                                echo "No reviews yet";
+                                break;
+                            case 1:
+                                echo "1 review";
+                                break;
+                            default:
+                                echo "{$top_rated_course['total_reviews']} reviews";
                                 break;
                         }
                     ?></div>

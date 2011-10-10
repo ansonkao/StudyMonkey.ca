@@ -74,8 +74,11 @@ class Course extends CI_Controller
             }
         }
 
-        // 5 Popular courses
-        $popular_courses = $this->course->find_most_popular( $school['id'], 5 );
+        // 3 Popular courses
+        $popular_courses = $this->course->find_most_popular( $school['id'], 3 );
+
+        // 3 Top Rated
+        $top_rated_courses = $this->course->find_top_rated( $school['id'], 3 );
 
         // Custom Parameters
         $this->view_params['previous_query'] = $search_query;
@@ -83,6 +86,7 @@ class Course extends CI_Controller
         $this->view_params['school'] = $school;
         $this->view_params['search_result'] = $search_result;
         $this->view_params['popular_courses'] = $popular_courses;
+        $this->view_params['top_rated_courses'] = $top_rated_courses;
 
         // Layout Parameters
         $this->view_params['notification'] = empty($notification)? NULL : $notification;

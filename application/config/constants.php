@@ -45,7 +45,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 |
 */
 
-define('VERSION',                               1.1);                           // For clearing cached files
+define('VERSION',                               1.001);                           // For clearing cached files
 define('ITEMS_PER_PAGE',                        10);                            // For pagination
 
 /* End of file constants.php */
