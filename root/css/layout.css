@@ -228,6 +228,11 @@ div#content_end {
     clear: both;
     height: 120px;
 }
+img#half_banner {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+}
 
 /*** FOOTER ***/
 div#footer {

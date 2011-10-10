@@ -538,7 +538,14 @@ $this_course_or_professor_id = $course['id'];
 <!-- ############################################################### -->
 <div class="right_column">
 
-    <h2 style="font: bold 14px arial; padding: 10px 0 10px; margin: 0px;">Professors:</h2>
+    <a href="http://www.notesolution.com">
+        <img id="rectangle" src="/image/banners/notesolution_rectangle.jpg" alt="Check out Notesolution.com for Study Notes!" />
+    </a>
+
+    <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">Professors</h2>
+    <div style="padding-bottom: 15px; color: #555;">
+        who teach <?=$course['course_code']?>
+    </div>
     
     <table border="0" cellspacing="0" cellpadding="0">
         <tbody>

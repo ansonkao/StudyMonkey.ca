@@ -87,6 +87,9 @@ $footer_items['Contact']    = "/contact";
                     <h2 id="page_subtitle"><?=$page_subtitle?></h2>
                     <h3 id="page_subtitle2"><?=$page_subtitle2?></h3>
                 </div>
+                <a href="http://www.notesolution.com">
+                    <img id="half_banner" src="/image/banners/notesolution_half_banner.jpg" alt="Check out Notesolution.com for Study Notes!" />
+                </a>
             </div>
             <div id="content_body">
 <!------------------------------ START CONTENT -------------------------------->
