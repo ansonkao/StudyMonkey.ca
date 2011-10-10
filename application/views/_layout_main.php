@@ -40,6 +40,15 @@ $footer_items['Contact']    = "/contact";
     <link href="/css/element_styles.css?v=<?=VERSION?>" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <script>
+        $(document).ready(function(){
+
+<?php if( ! empty( $notification ) ) { ?>
+            show_speech_bubble();
+<?php } ?>
+
+        });
+    </script>
 </head>
 <body>
     
@@ -103,7 +112,7 @@ $footer_items['Contact']    = "/contact";
     </div>
 
 <!------------------------------ START MASCOT --------------------------------->
-<?php echo $this->load->view( '_mascot', true ); ?>
+<?php $this->load->view( '_mascot' ); ?>
 <!------------------------------- END MASCOT ---------------------------------->
 
 </body>

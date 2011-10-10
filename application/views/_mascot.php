@@ -29,10 +29,6 @@ if( ! empty( $flash ) )
 
         $(document).ready(function(){
 
-<?php if( ! empty( $notification ) ) { ?>
-            show_speech_bubble();
-<?php } ?>
-
             // Hover to keep speech bubble alive
             $("#speech_bubble").mouseover(function(){
                 if (speech_bubble_open)
@@ -45,7 +41,6 @@ if( ! empty( $flash ) )
                 $("#speech_bubble").stop().fadeOut(250);
                 return false;
             });
-
 
         });
     </script>

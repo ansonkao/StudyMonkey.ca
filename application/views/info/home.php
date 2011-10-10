@@ -28,6 +28,13 @@ $footer_items['Contact']    = "/contact";
     <script>
         $(document).ready(function(){
 
+            setTimeout
+                ( function()
+                    { new_speech_bubble( "Try me! Enter the name of your college or university in the search bar." );
+                    }
+                , 3000
+                );
+
             // School Search - AJAX
             $("form[name=school_search]").submit(function(){
                 if( $("input[name=search]").val() != "<?=$search_placeholder?>" && $.trim($("input[name=search]").val()) != "" )
@@ -185,7 +192,7 @@ $footer_items['Contact']    = "/contact";
     </div>
 
 <!------------------------------ START MASCOT --------------------------------->
-<?php echo $this->load->view( '_mascot', true ); ?>
+<?php $this->load->view( '_mascot' ); ?>
 <!------------------------------- END MASCOT ---------------------------------->
 
 </body>
