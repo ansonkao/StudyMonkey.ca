@@ -18,7 +18,7 @@ if( ! empty( $flash ) )
 
         function show_speech_bubble()
         {
-            $("#speech_bubble").stop().hide().fadeIn(750).fadeOut(8000);
+            $("#speech_bubble").stop().hide().fadeIn(750).delay(4000).fadeOut(6000);
         }
 
         function new_speech_bubble( message )
@@ -29,14 +29,10 @@ if( ! empty( $flash ) )
 
         $(document).ready(function(){
 
-<?php if( ! empty( $notification ) ) { ?>
-            show_speech_bubble();
-<?php } ?>
-
             // Hover to keep speech bubble alive
             $("#speech_bubble").mouseover(function(){
                 if (speech_bubble_open)
-                    $(this).stop().css({opacity: 1}).fadeOut(8000);
+                    $(this).stop().css({opacity: 1}).delay(4000).fadeOut(6000);
             });
 
             // Click to close the speech bubble
@@ -45,7 +41,6 @@ if( ! empty( $flash ) )
                 $("#speech_bubble").stop().fadeOut(250);
                 return false;
             });
-
 
         });
     </script>
