@@ -195,11 +195,15 @@ div.transparent, td.transparent, .transparent td {
 
 /*** PAGINATION ***/
 .pagination {
-    font-size: 14px;
+    font-size: 12px;
 }
 .pagination.current {
-    color: #000;
+    background-color: #555;
+    color: #FFF;
     font-weight: bold;
+    -moz-border-radius: 2px;
+    border-radius:      2px;
+    padding: 1px 3px;
 }
 .pagination.off {
     color: #777;

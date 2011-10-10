@@ -6,7 +6,7 @@
  * almost every page in the site.
  */
 
-$search_placeholder = "Search colleges and universities...";
+$search_placeholder = "Type the name of your school...";
 
 $footer_items = array();
 $footer_items['Terms']      = "/terms";
@@ -189,7 +189,7 @@ $footer_items['Contact']    = "/contact";
         <div id="toolbar">
             <img id="mascot" src="/image/layout/mascot.png" />
 <?php if (!empty($notification)) { ?>
-            <div id="speech_bubble">
+            <div id="speech_bubble" class="round_box">
                 <a id="speech_bubble_close" href="#">&times;</a>
                 <span><?php echo $notification->message; ?></span>
                 <div id="speech_bubble_tail"></div>

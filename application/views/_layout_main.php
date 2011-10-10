@@ -42,7 +42,7 @@ if( ! empty( $flash ) )
     <script  type="text/javascript" src="/js/jquery-1.6.3.min.js"></script>
     <script  type="text/javascript" src="/js/jquery.color.js"></script>
     <link href="/css/layout.css" rel="stylesheet" type="text/css" />
-    <link href="/css/element_styles.css" rel="stylesheet" type="text/css" />
+    <link href="/css/element_styles.css?v=<?=VERSION?>" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <script>
