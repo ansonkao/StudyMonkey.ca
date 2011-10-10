@@ -98,7 +98,7 @@ class Course_model extends StudyMonkey_Model
         }
 
         // Order
-        $sql .= " ORDER BY course_code LIKE ? DESC";
+        $sql .= " ORDER BY course_code LIKE ? DESC, course_code ASC";
         $params[] = $search_term . "%";
 
         // Offset / Limit
