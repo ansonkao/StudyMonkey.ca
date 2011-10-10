@@ -18,7 +18,8 @@ if( ! empty( $flash ) )
 
         function show_speech_bubble()
         {
-            $("#speech_bubble").stop().hide().fadeIn(750).delay(4000).fadeOut(6000);
+            speech_bubble_open = true;
+            $("#speech_bubble").stop().hide().css({opacity: 1}).fadeIn(500).fadeOut(12000);
         }
 
         function new_speech_bubble( message )
@@ -32,7 +33,7 @@ if( ! empty( $flash ) )
             // Hover to keep speech bubble alive
             $("#speech_bubble").mouseover(function(){
                 if (speech_bubble_open)
-                    $(this).stop().css({opacity: 1}).delay(4000).fadeOut(6000);
+                    $(this).stop().css({opacity: 1}).fadeOut(12000);
             });
 
             // Click to close the speech bubble
@@ -40,6 +41,18 @@ if( ! empty( $flash ) )
                 speech_bubble_open = false;
                 $("#speech_bubble").stop().fadeOut(250);
                 return false;
+            });
+
+            // Click on the mascot to get random messages
+            var random_messages = new Array();
+            random_messages[0] = "Stop clicking me - it tickles!";
+            random_messages[1] = "Ow, that one really hurt!  Stop poking me!";
+            random_messages[2] = "Glad you're here! I've been leaning against this pencil all day.";
+            random_messages[3] = "Shouldn't you be studying?";
+            random_messages[4] = "I could totally go for a banana right now...";
+            $("#mascot").click(function(){
+                //new_speech_bubble( random_messages[ Math.floor( Math.random() * 5 ) ] );
+                new_speech_bubble( random_messages[0] );
             });
 
         });
