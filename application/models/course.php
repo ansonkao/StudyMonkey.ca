@@ -87,7 +87,7 @@ class Course_model extends StudyMonkey_Model
         return $result->result_array();
     }
 
-    public function search( $search_term, $limit = ITEMS_PER_PAGE, $page = 1, $school_id = NULL )
+    function search( $search_term, $limit = ITEMS_PER_PAGE, $page = 1, $school_id = NULL )
     {
         // Validate
         if ( ! is_numeric($limit) )
@@ -120,15 +120,16 @@ class Course_model extends StudyMonkey_Model
 
         // Offset / Limit
         $sql .= " LIMIT ?, ?";
-        $params[] = $limit * ( $page - 1 );
-        $params[] = $limit;
+        $params[] = intval( $limit * ( $page - 1 ) );
+        $params[] = intval( $limit );
 
         // Run Query
         $result = $this->db->query($sql, $params );
         return $result->result_array();
     }
 
-    public function update_totals($which = NULL) {
+    function update_totals( $which = NULL )
+    {
         global $database;
         if (empty($which) || $which == "professors") {
             $this->total_professors = course_professor::count_by_course_id($this->id);

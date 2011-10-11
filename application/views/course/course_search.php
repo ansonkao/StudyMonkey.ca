@@ -6,9 +6,6 @@
 $search_placeholder = "Type a course code or name...";
 $search_box_value = empty( $previous_query )? $search_placeholder : $previous_query;
 
-$add_course_code_placeholder = "e.g. PSYCH101";
-$add_course_title_placeholder = "e.g. Introduction to Psychology";
-
 ?>
 <script>
     $(document).ready(function(){
@@ -84,83 +81,6 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
             $('#search_box').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
         }
 
-        // PLACE HOLDERS for ADD COURSE
-        $('#add_course_code').focus(function(){
-            if($(this).val() == "<?=$add_course_code_placeholder?>")
-            {
-                $(this).val("");
-                $(this).css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
-            }
-        }).blur(function(){
-            if($(this).val() == "")
-            {
-                $(this).val("<?=$add_course_code_placeholder?>");
-                $(this).css({"fontStyle":"italic", "color":"rgb(119,136,119)"});
-            }
-        });
-        $('#add_course_title').focus(function(){
-            if($(this).val() == "<?=$add_course_title_placeholder?>")
-            {
-                $(this).val("");
-                $(this).css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
-            }
-        }).blur(function(){
-            if($(this).val() == "")
-            {
-                $(this).val("<?=$add_course_title_placeholder?>");
-                $(this).css({"fontStyle":"italic", "color":"rgb(119,136,119)"});
-            }
-        });
-
-        // Correct placeholder styling if browser pre-populates value from previous page load
-        if( $('#add_course_code').val() != "<?=$add_course_code_placeholder?>" )
-        {
-            $('#add_course_code').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
-        }
-        if( $('#add_course_title').val() != "<?=$add_course_title_placeholder?>" )
-        {
-            $('#add_course_title').css({"fontStyle":"normal", "color":"rgb(0,0,0)"});
-        }
-
-
-        // Add Course AJAX
-        $("form[name=add_course]").submit( function(){
-
-            // Validate empty fields
-            if( $("#add_course_code").val() == "<?=$add_course_code_placeholder?>" )
-            {
-                new_speech_bubble( "Please enter a course code." );
-                return false;
-            }
-            if( $("#add_course_title").val() == "<?=$add_course_title_placeholder?>" )
-            {
-                new_speech_bubble( "Please enter a title for your course." );
-                return false;
-            }
-
-            // AJAX that shit!
-            var loading_icon = $(this).find(".loading");
-            loading_icon.show();
-            $.ajax({
-                type: "POST",
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                success: function(data){
-
-                    if( data.substring(0, 8) == "REDIRECT" )
-                    {
-                        window.location = "/<?php echo string2uri( $school['full_name'] ); ?>/courses/" + data.substring(9);
-                    }
-                    else
-                    {
-                        new_speech_bubble( data.substring(6) );
-                        loading_icon.hide();
-                    }
-                }
-            });
-            return false;
-        })
-
     });
 </script>
 <div class="left_column" style="text-align: center;">
@@ -213,60 +133,15 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
 <?php echo $search_result; ?>
     </div>
 
-    <div class="round_box" style="margin: 64px auto 0; width: 320px;">
-        <h3 style="margin-top: 5px;">
-            Can't find your course?
+    <h2 style="margin-top: 64px; font: italic 16px arial;">
+        Can't find your course?
+        <a href="#add-course" class="add_course_lightbox">
             Add it!
-        </h3>
-        <form name="add_course" method="post" action="/<?php echo string2uri( $school['full_name'] ); ?>/courses/create">
-            <table border="0" cellspacing="0" cellpadding="5" style="margin: auto;">
-                <tr>
-                    <td valign="top" align="right">
-                        <label for="course_code">Course Code</label>
-                    </td>
-                    <td valign="top">
-                        <input id="add_course_code" class="placeholder" type="text" name="course_code" value="<?=$add_course_code_placeholder?>" style="width: 200px;" />
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top" align="right">
-                        <label for="course_title">Title</label>
-                    </td>
-                    <td valign="top">
-                        <input id="add_course_title" class="placeholder" type="text" name="course_title" value="<?=$add_course_title_placeholder?>" style="width: 200px;" />
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top" align="right">
-                        <label for="captcha">Math is Fun!</label>
-                    </td>
-                    <td valign="top" align="left">
-                        <table border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td valign="top" align="center" style="width: 100px;">
-                                    <img src="/captcha" alt="Captcha!" style="border: 1px solid #000; -moz-border-radius: 5px;" />
-                                </td>
-                                <td valign="center" align="center" style="width: 44px;">
-                                    <span style="font: bold 24px arial;">
-                                        =
-                                    </span>
-                                </td>
-                                <td valign="top" align="left">
-                                    <input type="text" id="captcha" name="captcha" value="" style="width: 55px; text-align: center;" />
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top" align="right" colspan="2">
-                        <img class="loading" src="/image/icon/loading.gif" alt="Loading..." />
-                        <input type="submit" value="Add course &#187;" />
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
+        </a>
+    </h2>
+<!----------------------------- START ADD COURSE ------------------------------>
+<?php $this->load->view("course/course_create"); ?>
+<!------------------------------ END ADD COURSE ------------------------------->
 
 </div>
 

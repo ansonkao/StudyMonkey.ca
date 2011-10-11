@@ -201,8 +201,18 @@ class Professor extends CI_Controller
                 // Redirect the user
                 if( $this->input->is_ajax_request() )
                 {
-                    $redirect = Notification::redirect( string2uri( $new_professor['first_name'] ) . "_" . string2uri( $new_professor['last_name'] ) );
-                    echo $redirect->to_AJAX ();
+                    // Return the professor ID for ratings lightbox
+                    if( $this->input->post('return') == "id" )
+                    {
+                        $this->session->set_flashdata( array( 'notification' => NULL ) );   // Inset the flash message since it will be generated client side
+                        $redirect = Notification::redirect( $new_professor['id'] );
+                        echo $redirect->to_AJAX ();
+                    }
+                    else
+                    {
+                        $redirect = Notification::redirect( string2uri( $new_professor['first_name'] ) . "_" . string2uri( $new_professor['last_name'] ) );
+                        echo $redirect->to_AJAX ();
+                    }
                 }
                 else
                 {
@@ -222,6 +232,31 @@ class Professor extends CI_Controller
             $this->session->set_flashdata( array( 'notification' => $response ) );
             header( "location: /" . string2uri( $school['full_name'] . "/professors" ) );
         }
+        return;
+    }
+
+    function autocomplete( $school_segment )
+    {
+        // School
+        $this->load->model('school');
+        $school = $this->school->find_by_uri_segment( $school_segment );
+        if ( empty( $school ) )
+            return;
+
+        // Post Parameters
+        $query = $this->input->post("q");
+        $limit = $this->input->post("limit");
+        if( empty( $query) || ! is_numeric( $limit ) )
+            return;
+
+        // Professor search
+        $this->load->model('professor');
+        $items = $this->professor->search( $query, $limit, 1, $school['id'] );
+
+        // Output results
+        header('Content-Type: text/html; charset=ISO-8859-15'); // <--- Needed to prevent accents from turning into question marks in the autocomplete
+        foreach($items as $item)
+            echo $item['last_name'] . ", " . $item['first_name'] . "|" . $item['id'] . "\n";
         return;
     }
 

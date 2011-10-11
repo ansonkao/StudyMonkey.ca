@@ -38,6 +38,12 @@ $footer_items['Contact']    = "/contact";
     <script  type="text/javascript" src="/js/jquery.color.js"></script>
     <link href="/css/layout.css?v=<?=VERSION?>" rel="stylesheet" type="text/css" />
     <link href="/css/element_styles.css?v=<?=VERSION?>" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery.colorbox.css?v=<?=VERSION?>"/>
+    <link rel="stylesheet" type="text/css" href="/css/jquery.autocomplete.css?v=<?=VERSION?>"/>
+    <link rel="stylesheet" type="text/css" href="/css/jquery.rating.css?v=<?=VERSION?>"/>
+    <script type="text/javascript" src="/js/jquery.colorbox.js?v=<?=VERSION?>"></script>
+    <script type="text/javascript" src="/js/jquery.autocomplete.js?v=<?=VERSION?>"></script>
+    <script type="text/javascript" src="/js/jquery.rating.js?v=<?=VERSION?>"></script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <script>

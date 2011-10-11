@@ -2,71 +2,15 @@
 /**
  * PROFESSOR PAGE
  */
-
-// SETTINGS FOR THE REVIEW LIGHTBOX
-$course_or_professor = "course"; // What to autocomplete
-$this_course_or_professor_id = $professor['id'];
-
 ?>
-<script>
-    $(document).ready(function(){
-
-/*
-        $("a.review_lightbox_link").colorbox({
-            inline: true,
-            initialWidth: 64,
-            initialHeight: 64,
-            opacity: 0.64,
-            overlayClose: false
-        });
-
-        // AUTOCOMPLETE add_professor_name
-        $("#add_professor_name").autocomplete("autocomplete_professor.php",{
-            minChars: 1,
-            selectFirst: true,
-            autoFill: false,
-            mustMatch: false,
-            width: "310",
-            extraParams: {host: 'http'}
-        }).result(function(event, data, formatted){ // Update professor_id
-            if (data) {
-                $(this).prev().val(data[1]);
-                if ($(this).val().length > 30) {
-                    $(this).val($(this).val().substr(0, 27) + "...");
-                }
-                $(this).css("color", "#777");
-                $(this).css("background-image", "url(<?php echo site_url()."image/rating/cancel.gif"; ?>)")
-                $(this).css("background-repeat", "no-repeat");
-                $(this).css("background-position", "center right");
-                $(this).blur();
-                event.stopPropogation();    // Stop propogation to avoid
-                                            // focus on the textbox after
-                                            // "disabled" appearance
-            }
-        }).focus(function(event){
-            $(this).prev().val("");
-            $(this).css("color", "#000")
-            $(this).css("background-image", "")
-            $(this).val("");
-            $(this).select();
-        }).blur(function(){
-            if ($(this).prev().val() == "") {
-                $(this).val("Type a professor's name...");
-            }
-        });
-
-        $("#form_add_professor").submit(function(){
-            return confirm("Are you sure you want to add this professor without reviewing it?  Double check!");
-        });
-*/
-
-    });
-</script>
-<?php /*
-<div style="display: none;">
-<?php include SERVER_HTTP.'/user/course_professor_review.php'; ?>
-</div>
-*/ ?>
+<!----------------------- START COURSE/PROFESSOR-REVIEW ----------------------->
+<?php
+    $course_professor_review_params = array();
+    $course_professor_review_params['course_or_professor'] = "course";
+    $course_professor_review_params['this_course_or_professor_id'] = $professor['id'];
+    $this->load->view('rating/course_professor_review', $course_professor_review_params );
+?>
+<!------------------------ END COURSE/PROFESSOR-REVIEW ------------------------>
 
 <div class="left_column">
 
@@ -230,8 +174,8 @@ $this_course_or_professor_id = $professor['id'];
             No reviews yet - Be the first!
         </div>
         <?php } ?>
-        <a href="#course_professor_review" class="button yellow">
-            Rate this Course! &#9658;
+        <a href="#course_professor_review" class="button yellow review_lightbox_link">
+            Rate this Professor! &#9658;
         </a>
     </div>
     <?php if (!$reviews) { ?>
@@ -392,7 +336,7 @@ $this_course_or_professor_id = $professor['id'];
         <div style="float: left;">
 <?php $this->pagination->display_page_links(); ?>
         </div>
-        <a href="#course_professor_review" class="button yellow small" style="float: right;">Rate this Course! &#9658;</a>
+        <a href="#course_professor_review" class="button yellow small review_lightbox_link" style="float: right;">Rate this Professor! &#9658;</a>
     </div>
 
 </div>
@@ -450,7 +394,7 @@ $this_course_or_professor_id = $professor['id'];
         <?php echo empty($courses)? "Be the first! " : "Is this list incomplete? "; ?>
         Add a course this professor teaches by
         <a href="#course_professor_review" class="review_lightbox_link">
-             Rating the Course!
+             Rating the Professor!
         </a>
     </p>
 

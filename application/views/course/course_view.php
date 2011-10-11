@@ -2,71 +2,19 @@
 /**
  * COURSE PAGE
  */
-
-// SETTINGS FOR THE REVIEW LIGHTBOX
-$course_or_professor = "professor"; // What to autocomplete
-$this_course_or_professor_id = $course['id'];
-
 ?>
-<script>
-    $(document).ready(function(){
+<!----------------------- START COURSE/PROFESSOR-REVIEW ----------------------->
+<?php
+    $course_professor_review_params = array();
+    $course_professor_review_params['course_or_professor'] = "professor";
+    $course_professor_review_params['this_course_or_professor_id'] = $course['id'];
+    $this->load->view('rating/course_professor_review', $course_professor_review_params );
+?>
+<!------------------------ END COURSE/PROFESSOR-REVIEW ------------------------>
 
-/*
-        $("a.review_lightbox_link").colorbox({
-            inline: true,
-            initialWidth: 64,
-            initialHeight: 64,
-            opacity: 0.64,
-            overlayClose: false
-        });
-
-        // AUTOCOMPLETE add_professor_name
-        $("#add_professor_name").autocomplete("autocomplete_professor.php",{
-            minChars: 1,
-            selectFirst: true,
-            autoFill: false,
-            mustMatch: false,
-            width: "310",
-            extraParams: {host: 'http'}
-        }).result(function(event, data, formatted){ // Update professor_id
-            if (data) {
-                $(this).prev().val(data[1]);
-                if ($(this).val().length > 30) {
-                    $(this).val($(this).val().substr(0, 27) + "...");
-                }
-                $(this).css("color", "#777");
-                $(this).css("background-image", "url(<?php echo site_url()."image/rating/cancel.gif"; ?>)")
-                $(this).css("background-repeat", "no-repeat");
-                $(this).css("background-position", "center right");
-                $(this).blur();
-                event.stopPropogation();    // Stop propogation to avoid
-                                            // focus on the textbox after
-                                            // "disabled" appearance
-            }
-        }).focus(function(event){
-            $(this).prev().val("");
-            $(this).css("color", "#000")
-            $(this).css("background-image", "")
-            $(this).val("");
-            $(this).select();
-        }).blur(function(){
-            if ($(this).prev().val() == "") {
-                $(this).val("Type a professor's name...");
-            }
-        });
-
-        $("#form_add_professor").submit(function(){
-            return confirm("Are you sure you want to add this professor without reviewing it?  Double check!");
-        });
-*/
-
-    });
-</script>
-<?php /*
-<div style="display: none;">
-<?php include SERVER_HTTP.'/user/course_professor_review.php'; ?>
-</div>
-*/ ?>
+<!----------------------------- START ADD COURSE ------------------------------>
+<?php $this->load->view("course/course_create"); ?>
+<!------------------------------ END ADD COURSE ------------------------------->
 
 <?php if (0) {// session::user()->privilege == 'admin') { ?>
 <div style="width: 20px; height: 30px; position: fixed; left: 0px; top: 160px; padding: 10px; border: 3px solid #000; border-left: 0px; -moz-border-radius: 0px 10px 10px 0px; background: #3D6A27; z-index: 2;">
@@ -370,7 +318,7 @@ $this_course_or_professor_id = $course['id'];
             No reviews yet - Be the first!
         </div>
         <?php } ?>
-        <a href="#course_professor_review" class="button yellow">
+        <a href="#course_professor_review" class="button yellow review_lightbox_link">
             Rate this Course! &#9658;
         </a>
     </div>

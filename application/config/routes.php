@@ -54,20 +54,24 @@ $route['terms']         = 'info/terms';
 $route['notesolution']  = 'info/notesolution';
 
 // Course Controller
-$route['(:any)/courses/create']         // http://www.studymonkey.ca/university-of-waterloo/courses/create
-    = 'course/create/$1';               // http://www.studymonkey.ca/courses/create     ... $1 = "university-of-waterloo"
-$route['(:any)/courses/(:any)']         // http://www.studymonkey.ca/university-of-waterloo/courses/psych101
-    = 'course/view/$1/$2';              // http://www.studymonkey.ca/courses/view       ... $1 = "university-of-waterloo" $2 = "psych101"
-$route['(:any)/courses']                // http://www.studymonkey.ca/university-of-waterloo/courses
-    = 'course/search/$1';               // http://www.studymonkey.ca/courses/search     ... $1 = "university-of-waterloo"
+$route['(:any)/courses/autocomplete']       // http://www.studymonkey.ca/university-of-waterloo/courses/create
+    = 'course/autocomplete/$1';             // http://www.studymonkey.ca/courses/autocomplete       ... $1 = "university-of-waterloo"
+$route['(:any)/courses/create']             // http://www.studymonkey.ca/university-of-waterloo/courses/create
+    = 'course/create/$1';                   // http://www.studymonkey.ca/courses/create             ... $1 = "university-of-waterloo"
+$route['(:any)/courses/(:any)']             // http://www.studymonkey.ca/university-of-waterloo/courses/psych101
+    = 'course/view/$1/$2';                  // http://www.studymonkey.ca/courses/view               ... $1 = "university-of-waterloo" $2 = "psych101"
+$route['(:any)/courses']                    // http://www.studymonkey.ca/university-of-waterloo/courses
+    = 'course/search/$1';                   // http://www.studymonkey.ca/courses/search             ... $1 = "university-of-waterloo"
 
 // Professor Controller
-$route['(:any)/professors/create']      // http://www.studymonkey.ca/university-of-waterloo/professors/create
-    = 'professor/create/$1';            // http://www.studymonkey.ca/professors/create  ... $1 = "university-of-waterloo"
-$route['(:any)/professors/(:any)']      // http://www.studymonkey.ca/university-of-waterloo/professors/mary-ann_vaughan
-    = 'professor/view/$1/$2';           // http://www.studymonkey.ca/professors/view    ... $1 = "university-of-waterloo" $2 = "mary-ann_vaughan"
-$route['(:any)/professors']             // http://www.studymonkey.ca/university-of-waterloo/professors
-    = 'professor/search/$1';            // http://www.studymonkey.ca/professors/search  ... $1 = "university-of-waterloo"
+$route['(:any)/professors/autocomplete']    // http://www.studymonkey.ca/university-of-waterloo/professors/create
+    = 'professor/autocomplete/$1';          // http://www.studymonkey.ca/professors/autocomplete    ... $1 = "university-of-waterloo"
+$route['(:any)/professors/create']          // http://www.studymonkey.ca/university-of-waterloo/professors/create
+    = 'professor/create/$1';                // http://www.studymonkey.ca/professors/create          ... $1 = "university-of-waterloo"
+$route['(:any)/professors/(:any)']          // http://www.studymonkey.ca/university-of-waterloo/professors/mary-ann_vaughan
+    = 'professor/view/$1/$2';               // http://www.studymonkey.ca/professors/view            ... $1 = "university-of-waterloo" $2 = "mary-ann_vaughan"
+$route['(:any)/professors']                 // http://www.studymonkey.ca/university-of-waterloo/professors
+    = 'professor/search/$1';                // http://www.studymonkey.ca/professors/search          ... $1 = "university-of-waterloo"
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

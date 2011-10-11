@@ -141,9 +141,11 @@ input[type=submit]::-moz-focus-inner {  /* Reset to eliminate extra padding in f
     border: 0;
     padding: 0;
 }
-
+input[type=checkbox] {
+    vertical-align: middle;
+}
 label {
-    font-weight: bold;
+    font: bold 12px arial;
     padding: 4px 0;
     display: inline-block;
 }
@@ -222,7 +224,7 @@ div#toolbar_wrapper {
     left: 0;
     right: 0;
     height: 0px;
-    z-index: 40;
+    z-index: 24000;
 }
 div#toolbar {
     position: relative;

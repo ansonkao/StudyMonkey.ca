@@ -214,8 +214,18 @@ class Course extends CI_Controller
                 // Redirect the user
                 if( $this->input->is_ajax_request() )
                 {
-                    $redirect = Notification::redirect( string2uri( $new_course['course_code'] ) );
-                    echo $redirect->to_AJAX ();
+                    // Return the professor ID for ratings lightbox
+                    if( $this->input->post('return') == "id" )
+                    {
+                        $this->session->set_flashdata( array( 'notification' => NULL ) );   // Inset the flash message since it will be generated client side
+                        $redirect = Notification::redirect( $new_course['id'] );
+                        echo $redirect->to_AJAX ();
+                    }
+                    else
+                    {
+                        $redirect = Notification::redirect( string2uri( $new_course['course_code'] ) );
+                        echo $redirect->to_AJAX ();
+                    }
                 }
                 else
                 {
@@ -235,6 +245,31 @@ class Course extends CI_Controller
             $this->session->set_flashdata( array( 'notification' => $response ) );
             header( "location: /" . string2uri( $school['full_name'] . "/courses" ) );
         }
+        return;
+    }
+
+    function autocomplete( $school_segment )
+    {
+        // School
+        $this->load->model('school');
+        $school = $this->school->find_by_uri_segment( $school_segment );
+        if ( empty( $school ) )
+            return;
+
+        // Post Parameters
+        $query = $this->input->post("q");
+        $limit = $this->input->post("limit");
+        if( empty( $query) || ! is_numeric( $limit ) )
+            return;
+
+        // Course search
+        $this->load->model('course');
+        $items = $this->course->search( $query, $limit, 1, $school['id'] );
+
+        // Output results
+        header('Content-Type: text/html; charset=ISO-8859-15'); // <--- Needed to prevent accents from turning into question marks in the autocomplete
+        foreach($items as $item)
+            echo $item['course_code'] . ": " . $item['course_title'] . "|" . $item['id'] . "\n";
         return;
     }
 

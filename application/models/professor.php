@@ -132,8 +132,8 @@ class Professor_model extends StudyMonkey_Model
 
         // Offset / Limit
         $sql .= " LIMIT ?, ?";
-        $params[] = $limit * ( $page - 1 );
-        $params[] = $limit;
+        $params[] = intval( $limit * ( $page - 1 ) );
+        $params[] = intval( $limit );
 
         // Run Query
         $result = $this->db->query($sql, $params );
