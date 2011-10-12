@@ -106,15 +106,12 @@ class Professor extends CI_Controller
         if ( $total_reviews > 0 AND empty( $reviews ) )
             show_404($this->uri->uri_string());
 
-        // Review authors and courses
-        $this->load->model('user');
-        $review_authors = array();
+        // Review courses
         $review_courses = array();
         if ( ! empty( $reviews ) )
         {
             foreach($reviews as $review)
             {
-                $review_authors[$review['id']] = $this->user->find_by_id($review['user_id']);
                 $review_courses[$review['id']] = $this->course->find_by_id($review['course_id']);
             }
         }
@@ -132,7 +129,6 @@ class Professor extends CI_Controller
         $this->view_params['courses'] = $courses;
         $this->view_params['total_reviews'] = $total_reviews;
         $this->view_params['reviews'] = $reviews;
-        $this->view_params['review_authors'] = $review_authors;
         $this->view_params['review_courses'] = $review_courses;
 
         // Layout Parameters

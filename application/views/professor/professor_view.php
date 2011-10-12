@@ -196,7 +196,6 @@
         {
             foreach($reviews as $review)
             {
-                $author = $review_authors[$review['id']];
                 $course = $review_courses[$review['id']];
     ?>
     <div style="width: 520px; padding: 10px; border-bottom: 1px solid #333;">
@@ -307,7 +306,7 @@
                         <?php
                             //echo date("F Y", strtotime($review['date_created']));
                             echo date("F jS Y", strtotime($review['date_created']));
-                            if (!$review['anonymous']) { echo " - " . $review_authors[$review['id']]['username']; }
+                            echo " - {$review['username']}";
                             echo "\n";
                         ?>
                     </div>

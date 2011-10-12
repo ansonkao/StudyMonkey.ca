@@ -18,6 +18,30 @@
     DROP TABLE `program`;
     DROP TABLE `referral_method`;
 
+    ### Move username from user to reviews
+    ALTER TABLE `course_professor_review` ADD `username` VARCHAR( 20 ) NULL DEFAULT NULL AFTER `user_id`;
+
+    UPDATE `course_professor_review` review, `user` user
+    SET review.`username` = user.`username`
+    WHERE review.`user_id` = user.`id`
+        AND review.`anonymous` <> 1;
+
+    UPDATE `course_professor_review` review, `user` user
+    SET review.`username` = 'anonymous'
+    WHERE review.`anonymous` = 1;
+
+    ### Move Gender from user to reviews
+    ALTER TABLE `course_professor_review` ADD `gender` ENUM( 'M', 'F' ) NULL DEFAULT NULL AFTER `username`;
+
+    UPDATE `course_professor_review` review, `user` user
+    SET review.`gender` = user.`gender`
+    WHERE review.`user_id` = user.`id`
+
+    ### Drop user stuff now that it's useless
+    ALTER TABLE `course_professor_review`
+        DROP `user_id`,
+        DROP `anonymous`;
+    DROP TABLE `user`;
 
     ";
 

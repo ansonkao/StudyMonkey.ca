@@ -242,6 +242,26 @@ class Course_professor_review_model extends StudyMonkey_Model
         ,   $school
         )
     {
+        // Validate the rating
+        $test_keys = array
+            ( "workload_rating"
+            , "easiness_rating"
+            , "interest_rating"
+            , "knowledge_rating"
+            , "helpful_rating"
+            , "awesome_rating"
+            );
+        foreach( $test_keys as $key )
+        {
+            if( ! is_numeric( $review[$key] ) OR $review[$key] < 1 OR $review[$key] > 5 )
+                return Notification::error("Invalid rating.");
+        }
+        if( ! is_numeric( $review["attendance_rating"] ) OR $review["attendance_rating"] < 1 OR $review["attendance_rating"] > 4 )
+            return Notification::error("Invalid rating.");
+        if( ! is_numeric( $review["textbook_rating"] ) OR $review["textbook_rating"] < 0 OR $review["textbook_rating"] > 4 )
+            return Notification::error("Invalid rating.");
+
+        // Distinguish between course and professor
         $new_course_professor = array();
         switch( $course_or_professor_page )
         {
@@ -254,11 +274,12 @@ class Course_professor_review_model extends StudyMonkey_Model
                 $new_course_professor['professor_id'] = $course_or_professor_page_id;
                 break;
         }
-
+        
+        // Try to find an existing course_professor relationship
         $this->load->model('course_professor');
         $found_course_professor = $this->course_professor->find_by_course_and_professor_id( $new_course_professor['course_id'], $new_course_professor['professor_id'] );
 
-        // Found existing record for this course/professor combo
+        // Found existing record for this course/professor relationship
         if( $found_course_professor )
         {
             // Validate school
@@ -298,7 +319,7 @@ class Course_professor_review_model extends StudyMonkey_Model
             $review['professor_id']         = $new_course_professor['professor_id'];
             $review['course_professor_id']  = $new_course_professor['id'];
 
-            return Notification::success();
+            return Notification::success("Thanks for rating!");
         }
     }
 

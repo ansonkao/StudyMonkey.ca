@@ -12,10 +12,6 @@
 ?>
 <!-- ===================== END COURSE/PROFESSOR-REVIEW ===================== -->
 
-<!-- ========================== START ADD COURSE =========================== -->
-<?php $this->load->view("course/course_create"); ?>
-<!-- =========================== END ADD COURSE ============================ -->
-
 <?php if (0) {// session::user()->privilege == 'admin') { ?>
 <div style="width: 20px; height: 30px; position: fixed; left: 0px; top: 160px; padding: 10px; border: 3px solid #000; border-left: 0px; -moz-border-radius: 0px 10px 10px 0px; background: #3D6A27; z-index: 2;">
     <div style="position: absolute; top: 10px; right: 10px;">
@@ -340,7 +336,6 @@
         {
             foreach($reviews as $review)
             {
-                $author = $review_authors[$review['id']];
                 $professor = $review_professors[$review['id']];
     ?>
     <div style="width: 520px; padding: 10px; border-bottom: 1px solid #333;">
@@ -451,7 +446,7 @@
                         <?php
                             //echo date("F Y", strtotime($review['date_created']));
                             echo date("F jS Y", strtotime($review['date_created']));
-                            if (!$review['anonymous']) { echo " - " . $review_authors[$review['id']]['username']; }
+                            echo " - {$review['username']}";
                             echo "\n";
                         ?>
                     </div>
@@ -485,12 +480,12 @@
 
 </div>
 
-<!-- ##################################33333333############################# -->
+<!-- ####################################################################### -->
 <div class="right_column">
 
-<!------------------------ START RECTANGLE BANNER AD -------------------------->
+<!-- ===================== START RECTANGLE BANNER AD ======================= -->
 <?php $this->load->view("banners/notesolution_rectangle"); ?>
-<!------------------------- END RECTANGLE BANNER AD --------------------------->
+<!-- ====================== END RECTANGLE BANNER AD ======================== -->
 
     <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
         Professors
