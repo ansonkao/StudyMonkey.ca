@@ -3,18 +3,18 @@
  * COURSE PAGE
  */
 ?>
-<!----------------------- START COURSE/PROFESSOR-REVIEW ----------------------->
+<!-- ==================== START COURSE/PROFESSOR-REVIEW ==================== -->
 <?php
     $course_professor_review_params = array();
     $course_professor_review_params['course_or_professor'] = "professor";
     $course_professor_review_params['this_course_or_professor_id'] = $course['id'];
     $this->load->view('rating/course_professor_review', $course_professor_review_params );
 ?>
-<!------------------------ END COURSE/PROFESSOR-REVIEW ------------------------>
+<!-- ===================== END COURSE/PROFESSOR-REVIEW ===================== -->
 
-<!----------------------------- START ADD COURSE ------------------------------>
+<!-- ========================== START ADD COURSE =========================== -->
 <?php $this->load->view("course/course_create"); ?>
-<!------------------------------ END ADD COURSE ------------------------------->
+<!-- =========================== END ADD COURSE ============================ -->
 
 <?php if (0) {// session::user()->privilege == 'admin') { ?>
 <div style="width: 20px; height: 30px; position: fixed; left: 0px; top: 160px; padding: 10px; border: 3px solid #000; border-left: 0px; -moz-border-radius: 0px 10px 10px 0px; background: #3D6A27; z-index: 2;">
@@ -485,7 +485,7 @@
 
 </div>
 
-<!-- ############################################################### -->
+<!-- ##################################33333333############################# -->
 <div class="right_column">
 
 <!------------------------ START RECTANGLE BANNER AD -------------------------->

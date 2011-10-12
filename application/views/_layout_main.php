@@ -68,9 +68,9 @@ $footer_items['Contact']    = "/contact";
                 <a href="/notesolution" style="color: #000;">Looking for our old login box? &#187;</a>
             </div>
             <div id="navigation">
-<!------------------------------ START WIDGET --------------------------------->
+<!-- =========================== START WIDGET ============================== -->
 <?php $this->load->view('_calendar');?>
-<!------------------------------- END WIDGET ---------------------------------->
+<!-- ============================ END WIDGET =============================== -->
                 <ul>
 <?php foreach ($navigation_items as $title => $link) { ?>
                     <li>
@@ -93,14 +93,16 @@ $footer_items['Contact']    = "/contact";
                     <h2 id="page_subtitle"><?=$page_subtitle?></h2>
                     <h3 id="page_subtitle2"><?=$page_subtitle2?></h3>
                 </div>
+<?php /*
                 <!--<a href="http://www.notesolution.com">
                     <img id="half_banner" src="/image/banners/notesolution_half_banner.jpg" alt="Check out Notesolution.com for Study Notes!" />
-                </a>-->
+                </a>
+*/ ?>
             </div>
             <div id="content_body">
-<!------------------------------ START CONTENT -------------------------------->
+<!-- ============================ START CONTENT ============================ -->
 <?php echo $page_content;?>
-<!------------------------------- END CONTENT --------------------------------->
+<!-- ============================= END CONTENT ============================= -->
             </div>
         </div>
         <div id="content_end"></div>
@@ -120,9 +122,9 @@ $footer_items['Contact']    = "/contact";
         </div>
     </div>
 
-<!------------------------------ START MASCOT --------------------------------->
+<!-- ============================= START MASCOT ============================ -->
 <?php $this->load->view( '_mascot' ); ?>
-<!------------------------------- END MASCOT ---------------------------------->
+<!-- ============================== END MASCOT ============================= -->
 
 </body>
 </html>

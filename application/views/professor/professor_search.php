@@ -131,9 +131,9 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
             Add them!
         </a>
     </h2>
-<!---------------------------- START ADD PROFESSOR ---------------------------->
+<!-- ========================= START ADD PROFESSOR ========================= -->
 <?php $this->load->view("professor/professor_create"); ?>
-<!----------------------------- END ADD PROFESSOR ----------------------------->
+<!-- ========================== END ADD PROFESSOR ========================== -->
 
 </div>
 
@@ -141,9 +141,9 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
 
 <div class="right_column">
 
-<!------------------------ START RECTANGLE BANNER AD -------------------------->
+<!-- ===================== START RECTANGLE BANNER AD ======================= -->
 <?php $this->load->view("banners/notesolution_rectangle"); ?>
-<!------------------------- END RECTANGLE BANNER AD --------------------------->
+<!-- ====================== END RECTANGLE BANNER AD ======================== -->
 
     <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
         Popular professors

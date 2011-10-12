@@ -189,7 +189,7 @@
                                     break;
                             }
         ?>!</h2>
-    <form action="/user/course_professor_review_handler.php" method="post" id="form_review">
+    <form action="<?php echo "/" . string2uri( $school['full_name'] ) . "/course-professor-review"; ?>" method="post" id="form_review">
         <div style="width: 340px; text-align: left;" id="review_buttons">
             <table border="0" cellspacing="0" cellpadding="2" class="list_review" width="100%">
                 <tr>
@@ -395,9 +395,9 @@
     </form>
 </div>
 </div>
-<!---------------------- START ADD COURSE / PROFESSOR ------------------------->
+<!-- =================== START ADD COURSE / PROFESSOR ====================== -->
 <?php $this->load->view("{$course_or_professor}/{$course_or_professor}_create"); ?>
-<!----------------------- END ADD COURSE / PROFESSOR -------------------------->
+<!-- ==================== END ADD COURSE / PROFESSOR ======================= -->
 <?
 
 /* End of file course_professor_review.php */

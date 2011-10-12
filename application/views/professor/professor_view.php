@@ -3,14 +3,14 @@
  * PROFESSOR PAGE
  */
 ?>
-<!----------------------- START COURSE/PROFESSOR-REVIEW ----------------------->
+<!--  =================== START COURSE/PROFESSOR-REVIEW ==================== -->
 <?php
     $course_professor_review_params = array();
     $course_professor_review_params['course_or_professor'] = "course";
     $course_professor_review_params['this_course_or_professor_id'] = $professor['id'];
     $this->load->view('rating/course_professor_review', $course_professor_review_params );
 ?>
-<!------------------------ END COURSE/PROFESSOR-REVIEW ------------------------>
+<!-- ===================== END COURSE/PROFESSOR-REVIEW ===================== -->
 
 <div class="left_column">
 
@@ -344,9 +344,9 @@
 <!-- ############################################################### -->
 <div class="right_column">
 
-<!------------------------ START RECTANGLE BANNER AD -------------------------->
+<!-- ===================== START RECTANGLE BANNER AD ======================= -->
 <?php $this->load->view("banners/notesolution_rectangle"); ?>
-<!------------------------- END RECTANGLE BANNER AD --------------------------->
+<!-- ====================== END RECTANGLE BANNER AD ======================== -->
 
     <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
         Courses

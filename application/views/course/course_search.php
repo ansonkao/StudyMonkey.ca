@@ -139,9 +139,9 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
             Add it!
         </a>
     </h2>
-<!----------------------------- START ADD COURSE ------------------------------>
+<!-- ========================== START ADD COURSE =========================== -->
 <?php $this->load->view("course/course_create"); ?>
-<!------------------------------ END ADD COURSE ------------------------------->
+<!-- =========================== END ADD COURSE ============================ -->
 
 </div>
 
@@ -149,9 +149,9 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
 
 <div class="right_column">
 
-<!------------------------ START RECTANGLE BANNER AD -------------------------->
+<!-- ===================== START RECTANGLE BANNER AD ======================= -->
 <?php $this->load->view("banners/notesolution_rectangle"); ?>
-<!------------------------- END RECTANGLE BANNER AD --------------------------->
+<!-- ====================== END RECTANGLE BANNER AD ======================== -->
 
     <h2 style="font: bold 14px arial; padding: 20px 0 0px; margin: 0px;">
         Popular courses
