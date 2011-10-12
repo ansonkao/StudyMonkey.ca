@@ -234,54 +234,71 @@ class Course_professor_review_model extends StudyMonkey_Model
      * and identifies the corresponding records and saves them in this object.
      * Returns any errors, or false if no errors.
      */
-    public function process_new($params) {
-        $new_course_professor = new course_professor();
-        switch ($params['course_or_professor_page']) {
+    function process_new
+        (   $course_or_professor_page
+        ,   $course_or_professor_page_id
+        ,   $course_or_professor_id
+        , & $review
+        ,   $school
+        )
+    {
+        $new_course_professor = array();
+        switch( $course_or_professor_page )
+        {
             case 'course':
-                $new_course_professor->course_id = $params['course_or_professor_page_id'];
-                $new_course_professor->professor_id = $params['course_professor_id'];
+                $new_course_professor['course_id'] = $course_or_professor_page_id;
+                $new_course_professor['professor_id'] = $course_or_professor_id;
                 break;
             case 'professor':
-                $new_course_professor->course_id = $params['course_professor_id'];
-                $new_course_professor->professor_id = $params['course_or_professor_page_id'];
+                $new_course_professor['course_id'] = $course_or_professor_id;
+                $new_course_professor['professor_id'] = $course_or_professor_page_id;
                 break;
         }
-        $found_course_professor = course_professor::find_by_course_and_professor_id($new_course_professor->course_id, $new_course_professor->professor_id);
+
+        $this->load->model('course_professor');
+        $found_course_professor = $this->course_professor->find_by_course_and_professor_id( $new_course_professor['course_id'], $new_course_professor['professor_id'] );
 
         // Found existing record for this course/professor combo
-        if ($found_course_professor) {
-            // Update this rating with the course/professor values
-            $this->course_id = $found_course_professor->course_id;
-            $this->professor_id = $found_course_professor->professor_id;
-            $this->course_professor_id = $found_course_professor->id;
-
-            // Make sure the user hasn't rated this course/professor before
-            if (session::user()->privilege == "user") { // Admin can rate courses as much as they'd like
-                $already_reviewed = course_professor_review::count_all("user_id = ".session::user_id()." AND course_professor_id = {$this->course_professor_id}");
-                if ($already_reviewed) {
-                    return "You've already rated this course/professor!";
-                }
-            }
-            return false;
-
-        // None found, check if course exists and professor exists > create
-        } else {
-            $error = $new_course_professor->validate_new();
-            if ($error) {
-                return $error;
+        if( $found_course_professor )
+        {
+            // Validate school
+            if( $found_course_professor['school_id'] != $school['id'] )
+            {
+                return Notification::error("Invalid school.");
             }
 
-            $new_course_professor->school_id = session::school_id();
-            if ($new_course_professor->save() == false) {
-                // Can't save
-                return "ERROR: Unable to create new course/professor relationship.";
-            }
+            // Valid, update this rating with the course/professor values
+            $review['course_id']            = $found_course_professor['course_id'];
+            $review['professor_id']         = $found_course_professor['professor_id'];
+            $review['course_professor_id']  = $found_course_professor['id'];
 
-            $this->course_id = $new_course_professor->course_id;
-            $this->professor_id = $new_course_professor->professor_id;
-            $this->course_professor_id = $new_course_professor->id;
-            // Success, no error!
-            return false;
+            return Notification::success();
+        }
+
+        // None found, try creating new course/professor
+        else
+        {
+            // Validate
+            $this->load->model('course');
+            $this->load->model('professor');
+            $course = $this->course->find_by_id( $new_course_professor['course_id'] );
+            $professor = $this->professor->find_by_id( $new_course_professor['professor_id'] );
+            if( empty( $course ) )
+                return Notification::error("Invalid course.");
+            if( empty( $professor ) )
+                return Notification::error("Invalid professor.");
+            if( $course['school_id'] != $professor['school_id'] )
+                return Notification::error("Invalid course / professor.");
+            
+            // Valid, save new coures/professor
+            $new_course_professor['school_id'] = $school['id'];
+            $this->course_professor->save( $new_course_professor );
+
+            $review['course_id']            = $new_course_professor['course_id'];
+            $review['professor_id']         = $new_course_professor['professor_id'];
+            $review['course_professor_id']  = $new_course_professor['id'];
+
+            return Notification::success();
         }
     }
 

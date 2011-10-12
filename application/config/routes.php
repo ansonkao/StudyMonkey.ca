@@ -73,5 +73,9 @@ $route['(:any)/professors/(:any)']          // http://www.studymonkey.ca/univers
 $route['(:any)/professors']                 // http://www.studymonkey.ca/university-of-waterloo/professors
     = 'professor/search/$1';                // http://www.studymonkey.ca/professors/search          ... $1 = "university-of-waterloo"
 
+// Ratings Controller
+$route['(:any)/course-professor-review']    // http://www.studymonkey.ca/university-of-waterloo/course-professor-review
+    = 'review/course_professor/$1';         // http://www.studymonkey.ca/review/course_professor    ... $1 = "university-of-waterloo"
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
