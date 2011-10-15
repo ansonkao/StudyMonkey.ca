@@ -158,6 +158,10 @@
                 new_speech_bubble("Please choose a response for textbook.");
                 return false;
             }
+            if ($("input[name=overall_recommendation]").is(":checked") == false) {
+                new_speech_bubble("Please choose [yes/no] for your overall recommendation.");
+                return false;
+            }
             if ($("#review_text").val() == "" || $("#review_text").val() == "Have your say! Write a comment...") {
                 new_speech_bubble("Please leave a comment.");
                 return false;
@@ -166,18 +170,45 @@
                 new_speech_bubble("Your comment is " + $("#review_text").val().length + " characters long - please keep it within 500 characters.");
                 return false;
             }
-            if ($("input[name=overall_recommendation]").is(":checked") == false) {
-                new_speech_bubble("Please choose [yes/no] for your overall recommendation.");
+            if ($("#username").val() == "") {
+                new_speech_bubble("Please enter your name.");
+                return false;
+            }
+            if ($("#username").val().length > 25) {
+                new_speech_bubble("Your name cannot be over 25 characters long.");
+                return false;
+            }
+            if ($("input[name=gender]").is(":checked") == false) {
+                new_speech_bubble("Please indicate your sex! (hehehe)");
                 return false;
             }
 
-            // If we reach this point, form is valid and submitting
-            return true;
+            // AJAX that shit!
+            var loading_icon = $(this).find(".loading");
+            loading_icon.show();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(data){
+
+                    if( data.substring(0, 8) == "REDIRECT" )
+                    {
+                        window.location = "/<?php echo string2uri( $school['full_name'] ); ?>/" + data.substring(9);
+                    }
+                    else
+                    {
+                        new_speech_bubble( data.substring(6) );
+                        loading_icon.hide();
+                    }
+                }
+            });
+            return false;
         });
     });
 </script>
 <div style="display: none;">
-<div id="course_professor_review" style="width: 360px; border: 3px solid #000; padding: 20px; background-color: #FFF; text-align: right;">
+<div id="course_professor_review" style="width: 600px; border: 3px solid #000; padding: 15px 15px 20px; background-color: #FFF; text-align: right;">
 
     <h2 style="margin: 0px 0px 10px; text-align: left;">Rate this <?php
                             switch ($course_or_professor) {
@@ -190,7 +221,7 @@
                             }
         ?>!</h2>
     <form action="<?php echo "/" . string2uri( $school['full_name'] ) . "/course-professor-review"; ?>" method="post" id="form_review">
-        <div style="width: 340px; text-align: left;" id="review_buttons">
+        <div style="float: left; width: 320px; border-right: 1px dotted #000; text-align: left;" id="review_buttons">
             <table border="0" cellspacing="0" cellpadding="2" class="list_review" width="100%">
                 <tr>
                     <td align="center" valign="top" colspan="2">
@@ -208,7 +239,7 @@
                         </label>
                         <br/>
                         <input type="hidden" value="" name="course_professor_id" id="course_professor_id" />
-                        <input type="text" class="input_text_main" id="course_professor_name" name="course_professor_name" style="width: 250px; margin-top: 5px; font-style: italic; color: #787;" value="<?php
+                        <input type="text" class="input_text_main" id="course_professor_name" name="course_professor_name" style="width: 270px; margin-top: 5px; font-style: italic; color: #787;" value="<?php
                             switch ($course_or_professor) {
                                 case 'professor':
                                     echo "Type a professor's name...";
@@ -217,7 +248,7 @@
                                     echo "Type a course code...";
                                     break;                            }
                             ?>"/>
-                        <div style="font: normal 11px arial; padding: 2px 0;">
+                        <div style="font: normal 11px arial; padding: 5px 0;">
                             Can't find your <?=$course_or_professor?>?
                             <a href="#add-<?=$course_or_professor?>" class="add_<?=$course_or_professor?>_lightbox">
                                 Add+
@@ -335,17 +366,17 @@
 ?>
                 <tr>
                     <td align="right" valign="center">
-                        <label for="attendance_rating" >
+                        <label for="attendance_rating" style="margin: 5px 0;" >
                             Attendance
                         </label>
                     </td>
                     <td align="left" valign="center">
-                        <select id="attendance_rating" name="attendance_rating" style="width: 180px;">
+                        <select id="attendance_rating" name="attendance_rating" style="width: 125px; margin: 5px 0;">
                             <option value="" id="attendance_rating_null">is...</option>
                             <option value="4" id="attendance_rating_4">Mandatory</option>
                             <option value="3" id="attendance_rating_3">Recommended</option>
                             <option value="2" id="attendance_rating_2">Not necessary</option>
-                            <option value="1" id="attendance_rating_1">Useless (avoid going!)</option>
+                            <option value="1" id="attendance_rating_1">Useless (don't go!)</option>
                         </select>
                     </td>
                 </tr>
@@ -356,42 +387,73 @@
                         </label>
                     </td>
                     <td align="left" valign="center">
-                        <select id="textbook_rating" name="textbook_rating" style="width: 180px;">
+                        <select id="textbook_rating" name="textbook_rating" style="width: 125px;">
                             <option value="" id="textbook_rating_null">is...</option>
                             <option value="4" id="textbook_rating_4">Mandatory</option>
                             <option value="3" id="textbook_rating_3">Recommended</option>
                             <option value="2" id="textbook_rating_2">Not necessary</option>
-                            <option value="1" id="textbook_rating_1">Useless (don't buy it!)</option>
+                            <option value="1" id="textbook_rating_1">Useless (don't buy!)</option>
                             <option value="0" id="textbook_rating_0">N/A</option>
                         </select>
                     </td>
                 </tr>
             </table>
         </div>
-        <div style="width: 100%; text-align: left; margin-top: 15px;">
-            <textarea class="input_text_main" id="review_text" name="review_text" style="width: 350px; height: 50px; resize: none; font-style: italic; color: #787;">Have your say! Write a comment...</textarea>
+
+        <div style="float: right; margin-top: 2px; width: 260px; text-align: left; overflow: hidden;">
+            <label for="overall_recommendation">Overall, would you recommend this course?</label>
+            <div style="padding: 3px 0 8px; text-align: center;">
+                <input type="radio" name="overall_recommendation" id="overall_recommendation_1" value="1"/> <label for="overall_recommendation_1">Yes</label> &nbsp;
+                <input type="radio" name="overall_recommendation" id="overall_recommendation_0" value="0"/> <label for="overall_recommendation_0">No</label>
+            </div>
+
+            <textarea class="input_text_main" id="review_text" name="review_text" style="width: 245px; height: 50px; resize: none; font-style: italic; color: #787;">Have your say! Write a comment...</textarea>
             <div id="characters_remaining" style="font: normal 11px arial; color: #888;">You have <span id="characters_remaining_value">500</span> characters remaining.</div>
+
+            <br/>
+
+            <label for="username">Your name</label>
+            <input type="text" id="username" name="username" value="" />
+
+            <br/>
+
+            <div style="padding: 8px 0 10px;">
+                <label for="gender">Your gender</label>
+                <input type="radio" name="gender" id="gender_male" value="M"/> <label for="gender_male">Male</label> &nbsp;
+                <input type="radio" name="gender" id="gender_female" value="F"/> <label for="gender_female">Female</label>
+            </div>
+
+            <label for="captcha">Math is Fun!</label>
+            <img src="/captcha<?php echo "?=".time(); ?>" alt="Captcha!" style="border: 1px solid #000; -moz-border-radius: 5px; vertical-align: middle;" />
+            <span style="font: bold 24px arial; vertical-align: middle; padding: 0 10px;">
+                =
+            </span>
+            <input type="text" id="captcha" name="captcha" value="" style="width: 20px; text-align: center;" />
+
+            <div style="padding: 15px 0 5px; font-size: 11px; color: #888; text-align: right;">
+                By submitting, you agree to our
+                <a href="/terms" style="text-decoration: underline; color: inherit" target="_blank">terms</a>
+                and
+                <a href="/privacy" style="text-decoration: underline; color: inherit" target="_blank">privacy</a>.
+                <br/>
+                <img class="loading" src="/image/icon/loading.gif" alt="Loading..." style="margin: 10px 10px 0;" />
+                <input type="submit" value="Submit &#187;" id="review_submit" style="float: right; margin: 10px 0px 0px;"/>
+            </div>
+
+            <input type="hidden" value="create_review" name="action" />
+            <input type="hidden" value="<?=$this_course_or_professor_id?>" name="course_or_professor_page_id">
+            <input type="hidden" value="<?php
+                switch ($course_or_professor) {
+                    case 'professor':
+                        echo 'course';
+                        break;
+                    case 'course':
+                        echo 'professor';
+                        break;
+                } ?>" name="course_or_professor_page">
         </div>
-        <div id="div_recommendation" style="margin: 10px 0px 5px;">
-            <label for="overall_recommendation">Overall, would you recommend this course?</label> &nbsp;
-            <input type="radio" name="overall_recommendation" id="overall_recommendation_1" value="1"/> <label for="overall_recommendation_1">Yes</label> &nbsp;
-            <input type="radio" name="overall_recommendation" id="overall_recommendation_0" value="0"/> <label for="overall_recommendation_0">No</label>
-        </div>
-        <input type="hidden" value="<?=$this_course_or_professor_id?>" name="course_or_professor_page_id">
-        <input type="hidden" value="<?php
-            switch ($course_or_professor) {
-                case 'professor':
-                    echo 'course';
-                    break;
-                case 'course':
-                    echo 'professor';
-                    break;
-            } ?>" name="course_or_professor_page">
-        <input type="checkbox" style="margin: 0px; padding: 0px;" id="anonymous" name="anonymous" value="1" />
-        <label for="anonymous" style="font: normal 11px arial; color: #333;">Please don't show my username</label>
-        &nbsp;&nbsp;&nbsp;
-        <input type="hidden" value="create_review" name="action" />
-        <input type="submit" value="Submit" class="input_submit_main" id="review_submit" onclick="this.blur()" style="margin: 5px 0px 0px;"/>
+        
+        <div style="clear: both;"></div>
     </form>
 </div>
 </div>

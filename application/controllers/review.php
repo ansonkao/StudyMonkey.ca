@@ -14,6 +14,7 @@ class Review extends CI_Controller
         }
 
         // Get post params
+        $review['school_id']                    = $school['id'];
         $review['workload_rating']              = $this->input->post('workload_rating');
         $review['easiness_rating']              = $this->input->post('easiness_rating');
         $review['interest_rating']              = $this->input->post('interest_rating');
@@ -24,6 +25,8 @@ class Review extends CI_Controller
         $review['textbook_rating']              = $this->input->post('textbook_rating');
         $review['review_text']                  = $this->input->post('review_text');
         $review['overall_recommendation']       = $this->input->post('overall_recommendation');
+        $review['username']                     = $this->input->post('username');
+        $review['gender']                       = $this->input->post('gender');
         $course_or_professor_id = $this->input->post('course_professor_id');
         $course_or_professor_page = $this->input->post('course_or_professor_page');
         $course_or_professor_page_id = $this->input->post('course_or_professor_page_id');
@@ -45,7 +48,6 @@ class Review extends CI_Controller
         // Successful validation
         if( $response->is_success() )
         {
-            /*
             // Validate Captcha
             $captcha = $this->input->post('captcha');
             if( $captcha != $this->session->userdata('captcha_answer') )
@@ -57,32 +59,70 @@ class Review extends CI_Controller
             else
             {
                 $this->course_professor_review->save( $review );
+
             }
-            */
-            $this->course_professor_review->save( $review );    // TEMP until captcha's implemented
         }
 
-        // Whatever response we have at this point, flash it to user
-        $this->session->set_flashdata( array( 'notification' => $response ) );
-
-        // Redirect the user
-        switch( $course_or_professor_page )
+        // Successful save
+        if( $response->is_success() )
         {
-            case "course":
-                $this->load->model('course');
-                $course = $this->course->find_by_id( $review['course_id'] );
-                $uri = "/" . string2uri( $course['course_code'] );
-                break;
-            case "professor":
-                $this->load->model('professor');
-                $professor = $this->professor->find_by_id( $review['professor_id'] );
-                $uri = "/" . string2uri( $professor['first_name'] ) . "_" . string2uri( $professor['last_name'] );
-                break;
-            default:
-                $uri = "";
+            // Update totals for course and professor
+            $this->load->model('course');
+            $this->load->model('professor');
+            $course = $this->course->find_by_id( $review['course_id'] );
+            $professor = $this->professor->find_by_id( $review['professor_id'] );
+            $this->course->update_totals( $course );
+            $this->professor->update_totals( $professor );
+
+            // Identify destination page
+            switch( $course_or_professor_page )
+            {
+                case "course":
+                    $uri = string2uri( $course['course_code'] );
+                    break;
+                case "professor":
+                    $uri = string2uri( $professor['first_name'] ) . "_" . string2uri( $professor['last_name'] );
+                    break;
+                default:
+                    $uri = "";
+            }
+
+            // Flash success to user!
+            $response = Notification::success(
+                'Thanks for voicing your opinion!'
+                /*  TODO
+                '<a href="http://www.facebook.com/dialog/feed'
+                        .'?app_id='         .'131408070231787'
+                        .'&redirect_uri='   .urlencode( site_url() )
+                        .'&link='           .urlencode( site_url() )
+                        .'&caption='        .urlencode("StudyMonkey.ca")
+                        .'&description='    .urlencode("Get the inside scoop on the best courses your friends have taken and the professors they have taken them with.")
+                        .'&message='        .urlencode("Check out this cool new site StudyMonkey.ca - Share class notes, Course/Prof ratings, and more!")
+                        .'&picture='        .urlencode("/image/mascot_20110219.png")
+                            . ' target="_blank">
+                    <img src="/image/icon/facebook_share.gif" alt="Share on Facebook!" title="Share on Facebook!" />
+                </a>
+                &nbsp;
+                <a href="http://twitter.com/"'  // USE rawurlencode() to get %20 instead of + for spaces - twitter behaviour is weird
+                        .'?status=' .rawurlencode("Get the inside scoop on the best courses your friends have taken and the professors they have taken them with.")
+                        .' target="_blank">
+                    <img src="/image/icon/tweet_button.png" alt="Tweet it!" title="Tweet it!" />
+                </a>'
+                */
+                );
+            $this->session->set_flashdata( array( 'notification' => $response ) );
+
+            // Redirect the user
+            echo "REDIRECT {$course_or_professor_page}s/{$uri}";
+            return;
         }
-        header( "location: /" . string2uri( $school['full_name'] . "/{$course_or_professor_page}s" . $uri ) );
-        return;
+
+        // Unsuccessful
+        else
+        {
+            echo $response->to_AJAX();
+            return;
+        }
     }
 
 }

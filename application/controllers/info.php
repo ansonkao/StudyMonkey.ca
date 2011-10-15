@@ -4,6 +4,8 @@ class Info extends CI_Controller {
 
 	public function index()
 	{
+        // TODO: Log searches
+
         // Process search query
         $this->load->model('school');
         $search_query = $this->input->post('search');

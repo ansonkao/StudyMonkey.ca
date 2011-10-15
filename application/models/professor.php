@@ -99,7 +99,7 @@ class Professor_model extends StudyMonkey_Model
         return $result->result_array();
     }
 
-    public function search( $search_term, $limit = ITEMS_PER_PAGE, $page = 1, $school_id = NULL )
+    function search( $search_term, $limit = ITEMS_PER_PAGE, $page = 1, $school_id = NULL )
     {
         // Validate
         if ( ! is_numeric($limit) )
@@ -140,53 +140,55 @@ class Professor_model extends StudyMonkey_Model
         return $result->result_array();
     }
 
-    public function update_totals() {
-        global $database;
-        if (empty($which) || $which == "courses") {
-            $this->total_courses = course_professor::count_by_professor_id($this->id);
-        }
-        if (empty($which) || $which == "course_professor_reviews") {
-            $reviews = course_professor_review::find_by_professor_id($this->id);
-            $this->total_reviews = 0;
-            $this->overall_rating = 0;
-            $this->knowledge_rating = 0;
-            $this->helpful_rating = 0;
-            $this->awesome_rating = 0;
-            $this->overall_recommendation_1 = 0;
-            $this->overall_recommendation_0 = 0;
-            $this->attendance_rating_4 = 0;
-            $this->attendance_rating_3 = 0;
-            $this->attendance_rating_2 = 0;
-            $this->attendance_rating_1 = 0;
-            foreach ($reviews as $review) {
-                $this->total_reviews++;
-                switch ($review->overall_recommendation) {
-                    case 1: $this->overall_recommendation_1++; break;
-                    case 0: $this->overall_recommendation_0++; break;
-                }
-                switch ($review->attendance_rating) {
-                    case 4: $this->attendance_rating_4++; break;
-                    case 3: $this->attendance_rating_3++; break;
-                    case 2: $this->attendance_rating_2++; break;
-                    case 1: $this->attendance_rating_1++; break;
-                }
-                $this->knowledge_rating += $review->knowledge_rating;
-                $this->helpful_rating   += $review->helpful_rating;
-                $this->awesome_rating   += $review->awesome_rating;
-                // OVERALL RATING
-                $this->overall_rating += $review->easiness_rating;
-                $this->overall_rating += (6 - $review->workload_rating); // Flip workload because it is a negative quality
-                $this->overall_rating += $review->interest_rating;
-                $this->overall_rating += 3 * $review->knowledge_rating;
-                $this->overall_rating += 3 * $review->helpful_rating;
-                $this->overall_rating += 3 * $review->awesome_rating;
+    function update_totals( $this_professor )
+    {
+        $this->load->model('course_professor_review');
+        $reviews = $this->course_professor_review->find_by_professor_id( $this_professor['id'] );
+
+        $this_professor['total_reviews'] = 0;
+        $this_professor['overall_rating'] = 0;
+        $this_professor['knowledge_rating'] = 0;
+        $this_professor['helpful_rating'] = 0;
+        $this_professor['awesome_rating'] = 0;
+        $this_professor['overall_recommendation_1'] = 0;
+        $this_professor['overall_recommendation_0'] = 0;
+        $this_professor['attendance_rating_4'] = 0;
+        $this_professor['attendance_rating_3'] = 0;
+        $this_professor['attendance_rating_2'] = 0;
+        $this_professor['attendance_rating_1'] = 0;
+        foreach( $reviews as $review )
+        {
+            $this_professor['total_reviews']++;
+            switch( $review['overall_recommendation'] )
+            {
+                case 1: $this_professor['overall_recommendation_1']++; break;
+                case 0: $this_professor['overall_recommendation_0']++; break;
             }
-            $this->overall_rating   /= (float)$this->total_reviews;
-            $this->overall_rating   /= 12.0;
-            $this->knowledge_rating /= (float)$this->total_reviews;
-            $this->helpful_rating   /= (float)$this->total_reviews;
-            $this->awesome_rating   /= (float)$this->total_reviews;
+            switch ($review['attendance_rating'] )
+            {
+                case 4: $this_professor['attendance_rating_4']++; break;
+                case 3: $this_professor['attendance_rating_3']++; break;
+                case 2: $this_professor['attendance_rating_2']++; break;
+                case 1: $this_professor['attendance_rating_1']++; break;
+            }
+            $this_professor['knowledge_rating'] += $review['knowledge_rating'];
+            $this_professor['helpful_rating']   += $review['helpful_rating'];
+            $this_professor['awesome_rating']   += $review['awesome_rating'];
+            // OVERALL RATING
+            $this_professor['overall_rating'] += $review['easiness_rating'];
+            $this_professor['overall_rating'] += (6 - $review['workload_rating']); // Flip workload because it is a negative quality
+            $this_professor['overall_rating'] += $review['interest_rating'];
+            $this_professor['overall_rating'] += 3 * $review['knowledge_rating'];
+            $this_professor['overall_rating'] += 3 * $review['helpful_rating'];
+            $this_professor['overall_rating'] += 3 * $review['awesome_rating'];
         }
+        $this_professor['overall_rating']   /= (float)$this_professor['total_reviews'];
+        $this_professor['overall_rating']   /= (float)12.0;
+        $this_professor['knowledge_rating'] /= (float)$this_professor['total_reviews'];
+        $this_professor['helpful_rating']   /= (float)$this_professor['total_reviews'];
+        $this_professor['awesome_rating']   /= (float)$this_professor['total_reviews'];
+
+        $this->save( $this_professor );
     }
 
     /* FORM VALIDATION

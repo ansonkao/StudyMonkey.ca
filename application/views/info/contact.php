@@ -65,7 +65,7 @@ $more_info_links = array
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td valign="top" align="center" style="width: 100px;">
-                                <img src="/captcha" alt="Captcha!" style="border: 1px solid #000; -moz-border-radius: 5px;" />
+                                <img src="/captcha<?php echo "?=".time(); ?>" alt="Captcha!" style="border: 1px solid #000; -moz-border-radius: 5px;" />
                             </td>
                             <td valign="center" align="center" style="width: 40px;">
                                 <span style="font: bold 24px arial;">

@@ -6,7 +6,8 @@ class Course_professor_review_model extends StudyMonkey_Model
 
     protected $db_fields = array
         ( 'school_id'
-        , 'user_id'
+        , 'username'
+        , 'gender'
         , 'course_id'
         , 'professor_id'
         , 'course_professor_id'
@@ -20,7 +21,6 @@ class Course_professor_review_model extends StudyMonkey_Model
         , 'textbook_rating'
         , 'review_text'
         , 'overall_recommendation'
-        , 'anonymous'
         );
 
     function __construct()
@@ -260,6 +260,10 @@ class Course_professor_review_model extends StudyMonkey_Model
             return Notification::error("Invalid rating.");
         if( ! is_numeric( $review["textbook_rating"] ) OR $review["textbook_rating"] < 0 OR $review["textbook_rating"] > 4 )
             return Notification::error("Invalid rating.");
+        if( strlen( $review["username"] ) > 25 )
+            return Notification::error("Invalid username.");
+        if( ! in_array( $review["gender"], array( "M", "F" ) ) )
+            return Notification::error("Invalid gender.");
 
         // Distinguish between course and professor
         $new_course_professor = array();
@@ -292,8 +296,6 @@ class Course_professor_review_model extends StudyMonkey_Model
             $review['course_id']            = $found_course_professor['course_id'];
             $review['professor_id']         = $found_course_professor['professor_id'];
             $review['course_professor_id']  = $found_course_professor['id'];
-
-            return Notification::success();
         }
 
         // None found, try creating new course/professor
@@ -318,9 +320,10 @@ class Course_professor_review_model extends StudyMonkey_Model
             $review['course_id']            = $new_course_professor['course_id'];
             $review['professor_id']         = $new_course_professor['professor_id'];
             $review['course_professor_id']  = $new_course_professor['id'];
-
-            return Notification::success("Thanks for rating!");
         }
+
+        // If we get here, SUCCESS!!!
+        return Notification::success();
     }
 
 }

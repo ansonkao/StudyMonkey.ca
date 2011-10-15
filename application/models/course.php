@@ -128,69 +128,69 @@ class Course_model extends StudyMonkey_Model
         return $result->result_array();
     }
 
-    function update_totals( $which = NULL )
+    function update_totals( $this_course )
     {
-        global $database;
-        if (empty($which) || $which == "professors") {
-            $this->total_professors = course_professor::count_by_course_id($this->id);
-        }
-        if (empty($which) || $which == "notes") {
-            $this->total_notes = note::count_by_course_id($this->id);
-        }
-        if (empty($which) || $which == "course_professor_reviews") {
-            $reviews = course_professor_review::find_by_course_id($this->id);
-            $this->total_reviews = 0;
-            $this->overall_rating = 0;
-            $this->easiness_rating = 0;
-            $this->workload_rating = 0;
-            $this->interest_rating = 0;
-            $this->overall_recommendation_1 = 0;
-            $this->overall_recommendation_0 = 0;
-            $this->textbook_rating_4 = 0;
-            $this->textbook_rating_3 = 0;
-            $this->textbook_rating_2 = 0;
-            $this->textbook_rating_1 = 0;
-            $this->textbook_rating_0 = 0;
-            $this->attendance_rating_4 = 0;
-            $this->attendance_rating_3 = 0;
-            $this->attendance_rating_2 = 0;
-            $this->attendance_rating_1 = 0;
-            foreach ($reviews as $review) {
-                $this->total_reviews++;
-                switch ($review->overall_recommendation) {
-                    case 1: $this->overall_recommendation_1++; break;
-                    case 0: $this->overall_recommendation_0++; break;
-                }
-                switch ($review->textbook_rating) {
-                    case 4: $this->textbook_rating_4++; break;
-                    case 3: $this->textbook_rating_3++; break;
-                    case 2: $this->textbook_rating_2++; break;
-                    case 1: $this->textbook_rating_1++; break;
-                    case 0: $this->textbook_rating_0++; break;
-                }
-                switch ($review->attendance_rating) {
-                    case 4: $this->attendance_rating_4++; break;
-                    case 3: $this->attendance_rating_3++; break;
-                    case 2: $this->attendance_rating_2++; break;
-                    case 1: $this->attendance_rating_1++; break;
-                }
-                $this->easiness_rating += $review->easiness_rating;
-                $this->workload_rating += $review->workload_rating;
-                $this->interest_rating += $review->interest_rating;
-                // OVERALL RATING
-                $this->overall_rating += 3 * $review->easiness_rating;
-                $this->overall_rating += 3 * (6 - $review->workload_rating); // Flip workload because it is a negative quality
-                $this->overall_rating += 3 * $review->interest_rating;
-                $this->overall_rating += $review->knowledge_rating;
-                $this->overall_rating += $review->helpful_rating;
-                $this->overall_rating += $review->awesome_rating;
+        $this->load->model('course_professor_review');
+        $reviews = $this->course_professor_review->find_by_course_id( $this_course['id'] );
+
+        $this_course['total_reviews'] = 0;
+        $this_course['overall_rating'] = 0;
+        $this_course['easiness_rating'] = 0;
+        $this_course['workload_rating'] = 0;
+        $this_course['interest_rating'] = 0;
+        $this_course['overall_recommendation_1'] = 0;
+        $this_course['overall_recommendation_0'] = 0;
+        $this_course['textbook_rating_4'] = 0;
+        $this_course['textbook_rating_3'] = 0;
+        $this_course['textbook_rating_2'] = 0;
+        $this_course['textbook_rating_1'] = 0;
+        $this_course['textbook_rating_0'] = 0;
+        $this_course['attendance_rating_4'] = 0;
+        $this_course['attendance_rating_3'] = 0;
+        $this_course['attendance_rating_2'] = 0;
+        $this_course['attendance_rating_1'] = 0;
+
+        foreach( $reviews as $review )
+        {
+            $this_course['total_reviews']++;
+            switch( $review['overall_recommendation'] )
+            {
+                case 1: $this_course['overall_recommendation_1']++; break;
+                case 0: $this_course['overall_recommendation_0']++; break;
             }
-            $this->overall_rating  /= (float)$this->total_reviews;
-            $this->overall_rating  /= 12.0;
-            $this->easiness_rating /= (float)$this->total_reviews;
-            $this->workload_rating /= (float)$this->total_reviews;
-            $this->interest_rating /= (float)$this->total_reviews;
+            switch( $review['textbook_rating'] )
+            {
+                case 4: $this_course['textbook_rating_4']++; break;
+                case 3: $this_course['textbook_rating_3']++; break;
+                case 2: $this_course['textbook_rating_2']++; break;
+                case 1: $this_course['textbook_rating_1']++; break;
+                case 0: $this_course['textbook_rating_0']++; break;
+            }
+            switch( $review['attendance_rating'] )
+            {
+                case 4: $this_course['attendance_rating_4']++; break;
+                case 3: $this_course['attendance_rating_3']++; break;
+                case 2: $this_course['attendance_rating_2']++; break;
+                case 1: $this_course['attendance_rating_1']++; break;
+            }
+            $this_course['easiness_rating'] += $review['easiness_rating'];
+            $this_course['workload_rating'] += $review['workload_rating'];
+            $this_course['interest_rating'] += $review['interest_rating'];
+            // OVERALL RATING
+            $this_course['overall_rating'] += 3 * $review['easiness_rating'];
+            $this_course['overall_rating'] += 3 * (6 - $review['workload_rating']); // Flip workload because it is a negative quality
+            $this_course['overall_rating'] += 3 * $review['interest_rating'];
+            $this_course['overall_rating'] += $review['knowledge_rating'];
+            $this_course['overall_rating'] += $review['helpful_rating'];
+            $this_course['overall_rating'] += $review['awesome_rating'];
         }
+        $this_course['overall_rating']  /= (float)$this_course['total_reviews'];
+        $this_course['overall_rating']  /= (float)12.0;
+        $this_course['easiness_rating'] /= (float)$this_course['total_reviews'];
+        $this_course['workload_rating'] /= (float)$this_course['total_reviews'];
+        $this_course['interest_rating'] /= (float)$this_course['total_reviews'];
+
+        $this->save( $this_course );
     }
 
     public function validate_new( &$course_code, &$course_title, $school_id )

@@ -34,6 +34,19 @@ class Captcha extends CI_Controller {
     public function index()
     {
         //===============================================================
+        // Captcha Question / Answer
+        //===============================================================
+        $first_num = $this->session->userdata("captcha_question_a");
+        $second_num = $this->session->userdata("captcha_question_b");
+        if( empty( $first_num ) OR empty( $second_num ) )
+        {
+            $this->session->set_userdata( "captcha_question_a", rand(1,9) );
+            $this->session->set_userdata( "captcha_question_b", rand(1,9) );
+        }
+        $first_num = $this->session->userdata("captcha_question_a");            // first number random value
+        $second_num = $this->session->userdata("captcha_question_b");           // second number random value
+
+        //===============================================================
         // General captcha settings
         //===============================================================
         $captcha_w = 99;                   // captcha width
@@ -43,8 +56,6 @@ class Captcha extends CI_Controller {
         $angle = 10;                        // rotation angle
         $bg_size = 9;                      // background grid size
         $operators = array('+');            // array of possible operators
-        $first_num = rand(1,9);             // first number random value; keep it lower than $second_num
-        $second_num = rand(1,9);            // second number random value
         $font_path = APPPATH.'controllers/captcha_font.ttf';
                                             // path to font - needed to display the operation elements
 
@@ -137,5 +148,5 @@ class Captcha extends CI_Controller {
     }
 }
 
-/* End of file info.php */
-/* Location: ./application/controllers/info.php */
+/* End of file captcha.php */
+/* Location: ./application/controllers/captcha.php */

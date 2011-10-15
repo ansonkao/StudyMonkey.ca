@@ -108,10 +108,18 @@ $add_department_placeholder = "e.g. Physics";
                     {
 <?php if( isset( $course_or_professor ) ) { ?>
                         new_speech_bubble("You've added Professor " + $("#add_first_name").val() + " " + $("#add_last_name").val() + "!");
-                        $("a.review_lightbox_link").click();
+                        $.colorbox({
+                            href: "#course_professor_review",
+                            inline: true,
+                            initialWidth: 64,
+                            initialHeight: 64,
+                            opacity: 0.64,
+                            overlayClose: false
+                        });
 <?php } else { ?>
                         window.location = "/<?php echo string2uri( $school['full_name'] ); ?>/professors/" + data.substring(9);
 <?php } ?>
+                        loading_icon.hide();
                     }
                     else
                     {
@@ -175,7 +183,7 @@ $add_department_placeholder = "e.g. Physics";
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td valign="top" align="center" style="width: 100px;">
-                                <img src="/captcha" alt="Captcha!" style="border: 1px solid #000; -moz-border-radius: 5px;" />
+                                <img src="/captcha<?php echo "?=".time(); ?>" alt="Captcha!" style="border: 1px solid #000; -moz-border-radius: 5px;" />
                             </td>
                             <td valign="center" align="center" style="width: 44px;">
                                 <span style="font: bold 24px arial;">

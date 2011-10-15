@@ -475,7 +475,7 @@
         <div style="float: left;">
 <?php $this->pagination->display_page_links(); ?>
         </div>
-        <a href="#course_professor_review" class="button yellow small" style="float: right;">Rate this Course! &#9658;</a>
+        <a href="#course_professor_review"  class="review_lightbox_link button yellow small" style="float: right;">Rate this Course! &#9658;</a>
     </div>
 
 </div>

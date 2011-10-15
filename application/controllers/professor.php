@@ -202,12 +202,12 @@ class Professor extends CI_Controller
                     {
                         $this->session->set_flashdata( array( 'notification' => NULL ) );   // Inset the flash message since it will be generated client side
                         $redirect = Notification::redirect( $new_professor['id'] );
-                        echo $redirect->to_AJAX ();
+                        echo $redirect->to_AJAX();
                     }
                     else
                     {
                         $redirect = Notification::redirect( string2uri( $new_professor['first_name'] ) . "_" . string2uri( $new_professor['last_name'] ) );
-                        echo $redirect->to_AJAX ();
+                        echo $redirect->to_AJAX();
                     }
                 }
                 else

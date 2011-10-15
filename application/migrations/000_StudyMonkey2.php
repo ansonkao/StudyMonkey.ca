@@ -19,7 +19,7 @@
     DROP TABLE `referral_method`;
 
     ### Move username from user to reviews
-    ALTER TABLE `course_professor_review` ADD `username` VARCHAR( 20 ) NULL DEFAULT NULL AFTER `user_id`;
+    ALTER TABLE `course_professor_review` ADD `username` VARCHAR( 25 ) NULL DEFAULT NULL AFTER `user_id`;
 
     UPDATE `course_professor_review` review, `user` user
     SET review.`username` = user.`username`

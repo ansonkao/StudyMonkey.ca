@@ -215,12 +215,12 @@ class Course extends CI_Controller
                     {
                         $this->session->set_flashdata( array( 'notification' => NULL ) );   // Inset the flash message since it will be generated client side
                         $redirect = Notification::redirect( $new_course['id'] );
-                        echo $redirect->to_AJAX ();
+                        echo $redirect->to_AJAX();
                     }
                     else
                     {
                         $redirect = Notification::redirect( string2uri( $new_course['course_code'] ) );
-                        echo $redirect->to_AJAX ();
+                        echo $redirect->to_AJAX();
                     }
                 }
                 else
