@@ -200,6 +200,124 @@ $footer_items['Contact']    = "/contact";
 <?php echo $search_result; ?>
             </div>
 
+            <div style="margin: 36px auto; width: 420px;">
+
+                <table border="0" cellspacing="0" cellpadding="0" style="float: left; width: 200px;">
+                    <tr>
+                        <td align="left" colspan="2">
+                            <h2 style="font: bold 14px arial; padding: 0 0 10px; margin: 0px; text-align: left;">
+                                Popular courses
+                            </h2>
+                        </td>
+                    </tr>
+<?php
+        foreach( $popular_courses as $popular_course )
+        {
+            $school = $popular_schools[$popular_course['school_id']];
+?>
+                    <tr>
+                        <td align="left" valign="top" style="width: 36px; height: 60px;">
+                            <a href="<?php echo site_url( $school['uri']."/courses/".string2uri($popular_course['course_code']) ); ?>">
+                                <img src="<?php echo site_url()."image/icon/courses.png"; ?>" style="margin-right: 5px;" />
+                            </a>
+                        </td>
+                        <td align="left" valign="top" style="padding-top: 5px;">
+                            <a href="<?php echo site_url( $school['uri']."/courses/".string2uri($popular_course['course_code']) ); ?>">
+                                <strong><?php echo $popular_course['course_code']; ?></strong>
+                            </a>
+                            <br/>
+                            <span style="font-size: 11px; color: #888;"><?php echo $school['full_name']; ?></span>
+                            <div class="transparent" style="padding-top: 2px;">
+<?php   if ($popular_course['total_reviews'] > 0) { ?>
+                                <div style="margin-right: 5px; height: 12px; width: 60px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll top; text-align: left; float: left;">
+                                    <div style="height: 12px; width: <?php if ($popular_course['overall_rating']) { echo round($popular_course['overall_rating'] * 60.0 / 5.0); } else { echo "0"; } ?>px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll left bottom;">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div style="float: left; font: normal 10px arial;"><?php
+                                    switch( $popular_course['total_reviews'] )
+                                    {
+                                        case 0:
+                                            echo "No reviews yet";
+                                            break;
+                                        case 1:
+                                            echo "1 review";
+                                            break;
+                                        default:
+                                            echo "{$popular_course['total_reviews']} reviews";
+                                            break;
+                                    }
+                                ?></div>
+<?php   } else { ?>
+                                <span style="float: left; font: normal 11px arial;">
+                                    No reviews yet
+                                </span>
+<?php   } ?>
+                            </div>
+                        </td>
+                    </tr>
+<?php } ?>
+                </table>
+
+                <table border="0" cellspacing="0" cellpadding="0" style="float: left; margin-left: 10px; width: 200px;">
+                    <tr>
+                        <td align="left" colspan="2">
+                            <h2 style="font: bold 14px arial; padding: 0 0 10px; margin: 0px; text-align: left;">
+                                Popular professors
+                            </h2>
+                        </td>
+                    </tr>
+<?php
+        foreach( $popular_professors as $popular_professor )
+        {
+            $school = $popular_schools[$popular_professor['school_id']];
+?>
+                    <tr>
+                        <td align="left" valign="top" style="width: 36px; height: 60px;">
+                            <a href="<?php echo site_url( $school['uri']."/professors/".$popular_professor['uri'] ); ?>">
+                                <img src="<?php echo site_url()."image/icon/professors.png"; ?>" style="margin-right: 5px;" />
+                            </a>
+                        </td>
+                        <td align="left" valign="top" style="padding-top: 5px;">
+                            <a href="<?php echo site_url( $school['uri']."/professors/".$popular_professor['uri'] ); ?>">
+                                <strong><?php echo $popular_professor['last_name'].", ".$popular_professor['first_name']; ?></strong>
+                            </a>
+                            <br/>
+                            <span style="font-size: 11px; color: #888;"><?php echo $school['full_name']; ?></span>
+                            <div class="transparent" style="padding-top: 2px;">
+<?php   if ($popular_professor['total_reviews'] > 0) { ?>
+                                <div style="margin-right: 5px; height: 12px; width: 60px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll top; text-align: left; float: left;">
+                                    <div style="height: 12px; width: <?php if ($popular_professor['overall_rating']) { echo round($popular_professor['overall_rating'] * 60.0 / 5.0); } else { echo "0"; } ?>px; background: transparent url('<?php echo site_url()."image/rating/star_rating_small.gif"; ?>') repeat-x scroll left bottom;">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div style="float: left; font: normal 10px arial;"><?php
+                                    switch( $popular_professor['total_reviews'] )
+                                    {
+                                        case 0:
+                                            echo "No ratings yet";
+                                            break;
+                                        case 1:
+                                            echo "1 rating";
+                                            break;
+                                        default:
+                                            echo "{$popular_professor['total_reviews']} ratings";
+                                            break;
+                                    }
+                                ?></div>
+<?php   } else { ?>
+                                <span style="float: left; font: normal 11px arial;">
+                                    No ratings yet
+                                </span>
+<?php   } ?>
+                            </div>
+                        </td>
+                    </tr>
+<?php } ?>
+                </table>
+
+            </div>
+
         </div>
 
         <div id="content_end"></div>

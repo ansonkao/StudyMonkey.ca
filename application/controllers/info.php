@@ -47,6 +47,20 @@ class Info extends CI_Controller {
             }
         }
 
+        // Popular courses/professors
+        $this->load->model('course');
+        $this->load->model('professor');
+        $popular_courses = $this->course->find_most_popular( NULL, 5 );
+        $popular_professors = $this->professor->find_most_popular( NULL, 5 );
+        $popular_schools = array();
+        foreach( $popular_courses as $popular_course )
+            if( ! isset( $popular_schools[$popular_course['school_id']] ) )
+                $popular_schools[$popular_course['school_id']] = $this->school->find_by_id( $popular_course['school_id'] );
+        foreach( $popular_professors as $popular_professor )
+            if( ! isset( $popular_schools[$popular_professor['school_id']] ) )
+                $popular_schools[$popular_professor['school_id']] = $this->school->find_by_id( $popular_professor['school_id'] );
+
+
         // Statistics
         $this->load->model('course_professor_review');
         $total_reviews = $this->course_professor_review->count_all();
@@ -56,6 +70,9 @@ class Info extends CI_Controller {
         $this->view_params['search_result'] = $search_result;
         $this->view_params['total_reviews'] = number_format($total_reviews, 0, ".", ",");
         $this->view_params['total_schools'] = number_format($total_schools, 0, ".", ",");
+        $this->view_params['popular_courses'] = $popular_courses;
+        $this->view_params['popular_professors'] = $popular_professors;
+        $this->view_params['popular_schools'] = $popular_schools;
 
         // Layout Parameters
         $this->view_params['page_title'] = "Welcome to StudyMonkey!";
