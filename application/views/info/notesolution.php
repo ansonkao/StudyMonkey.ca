@@ -23,7 +23,7 @@
     <ul>
         <li>
             <p>
-                All your notes-related needs will now be moved to Notesolution.com.  If you have shared or bourght notes - no need to worry!
+                All your notes-related needs will now be moved to Notesolution.com.  If you have shared or bought notes on StudyMonkey - no need to worry!
                 <strong>All of your notes, credits, and earnings will continue to be available on Notesolution.com!</strong>
             </p>
         </li>
@@ -35,8 +35,9 @@
         </li>
     </ul>
 
-    <h3>How do you access your notes on Notesolution.com?</h3>
+    <h3>I used StudyMonkey for notes before.  What should I do?</h3>
     <ol>
+        <li>You should have received an e-mail from us.</li>
         <li>Go to Notesolution.com</li>
         <li>XXX</li>
         <li>XXX</li>
