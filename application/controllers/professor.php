@@ -73,10 +73,10 @@ class Professor extends CI_Controller
         }
 
         // Popular professors
-        $popular_professors = $this->professor->find_most_popular( $school['id'], 3 );
+        $popular_professors = $this->professor->find_most_popular( $school['id'], 5 );
 
         // Top-rated professors
-        $top_rated_professors = $this->professor->find_top_rated( $school['id'], 3 );
+        $top_rated_professors = $this->professor->find_top_rated( $school['id'], 5 );
 
         // Custom Parameters
         $this->view_params['total_professors'] = $total_professors;

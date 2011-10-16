@@ -90,10 +90,10 @@ class Course extends CI_Controller
         }
 
         // 3 Popular courses
-        $popular_courses = $this->course->find_most_popular( $school['id'], 3 );
+        $popular_courses = $this->course->find_most_popular( $school['id'], 5 );
 
         // 3 Top Rated
-        $top_rated_courses = $this->course->find_top_rated( $school['id'], 3 );
+        $top_rated_courses = $this->course->find_top_rated( $school['id'], 5 );
 
         // Custom Parameters
         $this->view_params['total_courses'] = $total_courses;
