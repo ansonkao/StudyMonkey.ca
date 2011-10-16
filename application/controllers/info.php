@@ -21,12 +21,12 @@ class Info extends CI_Controller {
                 $school = array_shift( $query_result );
                 if( $this->input->is_ajax_request() )
                 {
-                    echo "REDIRECT " . string2uri( $school['full_name'] );
+                    echo "REDIRECT " . $school['uri'];
                     return;
                 }
                 else
                 {
-                    header( "location: /" . string2uri( $school['full_name'] . "/courses" ) );
+                    header( "location: /" . $school['uri'] . "/courses" );
                     return;
                 }
             }

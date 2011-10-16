@@ -84,7 +84,7 @@ class Review extends CI_Controller
                     break;
                 case "professor":
                     $subject = "{$professor['first_name']} {$professor['last_name']}";
-                    $uri .= string2uri( $professor['first_name'] ) . "_" . string2uri( $professor['last_name'] );
+                    $uri .= $professor['uri'];
                     break;
                 default:
                     $uri = "";

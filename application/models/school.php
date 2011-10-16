@@ -7,6 +7,7 @@ class School extends StudyMonkey_Model
 
     protected $db_fields = array
         ( 'full_name'
+        , 'uri'
         , 'province'
         );
 
@@ -18,9 +19,8 @@ class School extends StudyMonkey_Model
 
     function find_by_uri_segment( $uri_segment )
     {
-        $school_name = uri2string( $uri_segment );
-        $sql = 'SELECT * FROM `school` WHERE full_name LIKE ?';
-        $result = $this->db->query( $sql, array( $school_name ) );
+        $sql = 'SELECT * FROM `school` WHERE uri LIKE ?';
+        $result = $this->db->query( $sql, array( $uri_segment ) );
         return $result->row_array();
     }
 
@@ -31,7 +31,7 @@ class School extends StudyMonkey_Model
             return false;
 
         // Begin query
-        $sql = "SELECT DISTINCT * FROM school WHERE ";
+        $sql = "SELECT * FROM school WHERE ";
         $sql .= "1 ";   // Dummy to sandwich the extra AND clause in next part
 
         // Search terms

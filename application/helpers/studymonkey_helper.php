@@ -40,27 +40,7 @@ if ( ! function_exists( 'string2uri' ) )
 {
 	function string2uri( $input_string )
 	{
-        return strtolower( str_replace( ' ', '-', $input_string ) );
-	}
-}
-
-// ------------------------------------------------------------------------
-
-/**
- * uri2string
- *
- * Converts a uri-style string into a regular string by replacing dashes with
- * spaces.  This is helpful for finding the original string from the DB.
- *
- * @access  public
- * @param   string
- * @return  string
- */
-if ( ! function_exists( 'uri2string' ) )
-{
-	function uri2string( $input_string )
-	{
-        return str_replace( '-', ' ', $input_string );
+        return strtolower( str_replace( "'", '', str_replace( ' ', '-', $input_string ) ) );
 	}
 }
 

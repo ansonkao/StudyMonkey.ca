@@ -250,7 +250,7 @@
                                 <div style="font-size: 11px; margin: 8px 0; line-height: 14px;">
                                     Course:
                                     <br/>
-                                    <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($course['course_code']); ?>">
+                                    <a href="<?php echo site_url( $school['uri']."/courses/".string2uri($course['course_code']) ); ?>">
                                         <?php echo $course['course_code']; ?>
                                     </a>
                                 </div>
@@ -359,12 +359,12 @@
 <?php foreach($courses as $course) { ?>
             <tr>
                 <td align="left" valign="top" style="height: 45px;">
-                    <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($course['course_code']); ?>">
+                    <a href="<?php echo site_url( $school['uri']."/courses/".string2uri($course['course_code']) ); ?>">
                         <img src="<?php echo site_url()."image/icon/courses.png"; ?>" style="margin-right: 5px;" />
                     </a>
                 </td>
                 <td align="left" valign="top" style="padding-top: 5px;">
-                    <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($course['course_code']); ?>">
+                    <a href="<?php echo site_url( $school['uri']."/courses/".string2uri($course['course_code']) ); ?>">
                         <strong><?php echo $course['course_code']; ?></strong>
                     </a>
                     <div class="transparent" style="padding-top: 2px;">

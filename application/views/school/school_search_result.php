@@ -28,7 +28,7 @@
 <?php foreach( $schools as $school ) { ?>
         <tr>
             <td align="left" valign="top">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/courses"; ?>" style="font-size: 16px;"><?php echo $school['full_name']; ?></a>
+                <a href="<?php echo site_url( $school['uri']."/courses" ); ?>" style="font-size: 16px;"><?php echo $school['full_name']; ?></a>
             </td>
         </tr>
 <?php } ?>

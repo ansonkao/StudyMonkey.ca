@@ -103,5 +103,21 @@
         DROP `anonymous`;
     DROP TABLE `user`;
 
+    ############################################################################
+    ### Normalize professor names, course codes and school names to uri-safe
+    ############################################################################
+
+    ALTER TABLE `school`
+        ADD `uri` VARCHAR( 50 ) NULL DEFAULT NULL AFTER `full_name`;
+
+    UPDATE `school`
+    SET `uri` = LOWER( REPLACE( REPLACE( `full_name`, '\'', '' ), ' ' , '-' ) );
+
+    ALTER TABLE `professor`
+        ADD `uri` VARCHAR( 50 ) NULL DEFAULT NULL AFTER `last_name`;
+
+    UPDATE `professor`
+    SET `uri` = LOWER( CONCAT( REPLACE( REPLACE( TRIM( `first_name` ), '\'', '' ), ' ' , '-' ), '_', REPLACE( REPLACE( TRIM( `last_name` ), '\'', '' ), ' ' , '-' ) ) );
+
     ";
 

@@ -8,6 +8,7 @@ class Professor_model extends StudyMonkey_Model
         ( 'school_id'
         , 'first_name'
         , 'last_name'
+        , 'uri'
         , 'department'
         , 'gender'
         , 'total_reviews'
@@ -43,17 +44,8 @@ class Professor_model extends StudyMonkey_Model
 
     function find_by_uri_segment( $professor_segment, $school_id )
     {
-        // Identify first and last name
-        $parts = explode( "_", $professor_segment );
-        if( count( $parts ) != 2 )
-        {
-            return false;
-        }
-        $first_name = uri2string( $parts[0] );
-        $last_name  = uri2string( $parts[1] );
-
-        // Run the query
-        return $this->find_by_name( $first_name, $last_name, $school_id );
+        $result = $this->db->query("SELECT * FROM professor WHERE uri LIKE ? AND school_id = ? LIMIT 1", array( $professor_segment, $school_id ) );
+        return $result->row_array();
     }
 
     function find_by_name( $first_name, $last_name, $school_id )

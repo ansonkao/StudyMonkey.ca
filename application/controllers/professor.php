@@ -203,6 +203,7 @@ class Professor extends CI_Controller
                 $new_professor = array();
                 $new_professor['first_name'] = $first_name;
                 $new_professor['last_name']  = $last_name;
+                $new_professor['uri']        = string2uri( $first_name ) . "_" . string2uri( $last_name );
                 $new_professor['department'] = $department;
                 $new_professor['gender']     = $gender;
                 $new_professor['school_id']  = $school['id'];
@@ -223,13 +224,13 @@ class Professor extends CI_Controller
                     }
                     else
                     {
-                        $redirect = Notification::redirect( string2uri( $new_professor['first_name'] ) . "_" . string2uri( $new_professor['last_name'] ) );
+                        $redirect = Notification::redirect( $new_professor['uri'] );
                         echo $redirect->to_AJAX();
                     }
                 }
                 else
                 {
-                    header( "location: /" . string2uri( $school['full_name'] . "/professors/" . string2uri( $new_professor['first_name'] ) . "_" . string2uri( $new_professor['last_name'] ) ) );
+                    header( "location: /" . $school['uri'] . "/professors/" . $new_professor['uri'] );
                 }
                 return;
             }
@@ -243,7 +244,7 @@ class Professor extends CI_Controller
         else
         {
             $this->session->set_flashdata( array( 'notification' => $response ) );
-            header( "location: /" . string2uri( $school['full_name'] . "/professors" ) );
+            header( "location: /" . $school['uri'] . "/professors" );
         }
         return;
     }

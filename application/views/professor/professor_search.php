@@ -164,12 +164,12 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
 <?php foreach( $popular_professors as $popular_professor ) { ?>
         <tr>
             <td align="left" valign="top" style="height: 45px;">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($popular_professor['first_name'])."_".string2uri($popular_professor['last_name']); ?>">
+                <a href="<?php echo site_url( $school['uri']."/professors/".$popular_professor['uri'] ); ?>">
                     <img src="<?php echo site_url()."image/icon/professors.png"; ?>" style="margin-right: 5px;" />
                 </a>
             </td>
             <td align="left" valign="top" style="padding-top: 5px;">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($popular_professor['first_name'])."_".string2uri($popular_professor['last_name']); ?>">
+                <a href="<?php echo site_url( $school['uri']."/professors/".$popular_professor['uri'] ); ?>">
                     <strong><?php echo $popular_professor['last_name'].", ".$popular_professor['first_name']; ?></strong>
                 </a>
                 <div class="transparent" style="padding-top: 2px;">
@@ -215,12 +215,12 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
 <?php foreach( $top_rated_professors as $top_rated_professor ) { ?>
         <tr>
             <td align="left" valign="top" style="height: 45px;">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($top_rated_professor['first_name'])."_".string2uri($top_rated_professor['last_name']); ?>">
+                <a href="<?php echo site_url( $school['uri']."/professors/".$top_rated_professor['uri'] ); ?>">
                     <img src="<?php echo site_url()."image/icon/professors.png"; ?>" style="margin-right: 5px;" />
                 </a>
             </td>
             <td align="left" valign="top" style="padding-top: 5px;">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($top_rated_professor['first_name'])."_".string2uri($top_rated_professor['last_name']); ?>">
+                <a href="<?php echo site_url( $school['uri']."/professors/".$top_rated_professor['uri'] ); ?>">
                     <strong><?php echo $top_rated_professor['last_name'].", ".$top_rated_professor['first_name']; ?></strong>
                 </a>
                 <div class="transparent" style="padding-top: 2px;">

@@ -15,9 +15,8 @@ $navigation_items['Courses']    = "/";
 $navigation_items['Professors'] = "/";
 if( ! empty( $school ) )
 {
-    $school_uri = string2uri($school['full_name']);
-    $navigation_items['Courses']    = "/{$school_uri}/courses";
-    $navigation_items['Professors'] = "/{$school_uri}/professors";
+    $navigation_items['Courses']    = "/{$school['uri']}/courses";
+    $navigation_items['Professors'] = "/{$school['uri']}/professors";
 }
 $navigation_items['Learn more'] = "/contact";
 

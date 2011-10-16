@@ -37,7 +37,7 @@
          * course.php or professor.php
          */
         var course_professor_name_value;
-        $("#course_professor_name").autocomplete("/<?php echo string2uri( $school['full_name'] ); ?>/<?=$course_or_professor?>s/autocomplete",{
+        $("#course_professor_name").autocomplete("/<?php echo $school['uri']; ?>/<?=$course_or_professor?>s/autocomplete",{
             minChars: 0,
             selectFirst: true,
             autoFill: false,
@@ -220,7 +220,7 @@
                                     break;
                             }
         ?>!</h2>
-    <form action="<?php echo "/" . string2uri( $school['full_name'] ) . "/course-professor-review"; ?>" method="post" id="form_review">
+    <form action="<?php echo "/" . $school['uri'] . "/course-professor-review"; ?>" method="post" id="form_review">
         <div style="float: left; width: 320px; border-right: 1px dotted #000; text-align: left;" id="review_buttons">
             <table border="0" cellspacing="0" cellpadding="2" class="list_review" width="100%">
                 <tr>

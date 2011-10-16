@@ -94,7 +94,7 @@ $num_results = sizeof( $professors );
 <?php       } ?>
             </td>
             <td align="left" valign="top">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($professor['first_name'])."_".string2uri($professor['last_name']); ?>" style="font-size: 16px;">
+                <a href="<?php echo site_url( $school['uri']."/professors/".$professor['uri'] ); ?>" style="font-size: 16px;">
                     <strong><?php echo $professor['last_name'].", ".$professor['first_name']; ?></strong>
                 </a>
                 <div style="max-width: 320px; font-size: 14px;"><?php echo $professor['department']; ?></div>

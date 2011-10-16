@@ -52,7 +52,7 @@ class Course extends CI_Controller
                 }
                 else
                 {
-                    header( "location: /" . string2uri( $school['full_name'] . "/courses/" . string2uri( $exact_match['course_code'] ) ) );
+                    header( "location: /" . $school['uri'] . "/courses/" . string2uri( $exact_match['course_code'] ) );
                 }
             }
 
@@ -242,7 +242,7 @@ class Course extends CI_Controller
                 }
                 else
                 {
-                    header( "location: /" . string2uri( $school['full_name'] . "/courses/" . string2uri( $new_course['course_code'] ) ) );
+                    header( "location: /" . $school['uri'] . "/courses/" . string2uri( $new_course['course_code'] ) );
                 }
                 return;
             }
@@ -256,7 +256,7 @@ class Course extends CI_Controller
         else
         {
             $this->session->set_flashdata( array( 'notification' => $response ) );
-            header( "location: /" . string2uri( $school['full_name'] . "/courses" ) );
+            header( "location: /" . $school['uri'] . "/courses" );
         }
         return;
     }

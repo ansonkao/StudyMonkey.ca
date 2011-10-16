@@ -94,7 +94,7 @@ $num_results = sizeof( $courses );
 <?php       } ?>
             </td>
             <td align="left" valign="top">
-                <a href="<?php echo site_url().string2uri($school['full_name'])."/courses/".string2uri($course['course_code']); ?>" style="font-size: 16px;">
+                <a href="<?php echo site_url( $school['full_name']."/courses/".string2uri($course['course_code']) ); ?>" style="font-size: 16px;">
                     <strong><?php echo $course['course_code']; ?></strong>
                 </a>
                 <div style="max-width: 320px; font-size: 14px;"><?php echo $course['course_title']; ?></div>

@@ -95,7 +95,7 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
                             overlayClose: false
                         });
 <?php } else { ?>
-                        window.location = "/<?php echo string2uri( $school['full_name'] ); ?>/courses/" + data.substring(9);
+                        window.location = "/<?php echo $school['uri']; ?>/courses/" + data.substring(9);
 <?php } ?>
                         loading_icon.hide();
                     }
@@ -116,7 +116,7 @@ $add_course_title_placeholder = "e.g. Introduction to Psychology";
     <h2 style="text-align: center; margin: 0 0 10px;">
         Add a course
     </h2>
-    <form name="add_course" method="post" action="/<?php echo string2uri( $school['full_name'] ); ?>/courses/create">
+    <form name="add_course" method="post" action="/<?php echo $school['uri']; ?>/courses/create">
         <table border="0" cellspacing="0" cellpadding="5" style="margin: auto;">
             <tr>
                 <td valign="top" align="right">

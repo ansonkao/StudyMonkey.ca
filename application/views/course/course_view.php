@@ -390,7 +390,7 @@
                                 <div style="font-size: 11px; margin: 8px 0; line-height: 14px;">
                                     Taken with:
                                     <br/>
-                                    <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($professor['first_name'])."_".string2uri($professor['last_name']); ?>">
+                                    <a href="<?php echo site_url( $school['full_name']."/professors/".$professor['uri'] ); ?>">
                                         <?php echo $professor['last_name'] . ", " . $professor['first_name']; ?>
                                     </a>
                                 </div>
@@ -499,12 +499,12 @@
 <?php foreach($professors as $professor) { ?>
             <tr>
                 <td align="left" valign="top" style="height: 45px;">
-                    <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($professor['first_name'])."_".string2uri($professor['last_name']); ?>">
+                    <a href="<?php echo site_url( $school['uri']."/professors/".$professor['uri'] ); ?>">
                         <img src="<?php echo site_url()."image/icon/professors.png"; ?>" style="margin-right: 5px;" />
                     </a>
                 </td>
                 <td align="left" valign="top" style="padding-top: 5px;">
-                    <a href="<?php echo site_url().string2uri($school['full_name'])."/professors/".string2uri($professor['first_name'])."_".string2uri($professor['last_name']); ?>">
+                    <a href="<?php echo site_url( $school['full_name']."/professors/".$professor['uri'] ); ?>">
                         <strong><?php echo $professor['last_name'] . ", " . $professor['first_name']; ?></strong>
                     </a>
                     <div class="transparent" style="padding-top: 2px;">
