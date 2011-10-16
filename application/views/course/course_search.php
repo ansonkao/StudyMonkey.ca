@@ -24,7 +24,7 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
                         
                         if( data.substring(0, 8) == "REDIRECT" )
                         {
-                            window.location = "/<?php echo $school['full_name']; ?>/courses/" + data.substring(9);
+                            window.location = "/<?php echo $school['uri']; ?>/courses/" + data.substring(9);
                         }
                         else
                         {
@@ -177,7 +177,7 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
                 </a>
             </td>
             <td align="left" valign="top" style="padding-top: 5px;">
-                <a href="<?php echo site_url( $school['full_name']."/courses/".string2uri($popular_course['course_code']) ); ?>">
+                <a href="<?php echo site_url( $school['uri']."/courses/".string2uri($popular_course['course_code']) ); ?>">
                     <strong><?php echo $popular_course['course_code']; ?></strong>
                 </a>
                 <div class="transparent" style="padding-top: 2px;">
@@ -228,7 +228,7 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
                 </a>
             </td>
             <td align="left" valign="top" style="padding-top: 5px;">
-                <a href="<?php echo site_url( $school['full_name']."/courses/".string2uri($top_rated_course['course_code']) ); ?>">
+                <a href="<?php echo site_url( $school['uri']."/courses/".string2uri($top_rated_course['course_code']) ); ?>">
                     <strong><?php echo $top_rated_course['course_code']; ?></strong>
                 </a>
                 <div class="transparent" style="padding-top: 2px;">

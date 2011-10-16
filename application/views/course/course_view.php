@@ -390,7 +390,7 @@
                                 <div style="font-size: 11px; margin: 8px 0; line-height: 14px;">
                                     Taken with:
                                     <br/>
-                                    <a href="<?php echo site_url( $school['full_name']."/professors/".$professor['uri'] ); ?>">
+                                    <a href="<?php echo site_url( $school['uri']."/professors/".$professor['uri'] ); ?>">
                                         <?php echo $professor['last_name'] . ", " . $professor['first_name']; ?>
                                     </a>
                                 </div>
@@ -504,7 +504,7 @@
                     </a>
                 </td>
                 <td align="left" valign="top" style="padding-top: 5px;">
-                    <a href="<?php echo site_url( $school['full_name']."/professors/".$professor['uri'] ); ?>">
+                    <a href="<?php echo site_url( $school['uri']."/professors/".$professor['uri'] ); ?>">
                         <strong><?php echo $professor['last_name'] . ", " . $professor['first_name']; ?></strong>
                     </a>
                     <div class="transparent" style="padding-top: 2px;">
