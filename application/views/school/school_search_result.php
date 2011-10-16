@@ -33,6 +33,10 @@
         </tr>
 <?php } ?>
     </table>
+
+    <div style="margin: 20px auto; width: 500px; text-align: left;">
+        Can't find your school? <a href="/contact">Request it!</a>
+    </div>
 <?php
 
 /* End of file school_search_result.php */

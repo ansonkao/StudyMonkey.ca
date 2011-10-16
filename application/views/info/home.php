@@ -5,7 +5,6 @@
  * This is the main layout of the website.  This template holds together
  * almost every page in the site.
  *
- * TODO: Add school functionality
  */
 
 $search_placeholder = "Type the name of your school...";
