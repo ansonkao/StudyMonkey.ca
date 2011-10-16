@@ -8,7 +8,6 @@ class Course_professor_model extends StudyMonkey_Model
         ( 'school_id'
         , 'course_id'
         , 'professor_id'
-        , 'total_reviews'
         );
 
     function __construct()

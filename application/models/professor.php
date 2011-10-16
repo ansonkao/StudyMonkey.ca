@@ -10,7 +10,6 @@ class Professor_model extends StudyMonkey_Model
         , 'last_name'
         , 'department'
         , 'gender'
-        , 'total_courses'
         , 'total_reviews'
         , 'overall_rating'
         , 'knowledge_rating'
@@ -28,6 +27,18 @@ class Professor_model extends StudyMonkey_Model
     {
         parent::__construct();
         $this->TABLE_NAME = 'professor';
+    }
+
+    function count_all_by_school_id( $school_id )
+    {
+        $result = $this->db->query("SELECT COUNT(*) FROM professor WHERE school_id = ? LIMIT 1", array( $school_id ) );
+        return array_shift( $result->row_array() );
+    }
+
+    function find_all_by_school_id( $school_id )
+    {
+        $result = $this->db->query("SELECT * FROM professor WHERE school_id = ?", array( $school_id ) );
+        return $result->result_array();
     }
 
     function find_by_uri_segment( $professor_segment, $school_id )
@@ -108,7 +119,7 @@ class Professor_model extends StudyMonkey_Model
             $page = 1;
 
         // Begin query
-        $sql = "SELECT DISTINCT * FROM professor WHERE ";
+        $sql = "SELECT * FROM professor WHERE ";
 
         // Filter by school
         if ( is_numeric( $school_id ) )
@@ -140,6 +151,32 @@ class Professor_model extends StudyMonkey_Model
         return $result->result_array();
     }
 
+    function search_count( $search_term, $school_id = NULL )
+    {
+        // Begin query
+        $sql = "SELECT COUNT(*) FROM professor WHERE ";
+
+        // Filter by school
+        if ( is_numeric( $school_id ) )
+        {
+            $sql .= "school_id = ? ";
+            $params = array( $school_id );
+        }
+        else
+            $sql .= "1 ";   // Dummy to sandwich the extra AND clause in next part
+
+        // Search terms
+        foreach(explode(" ", $search_term) as $i_search_term) {
+            $sql .= " AND (first_name LIKE ? OR last_name LIKE ?)";
+            $params[] = "%{$i_search_term}%";
+            $params[] = "%{$i_search_term}%";
+        }
+
+        // Run Query
+        $result = $this->db->query($sql, $params );
+        return array_shift( $result->row_array() );
+    }
+
     function update_totals( $this_professor )
     {
         $this->load->model('course_professor_review');
@@ -158,18 +195,18 @@ class Professor_model extends StudyMonkey_Model
         $this_professor['attendance_rating_1'] = 0;
         foreach( $reviews as $review )
         {
-            $this_professor['total_reviews']++;
+            $this_professor['total_reviews'] += 1;
             switch( $review['overall_recommendation'] )
             {
-                case 1: $this_professor['overall_recommendation_1']++; break;
-                case 0: $this_professor['overall_recommendation_0']++; break;
+                case 1: $this_professor['overall_recommendation_1'] += 1; break;
+                case 0: $this_professor['overall_recommendation_0'] += 1; break;
             }
             switch ($review['attendance_rating'] )
             {
-                case 4: $this_professor['attendance_rating_4']++; break;
-                case 3: $this_professor['attendance_rating_3']++; break;
-                case 2: $this_professor['attendance_rating_2']++; break;
-                case 1: $this_professor['attendance_rating_1']++; break;
+                case 4: $this_professor['attendance_rating_4'] += 1; break;
+                case 3: $this_professor['attendance_rating_3'] += 1; break;
+                case 2: $this_professor['attendance_rating_2'] += 1; break;
+                case 1: $this_professor['attendance_rating_1'] += 1; break;
             }
             $this_professor['knowledge_rating'] += $review['knowledge_rating'];
             $this_professor['helpful_rating']   += $review['helpful_rating'];

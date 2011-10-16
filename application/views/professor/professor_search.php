@@ -89,14 +89,13 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
                     </h1>
                 </td>
             </tr>
-            <tr>
-                <td align="center" colspan="2">
-                    <span style="font: normal 16px arial;">at <?php echo $school['full_name']; ?></span>
-                    &nbsp;
-                    <a href="/" style="font-size: 11px;">change schools <div class="triangle"></div></a>
-                </td>
-            </tr>
         </table>
+        <div style="padding-bottom: 5px;">
+            <span style="font: normal 16px arial;">at <?php echo $school['full_name']; ?></span>
+            &nbsp;
+            <a href="/" style="font-size: 11px;">change schools <div class="triangle"></div></a>
+        </div>
+<?php   if( $total_professors > ITEMS_PER_PAGE ) { ?>
         <table border="0" cellspacing="10" cellpadding="0" style="margin: 0 auto;">
             <tr>
                 <td valign="center">
@@ -110,15 +109,24 @@ $search_box_value = empty( $previous_query )? $search_placeholder : $previous_qu
                 </td>
             </tr>
         </table>
+<?php   } ?>
     </form>
 
     <div style="padding: 0 0 20px 20px; text-align: left;">
-<?php foreach( range('A', 'Z') as $letter ) { ?>
+<?php
+    if( $total_professors > ITEMS_PER_PAGE )
+    {
+        foreach( range('A', 'Z') as $letter )
+        {
+?>
         <form name="letter_search" method="post">
             <input type="hidden" name="search" value="<?=$letter?>" />
             <input type="submit" value="<?=$letter?>" />
         </form>
-<?php } ?>
+<?php
+        }
+    }
+?>
     </div>
 
     <div id="search_result">

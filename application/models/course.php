@@ -8,8 +8,6 @@ class Course_model extends StudyMonkey_Model
         ( 'course_code'
         , 'course_title'
         , 'school_id'
-        , 'total_professors'
-        , 'total_notes'
         , 'total_reviews'
         , 'overall_rating'
         , 'easiness_rating'
@@ -32,6 +30,18 @@ class Course_model extends StudyMonkey_Model
     {
         parent::__construct();
         $this->TABLE_NAME = 'course';
+    }
+
+    function count_all_by_school_id( $school_id )
+    {
+        $result = $this->db->query("SELECT COUNT(*) FROM course WHERE school_id = ? LIMIT 1", array( $school_id ) );
+        return array_shift( $result->row_array() );
+    }
+
+    function find_all_by_school_id( $school_id )
+    {
+        $result = $this->db->query("SELECT * FROM course WHERE school_id = ?", array( $school_id ) );
+        return $result->result_array();
     }
 
     function find_by_course_code( $code, $school_id )
@@ -96,7 +106,7 @@ class Course_model extends StudyMonkey_Model
             $page = 1;
 
         // Begin query
-        $sql = "SELECT DISTINCT * FROM course WHERE ";
+        $sql = "SELECT * FROM course WHERE ";
 
         // Filter by school
         if ( is_numeric( $school_id ) )
@@ -128,6 +138,32 @@ class Course_model extends StudyMonkey_Model
         return $result->result_array();
     }
 
+    function search_count( $search_term, $school_id = NULL )
+    {
+        // Begin query
+        $sql = "SELECT COUNT(*) FROM course WHERE ";
+
+        // Filter by school
+        if ( is_numeric( $school_id ) )
+        {
+            $sql .= "school_id = ? ";
+            $params = array( $school_id );
+        }
+        else
+            $sql .= "1 ";   // Dummy to sandwich the extra AND clause in next part
+
+        // Search terms
+        foreach(explode(" ", $search_term) as $i_search_term) {
+            $sql .= " AND (course_code LIKE ? OR course_title LIKE ?)";
+            $params[] = "%{$i_search_term}%";
+            $params[] = "%{$i_search_term}%";
+        }
+
+        // Run Query
+        $result = $this->db->query($sql, $params );
+        return array_shift( $result->row_array() );
+    }
+
     function update_totals( $this_course )
     {
         $this->load->model('course_professor_review');
@@ -152,26 +188,26 @@ class Course_model extends StudyMonkey_Model
 
         foreach( $reviews as $review )
         {
-            $this_course['total_reviews']++;
+            $this_course['total_reviews'] += 1;
             switch( $review['overall_recommendation'] )
             {
-                case 1: $this_course['overall_recommendation_1']++; break;
-                case 0: $this_course['overall_recommendation_0']++; break;
+                case 1: $this_course['overall_recommendation_1'] += 1; break;
+                case 0: $this_course['overall_recommendation_0'] += 1; break;
             }
             switch( $review['textbook_rating'] )
             {
-                case 4: $this_course['textbook_rating_4']++; break;
-                case 3: $this_course['textbook_rating_3']++; break;
-                case 2: $this_course['textbook_rating_2']++; break;
-                case 1: $this_course['textbook_rating_1']++; break;
-                case 0: $this_course['textbook_rating_0']++; break;
+                case 4: $this_course['textbook_rating_4'] += 1; break;
+                case 3: $this_course['textbook_rating_3'] += 1; break;
+                case 2: $this_course['textbook_rating_2'] += 1; break;
+                case 1: $this_course['textbook_rating_1'] += 1; break;
+                case 0: $this_course['textbook_rating_0'] += 1; break;
             }
             switch( $review['attendance_rating'] )
             {
-                case 4: $this_course['attendance_rating_4']++; break;
-                case 3: $this_course['attendance_rating_3']++; break;
-                case 2: $this_course['attendance_rating_2']++; break;
-                case 1: $this_course['attendance_rating_1']++; break;
+                case 4: $this_course['attendance_rating_4'] += 1; break;
+                case 3: $this_course['attendance_rating_3'] += 1; break;
+                case 2: $this_course['attendance_rating_2'] += 1; break;
+                case 1: $this_course['attendance_rating_1'] += 1; break;
             }
             $this_course['easiness_rating'] += $review['easiness_rating'];
             $this_course['workload_rating'] += $review['workload_rating'];
@@ -189,6 +225,8 @@ class Course_model extends StudyMonkey_Model
         $this_course['easiness_rating'] /= (float)$this_course['total_reviews'];
         $this_course['workload_rating'] /= (float)$this_course['total_reviews'];
         $this_course['interest_rating'] /= (float)$this_course['total_reviews'];
+
+        log_message("ERROR", print_r( $this_course, true ));
 
         $this->save( $this_course );
     }

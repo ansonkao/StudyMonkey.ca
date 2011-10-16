@@ -180,7 +180,7 @@
     </table>
 
     <!-- BAR GRAPHS ==================================== -->
-    <table width="525" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0 20px; line-height: 1.6em;">
+    <table width="540" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0 20px; line-height: 1.6em;">
         <tr>
             <td align="left" valign="top">
                 <!-- OVERALL RECOMMENDATION ============ -->

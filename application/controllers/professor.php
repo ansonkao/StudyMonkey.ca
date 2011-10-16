@@ -30,8 +30,10 @@ class Professor extends CI_Controller
         $this->load->model('professor');
         $search_query = $this->input->post('search');
         $search_result = NULL;
+        $total_search_results = 0;
         $page = 1;
-        if( ! empty( $search_query ) )
+        $total_professors = $this->professor->count_all_by_school_id( $school['id'] );
+        if( ! empty( $search_query ) OR $total_professors <= ITEMS_PER_PAGE )
         {
             // Pagination
             $page = $this->input->post('page');
@@ -39,13 +41,26 @@ class Professor extends CI_Controller
                 $page = 1;
 
             // Search
-            $query_result = $this->professor->search( $search_query, ITEMS_PER_PAGE, $page, $school['id'] );
+            if( $total_professors > ITEMS_PER_PAGE )
+            {
+                $total_search_results = $this->professor->search_count( $search_query, $school['id'] );
+                $query_result = $this->professor->search( $search_query, ITEMS_PER_PAGE, $page, $school['id'] );
+            }
+
+            // Just show all professors if we have 10 or less in total
+            else
+            {
+                $total_search_results = $total_professors;
+                $query_result = $this->professor->find_all_by_school_id( $school['id'] );
+            }
             
             // Build up parameters
             $search_result_params = array();
+            $search_result_params['total_professors'] = $total_professors;
             $search_result_params['previous_query'] = $search_query;
             $search_result_params['page'] = $page;
             $search_result_params['professors'] = $query_result;
+            $search_result_params['total_search_results'] = $total_search_results;
             $search_result_params['school'] = $school;
             $search_result = $this->load->view('professor/professor_search_result', $search_result_params, TRUE);
 
@@ -64,10 +79,12 @@ class Professor extends CI_Controller
         $top_rated_professors = $this->professor->find_top_rated( $school['id'], 3 );
 
         // Custom Parameters
+        $this->view_params['total_professors'] = $total_professors;
         $this->view_params['previous_query'] = $search_query;
         $this->view_params['page'] = $page;
         $this->view_params['school'] = $school;
         $this->view_params['search_result'] = $search_result;
+        $this->view_params['total_search_results'] = $total_search_results;
         $this->view_params['popular_professors'] = $popular_professors;
         $this->view_params['top_rated_professors'] = $top_rated_professors;
 

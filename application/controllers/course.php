@@ -30,8 +30,10 @@ class Course extends CI_Controller
         $this->load->model('course');
         $search_query = $this->input->post('search');
         $search_result = NULL;
+        $total_search_results = 0;
         $page = 1;
-        if( ! empty( $search_query ) )
+        $total_courses = $this->course->count_all_by_school_id( $school['id'] );
+        if( ! empty( $search_query ) OR $total_courses <= ITEMS_PER_PAGE )
         {
             // Pagination
             $page = $this->input->post('page');
@@ -55,13 +57,26 @@ class Course extends CI_Controller
             }
 
             // Search
-            $query_result = $this->course->search( $search_query, ITEMS_PER_PAGE, $page, $school['id'] );
+            if( $total_courses > ITEMS_PER_PAGE )
+            {
+                $total_search_results = $this->course->search_count( $search_query, $school['id'] );
+                $query_result = $this->course->search( $search_query, ITEMS_PER_PAGE, $page, $school['id'] );
+            }
+
+            // Just show all courses if we have 10 or less in total
+            else
+            {
+                $total_search_results = $total_courses;
+                $query_result = $this->course->find_all_by_school_id( $school['id'] );
+            }
             
             // Build up parameters
             $search_result_params = array();
+            $search_result_params['total_courses'] = $total_courses;
             $search_result_params['previous_query'] = $search_query;
             $search_result_params['page'] = $page;
             $search_result_params['courses'] = $query_result;
+            $search_result_params['total_search_results'] = $total_search_results;
             $search_result_params['school'] = $school;
             $search_result_params['exact_match'] = $exact_match;
             $search_result = $this->load->view('course/course_search_result', $search_result_params, TRUE);
@@ -81,10 +96,12 @@ class Course extends CI_Controller
         $top_rated_courses = $this->course->find_top_rated( $school['id'], 3 );
 
         // Custom Parameters
+        $this->view_params['total_courses'] = $total_courses;
         $this->view_params['previous_query'] = $search_query;
         $this->view_params['page'] = $page;
         $this->view_params['school'] = $school;
         $this->view_params['search_result'] = $search_result;
+        $this->view_params['total_search_results'] = $total_search_results;
         $this->view_params['popular_courses'] = $popular_courses;
         $this->view_params['top_rated_courses'] = $top_rated_courses;
 

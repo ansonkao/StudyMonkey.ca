@@ -7,14 +7,7 @@ class School extends StudyMonkey_Model
 
     protected $db_fields = array
         ( 'full_name'
-        , 'domain_name'
-        , 'domain_suffix'
-        , 'description'
-        , 'total_courses'
-        , 'total_professors'
-        , 'total_users'
-        , 'total_notes'
-        , 'total_course_professor_reviews'
+        , 'province'
         );
 
     function __construct()

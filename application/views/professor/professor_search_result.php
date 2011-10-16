@@ -9,6 +9,7 @@ $num_results = sizeof( $professors );
     <table border="0" cellspacing="10" cellpadding="0" style="width: 520px; margin: 0 auto;">
         <tr>
             <td align="left" colspan="2" style="font: italic bold 14px arial; color: #888; padding-bottom: 5px;"><?php
+                // Presentation if viewing page 2 or higher
                 if( $page > 1 )
                 {
                     switch( $num_results )
@@ -27,7 +28,9 @@ $num_results = sizeof( $professors );
                             break;
                     }
                 }
-                else
+
+                // Presentation if viewing first page
+                else if( $total_professors > ITEMS_PER_PAGE )
                 {
                     switch( $num_results )
                     {
@@ -42,6 +45,20 @@ $num_results = sizeof( $professors );
                             break;
                         case ITEMS_PER_PAGE:
                             echo "Showing the first ".ITEMS_PER_PAGE." results for \"{$previous_query}\" - try refining your search.";
+                            break;
+                    }
+                }
+
+                // Presentation if this school has only 10 or less professors
+                else
+                {
+                    switch( $num_results )
+                    {
+                        case 0:
+                            echo 'There are no professor ratings for this school yet. <a href="#add-professor" class="add_professor_lightbox">Add a professor!</a>';
+                            break;
+                        default:
+                            echo "Showing all professors at this school.";
                             break;
                     }
                 }
@@ -85,8 +102,16 @@ $num_results = sizeof( $professors );
             </td>
         </tr>
 <?php } ?>
-<?php if( $num_results == ITEMS_PER_PAGE AND $page > 1 ) { ?>
+<?php
+    // Show previous/next page buttons?
+    if( $total_search_results > ITEMS_PER_PAGE )
+    {
+?>
         <tr>
+<?php
+        // Show previous page button
+        if( $page > 1 ) {
+?>
             <td align="left">
                 <form name="show_more" method="post">
                     <input type="hidden" name="page" value="<?=$page - 1?>" />
@@ -94,6 +119,10 @@ $num_results = sizeof( $professors );
                     <input type="submit" value="&#171; Previous <?=ITEMS_PER_PAGE?>" />
                 </form>
             </td>
+<?php
+            // Show next page button ALSO
+            if( $num_results == ITEMS_PER_PAGE AND ( $total_search_results % ITEMS_PER_PAGE > 0 ) ) {
+?>
             <td align="right">
                 <form name="show_more" method="post">
                     <input type="hidden" name="page" value="<?=$page + 1?>" />
@@ -101,9 +130,18 @@ $num_results = sizeof( $professors );
                     <input type="submit" value="Next <?=ITEMS_PER_PAGE?> &#187;" />
                 </form>
             </td>
-        </tr>
-<?php } else if( $num_results == ITEMS_PER_PAGE ) { ?>
-        <tr>
+<?php
+            // Show spacer, no next page button
+            } else {
+?>
+            <td align="right">
+            </td>
+<?php
+            }
+
+        // No previous page
+        } else {
+?>
             <td align="right" colspan="2">
                 <form name="show_more" method="post">
                     <input type="hidden" name="page" value="<?=$page + 1?>" />
@@ -111,18 +149,13 @@ $num_results = sizeof( $professors );
                     <input type="submit" value="Next <?=ITEMS_PER_PAGE?> results &#187;" />
                 </form>
             </td>
+<?php
+        }
+?>
         </tr>
-<?php } else if( $page > 1 ) { ?>
-        <tr>
-            <td align="left" colspan="2">
-                <form name="show_more" method="post">
-                    <input type="hidden" name="page" value="<?=$page - 1?>" />
-                    <input type="hidden" name="search" value="<?=$previous_query?>" />
-                    <input type="submit" value="&#171; Previous <?=ITEMS_PER_PAGE?>" />
-                </form>
-            </td>
-        </tr>
-<?php } ?>
+<?php
+    }
+?>
     </table>
 
 
