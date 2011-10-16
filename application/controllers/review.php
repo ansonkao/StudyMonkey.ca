@@ -75,13 +75,16 @@ class Review extends CI_Controller
             $this->professor->update_totals( $professor );
 
             // Identify destination page
+            $uri = "/{$school_segment}/{$course_or_professor_page}s/";
             switch( $course_or_professor_page )
             {
                 case "course":
-                    $uri = string2uri( $course['course_code'] );
+                    $subject = $course['course_code'];
+                    $uri .= string2uri( $course['course_code'] );
                     break;
                 case "professor":
-                    $uri = string2uri( $professor['first_name'] ) . "_" . string2uri( $professor['last_name'] );
+                    $subject = "{$professor['first_name']} {$professor['last_name']}";
+                    $uri .= string2uri( $professor['first_name'] ) . "_" . string2uri( $professor['last_name'] );
                     break;
                 default:
                     $uri = "";
@@ -89,31 +92,29 @@ class Review extends CI_Controller
 
             // Flash success to user!
             $response = Notification::success(
-                'Thanks for voicing your opinion!'
-                /*  TODO
-                '<a href="http://www.facebook.com/dialog/feed'
+                'Thanks for voicing your opinion!
+                &nbsp;
+                <a href="http://www.facebook.com/dialog/feed'
                         .'?app_id='         .'131408070231787'
-                        .'&redirect_uri='   .urlencode( site_url() )
-                        .'&link='           .urlencode( site_url() )
-                        .'&caption='        .urlencode("StudyMonkey.ca")
-                        .'&description='    .urlencode("Get the inside scoop on the best courses your friends have taken and the professors they have taken them with.")
-                        .'&message='        .urlencode("Check out this cool new site StudyMonkey.ca - Share class notes, Course/Prof ratings, and more!")
-                        .'&picture='        .urlencode("/image/mascot_20110219.png")
-                            . ' target="_blank">
-                    <img src="/image/icon/facebook_share.gif" alt="Share on Facebook!" title="Share on Facebook!" />
+                        .'&redirect_uri='   .urlencode( site_url( $uri ) )
+                        .'&link='           .urlencode( site_url( $uri ) )
+                        .'&caption='        .urlencode("{$subject} - {$school['full_name']} - StudyMonkey.ca")
+                        .'&description='    .urlencode("View ratings for {$subject} at {$school['full_name']}. Get the inside scoop on the best courses your friends have taken and the professors they have taken them with!")
+                        .'&picture='        .urlencode("http://www.studymonkey.ca/image/social/mascot_facebook_share.png")
+                            . '" target="_blank">
+                    <img src="/image/social/facebook_share.gif" alt="Share on Facebook!" title="Share on Facebook!" style="vertical-align: bottom;" />
                 </a>
                 &nbsp;
-                <a href="http://twitter.com/"'  // USE rawurlencode() to get %20 instead of + for spaces - twitter behaviour is weird
-                        .'?status=' .rawurlencode("Get the inside scoop on the best courses your friends have taken and the professors they have taken them with.")
-                        .' target="_blank">
-                    <img src="/image/icon/tweet_button.png" alt="Tweet it!" title="Tweet it!" />
+                <a href="http://twitter.com/'  // USE rawurlencode() to get %20 instead of + for spaces - twitter behaviour is weird
+                        .'?status=' .rawurlencode("I just rated {$subject} at StudyMonkey.ca " . site_url($uri) )
+                        .'" target="_blank">
+                    <img src="/image/social/tweet_button.png" alt="Tweet it!" title="Tweet it!" style="vertical-align: bottom;" />
                 </a>'
-                */
                 );
             $this->session->set_flashdata( array( 'notification' => $response ) );
 
             // Redirect the user
-            echo "REDIRECT {$course_or_professor_page}s/{$uri}";
+            echo "REDIRECT {$uri}";
             return;
         }
 

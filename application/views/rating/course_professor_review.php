@@ -194,7 +194,7 @@
 
                     if( data.substring(0, 8) == "REDIRECT" )
                     {
-                        window.location = "/<?php echo string2uri( $school['full_name'] ); ?>/" + data.substring(9);
+                        window.location = data.substring(9);
                     }
                     else
                     {
