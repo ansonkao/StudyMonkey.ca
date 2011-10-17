@@ -35,12 +35,12 @@
         </li>
     </ul>
 
-    <h3>I used StudyMonkey for notes before.  What should I do?</h3>
+    <h3>I used StudyMonkey for note-sharing before.  How do I access my notes?</h3>
     <ol>
-        <li>You should have received an e-mail from us.</li>
-        <li>Go to Notesolution.com</li>
-        <li>XXX</li>
-        <li>XXX</li>
+        <li>Go to <a href="http://www.notesolution.com/login" target="_blank">Notesolution.com</a>.</li>
+        <li>You should have received an e-mail from us with a temporary password to use.</li>
+        <li>Login to Notesolution and follow the instructions to activate your account.</li>
+        <li>Enjoy all of your StudyMonkey notes at Notesolution.com!</li>
     </ol>
 
     <h3>More to come!</h3>
