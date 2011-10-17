@@ -9,7 +9,7 @@
     <div style="font-size: 11px; line-height: 13px; color: #555;">
         Our note-sharing service has moved to Notesolution.com!
         <br/>
-        <a href="/notesolution" style="text-align: center;">
+        <a href="/blog/studymonkey-partnership" style="text-align: center;">
             Click here for more info &#187;
         </a>
     </div>

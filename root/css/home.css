@@ -31,10 +31,18 @@ div#content {
     z-index: 10;
 }
 div#content_body_top {
+    position: relative;
     padding: 40px 20px 22px;
     width: 960px;
     margin: 0 auto -50px;
     text-align: center;
+}
+div#header_login {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    font-size: 11px;
 }
 div#content_body_bottom {
     padding: 0px;

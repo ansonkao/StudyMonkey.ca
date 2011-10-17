@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Info extends CI_Controller {
+class Info extends CI_Controller
+{
 
 	public function index()
 	{
@@ -166,16 +167,6 @@ class Info extends CI_Controller {
 		$this->load->view('_layout_main', $this->view_params);
     }
 
-    public function notesolution()
-    {
-        // Layout Parameters
-        $this->view_params['page_tab'] = "Learn more";
-        $this->view_params['page_title'] = "Welcome to the new StudyMonkey!";
-        $this->view_params['page_subtitle'] = NULL;
-        $this->view_params['page_subtitle2'] = NULL;
-        $this->view_params['page_content'] = $this->load->view('info/notesolution', $this->view_params, TRUE);
-		$this->load->view('_layout_main', $this->view_params);
-    }
 }
 
 /* End of file info.php */

@@ -6,7 +6,7 @@
 $more_info_links = array
     ( 'terms'           => 'Terms and Conditions'
     , 'privacy'         => 'Privacy Policy'
-    , 'notesolution'    => 'Partnership with Notesolution'
+    , 'blog/studymonkey-partnership'    => 'Partnership with Notesolution'
     );
 
 ?>

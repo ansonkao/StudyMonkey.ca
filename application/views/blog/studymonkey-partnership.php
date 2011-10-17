@@ -1,6 +1,6 @@
 <?php
 /**
- * Notesolution
+ * Partnership with Notesolution
  */
 ?>
 <div class="left_column">
@@ -56,6 +56,9 @@
     </p>
     <p style="font: italic 14px arial;">
         The StudyMonkey Team
+    </p>
+    <p style="color: #888;">
+        October 16, 2011
     </p>
 </div>
 

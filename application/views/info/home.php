@@ -112,6 +112,10 @@ $footer_items['Contact']    = "/contact";
 
             <div id="content_body_top">
 
+                <div id="header_login">
+                    <a href="/blog/studymonkey-partnership" style="color: #000;">Looking for our old login box? &#187;</a>
+                </div>
+
                 <img src="/image/logo_home.png" alt="StudyMonkey.ca" />
 
                 <table border="0" cellpadding="0" cellspacing="0" style="margin: 20px auto 0;">

@@ -88,7 +88,7 @@ $footer_items['Contact']    = "/contact";
             </a>
             <!--<input id="header_search" type="text" value="Search..." />-->
             <div id="header_login">
-                <a href="/notesolution" style="color: #000;">Looking for our old login box? &#187;</a>
+                <a href="/blog/studymonkey-partnership" style="color: #000;">Looking for our old login box? &#187;</a>
             </div>
             <div id="navigation">
 <!-- =========================== START WIDGET ============================== -->
