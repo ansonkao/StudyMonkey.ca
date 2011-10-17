@@ -38,12 +38,15 @@
     <h3>I used StudyMonkey for note-sharing before.  How do I access my notes?</h3>
     <ol>
         <li>Go to <a href="http://www.notesolution.com/login" target="_blank">Notesolution.com</a>.</li>
-        <li>You should have received an e-mail from us with a temporary password to use.</li>
+        <li>You should have received an e-mail from us with a temporary password to use. ***</li>
         <li>Login to Notesolution and follow the instructions to activate your account.</li>
         <li>Enjoy all of your StudyMonkey notes at Notesolution.com!</li>
     </ol>
+    <div style="font-size: 11px; text-align: right;">
+        *** If you haven't received an e-mail or if you have any questions, please contact <a href="mailto:support@notesolution.com" target="_blank">support@notesolution.com</a>.
+    </div>
 
-    <h3>More to come!</h3>
+    <h2>More to come!</h2>
     <p>
         We are always looking for ways to improve your StudyMonkey experience. There are some exciting things we have coming your way that we're
         sure you'll love. If you have any ideas, suggestions, or feedback, we'd love to hear from you! Feel free to <a href="/contact">contact us</a>.
