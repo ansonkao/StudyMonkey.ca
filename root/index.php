@@ -1,5 +1,7 @@
 <?php
 
+require('../deploy_config.php');
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
